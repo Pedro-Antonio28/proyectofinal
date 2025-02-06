@@ -11,6 +11,10 @@ export default {
 
     theme: {
         extend: {
+            transitionProperty: {
+                'height': 'height',
+                'spacing': 'margin, padding',
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },

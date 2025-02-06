@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+
 ];

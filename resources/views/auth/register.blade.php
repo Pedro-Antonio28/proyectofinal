@@ -1,52 +1,90 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Calorix</title>
+    @vite('resources/css/app.css')
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .bg-gradient {
+            background: linear-gradient(135deg, #e5f2d8, #c1e1a6);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient">
 
-        <!-- Name -->
+<!-- Contenedor principal -->
+<div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8" data-aos="fade-up">
+
+    <!-- Logo y título -->
+    <div class="text-center">
+        <img src="{{ asset('images/logo.png') }}" alt="Calorix Logo" class="w-16 h-16 mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mt-4">Crear una cuenta</h2>
+        <p class="text-gray-600 mt-2">Regístrate para empezar</p>
+    </div>
+
+    <!-- Formulario de registro -->
+    <form class="mt-6" action="/register" method="POST">
+        @csrf <!-- Token de seguridad para evitar ataques CSRF -->
+
+        <!-- Campo Nombre -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label for="name" class="block text-gray-700 font-medium">Nombre Completo</label>
+            <input type="text" id="name" name="name" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="Tu Nombre" required>
         </div>
 
-        <!-- Email Address -->
+        <!-- Campo Email -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-gray-700 font-medium">Correo Electrónico</label>
+            <input type="email" id="email" name="email" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="correo@ejemplo.com" required>
         </div>
 
-        <!-- Password -->
+        <!-- Campo Contraseña -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <label for="password" class="block text-gray-700 font-medium">Contraseña</label>
+            <input type="password" id="password" name="password" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="••••••••" required>
         </div>
 
-        <!-- Confirm Password -->
+        <!-- Confirmar Contraseña -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <label for="password_confirmation" class="block text-gray-700 font-medium">Confirmar Contraseña</label>
+            <input type="password" id="password_confirmation" name="password_confirmation" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="••••••••" required>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+        <!-- Botón de registro -->
+        <button type="submit" class="mt-6 w-full bg-[#a7d675] hover:bg-[#96c464] text-white py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105">
+            Registrarse
+        </button>
     </form>
-</x-guest-layout>
+
+    <!-- Separador -->
+    <div class="flex items-center justify-center my-6">
+        <span class="w-1/3 border-b border-gray-300"></span>
+        <span class="mx-4 text-gray-500">o</span>
+        <span class="w-1/3 border-b border-gray-300"></span>
+    </div>
+
+
+    <!-- Enlace para iniciar sesión -->
+    <p class="text-center text-gray-600 mt-6">
+        ¿Ya tienes una cuenta?
+        <a href="{{ route('login') }}" class="text-[#a7d675] hover:underline">Inicia sesión aquí</a>
+    </p>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+    });
+</script>
+
+</body>
+</html>
