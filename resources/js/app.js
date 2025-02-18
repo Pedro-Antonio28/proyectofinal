@@ -1,5 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Page from "./components/Page"; // Asegúrate de que el archivo existe
+import './bootstrap';
+import Alpine from 'alpinejs';
 
-ReactDOM.render(<Page />, document.getElementById("app"));
+window.Alpine = Alpine;
+Alpine.start();
+

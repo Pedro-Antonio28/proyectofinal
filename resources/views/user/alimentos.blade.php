@@ -29,16 +29,21 @@
                             peer-checked:bg-[#a7d675] peer-checked:border-[#7ab940] peer-checked:shadow-lg peer-checked:scale-105 transition-all duration-300">
 
                             @if($alimento->imagen)
-                                <img src="{{ asset('storage/' . $alimento->imagen) }}"
-                                     alt="{{ $alimento->nombre }}"
+                                @php
+                                    $imagePath = file_exists(public_path('alimentos/' . $alimento->imagen))
+                                        ? asset('alimentos/' . $alimento->imagen)
+                                        : asset('storage/' . $alimento->imagen);
+                                @endphp
+
+                                <img src="{{ $imagePath }}" alt="{{ $alimento->nombre }}"
                                      class="img-fluid mb-2"
                                      style="max-height: 150px; object-fit: cover;">
                             @else
-                                <img src="{{ asset('images/default-food.png') }}"
-                                     alt="Imagen no disponible"
+                                <img src="{{ asset('images/default-food.png') }}" alt="Imagen no disponible"
                                      class="img-fluid mb-2"
                                      style="max-height: 150px; object-fit: cover;">
                             @endif
+
 
 
                             <strong class="text-gray-900 text-base block peer-checked:text-white">

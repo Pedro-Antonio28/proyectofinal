@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\WelcomePage;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -18,9 +19,12 @@ Route::get('/dashboard', function () {
 
 
 
+
 Route::get('/', function () {
-    return view('welcome');
+    return app(WelcomePage::class)->render();
 })->name('home');
+
+
 
 Route::get('/sobre-nosotros', function () {
     return view('about');
