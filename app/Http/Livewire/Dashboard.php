@@ -23,7 +23,6 @@ class Dashboard extends Component
         $user = Auth::user();
         $this->dieta = $this->dietaService->generarDietaSemanal($user);
 
-        // 🔥 Obtener el día manualmente sin depender de locale()
         $dias = [
             'Monday' => 'Lunes',
             'Tuesday' => 'Martes',
@@ -34,7 +33,7 @@ class Dashboard extends Component
             'Sunday' => 'Domingo'
         ];
 
-        $diaIngles = Carbon::now()->format('l'); // Obtiene el día en inglés
+        $diaIngles = Carbon::now()->format('l');
         $this->diaActual = $dias[$diaIngles] ?? 'Día desconocido';
     }
 

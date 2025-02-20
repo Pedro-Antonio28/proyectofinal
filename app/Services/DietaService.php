@@ -3,47 +3,44 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Collection;
+use App\Models\Dieta;
+use Carbon\Carbon;
 
 class DietaService
 {
-    /**
-     * Genera una dieta semanal basada en los alimentos del usuario y sus necesidades.
-     */
     public function generarDietaSemanal(User $user): array
     {
-        $alimentosSeleccionados = $user->alimentos()->get();
-        // Relación con los alimentos elegidos
-        $caloriasDiarias = $user->calorias_necesarias;
-        $proteinasDiarias = $user->proteinas;
-        $carbohidratosDiarios = $user->carbohidratos;
-        $grasasDiarias = $user->grasas;
+        $numeroSemana = Carbon::now()->weekOfYear; // Obtener la semana actual del año
+        $dietaGuardada = Dieta::where('user_id', $user->id)->where('semana', $numeroSemana)->first();
 
-        if (!$alimentosSeleccionados || $alimentosSeleccionados->isEmpty()) {
-            return [];
+        // 📌 Si ya existe la dieta para esta semana, la devolvemos
+        if ($dietaGuardada) {
+            return json_decode($dietaGuardada->dieta, true);
         }
 
+        // 📌 Si no existe, generamos una nueva dieta
+        $alimentosSeleccionados = $user->alimentos()->get();
+
+        if ($alimentosSeleccionados->isEmpty()) {
+            return []; // Si el usuario no ha seleccionado alimentos, devolvemos vacío
+        }
 
         $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
         $dieta = [];
 
         foreach ($diasSemana as $dia) {
             $totalCalorias = 0;
-            $totalProteinas = 0;
-            $totalCarbohidratos = 0;
-            $totalGrasas = 0;
             $comidas = [];
 
-            while ($totalCalorias < $caloriasDiarias * 0.95) { // Evitar exceso
+            while ($totalCalorias < $user->calorias_necesarias * 0.95) {
                 $alimento = $alimentosSeleccionados->random();
-                $cantidad = rand(100, 200); // En gramos
+                $cantidad = rand(100, 200); // Cantidad en gramos
 
                 $calorias = ($alimento->calorias / 100) * $cantidad;
                 $proteinas = ($alimento->proteinas / 100) * $cantidad;
                 $carbohidratos = ($alimento->carbohidratos / 100) * $cantidad;
                 $grasas = ($alimento->grasas / 100) * $cantidad;
 
-                // Agregamos la comida del día
                 $comidas[] = [
                     'nombre' => $alimento->nombre,
                     'cantidad' => $cantidad,
@@ -54,19 +51,20 @@ class DietaService
                 ];
 
                 $totalCalorias += $calorias;
-                $totalProteinas += $proteinas;
-                $totalCarbohidratos += $carbohidratos;
-                $totalGrasas += $grasas;
             }
 
             $dieta[$dia] = [
                 'calorias' => round($totalCalorias),
-                'proteinas' => round($totalProteinas),
-                'carbohidratos' => round($totalCarbohidratos),
-                'grasas' => round($totalGrasas),
-                'comidas' => $comidas,
+                'comidas' => $comidas
             ];
         }
+
+        // 📌 Guardamos la nueva dieta en la base de datos para la semana actual
+        Dieta::create([
+            'user_id' => $user->id,
+            'semana' => $numeroSemana,
+            'dieta' => json_encode($dieta),
+        ]);
 
         return $dieta;
     }
