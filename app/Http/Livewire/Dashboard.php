@@ -22,7 +22,10 @@ class Dashboard extends Component
     {
         $user = Auth::user();
         $this->dieta = $this->dietaService->generarDietaSemanal($user);
-        $this->diaActual = Carbon::now()->locale('es')->dayName; // Día actual en español
+
+        // Configurar Carbon para que devuelva el día en español correctamente
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        $this->diaActual = ucfirst(Carbon::now()->translatedFormat('l'));
     }
 
     public function cambiarDia($dia)
