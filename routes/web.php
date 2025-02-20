@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\WelcomePage;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -44,9 +45,15 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 // Ruta protegida para el dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+    return view('dashboard', [
+        'user' => Auth::user()
+    ]);
+})->middleware(['auth'])->name('dashboard');
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', App\Http\Livewire\Dashboard::class)->name('dashboard');
+});
 
 
 

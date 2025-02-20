@@ -58,13 +58,63 @@ class Questionnaire extends Component
 
     public function save()
     {
-        $this->validateCurrentStep();
+        $user = auth()->user();
 
-        // 🔥 Depuración: Si se ejecuta, verás este mensaje
-        session()->flash('debug', 'Livewire ejecutó save() correctamente.');
+        // Verifica si el usuario está autenticado
+        if (!$user) {
+            session()->flash('error', 'Debes iniciar sesión para completar el cuestionario.');
+            return;
+        }
+
+        // Cálculo del TMB (Tasa Metabólica Basal)
+        if ($this->gender == 'male') {
+            $tmb = 10 * $this->peso + 6.25 * $this->altura - 5 * 25 + 5; // Suponiendo edad promedio de 25
+        } else {
+            $tmb = 10 * $this->peso + 6.25 * $this->altura - 5 * 25 - 161;
+        }
+
+        // Multiplicador según nivel de actividad
+        $multiplicadores = [
+            'sedentario' => 1.2,
+            'ligero' => 1.375,
+            'moderado' => 1.55,
+            'intenso' => 1.725
+        ];
+
+        $factor = $multiplicadores[$this->actividad] ?? 1.2; // Por defecto sedentario
+        $calorias = $tmb * $factor;
+
+        // Ajuste según objetivo
+        if ($this->objetivo == 'perder_peso') {
+            $calorias -= 500;
+        } elseif ($this->objetivo == 'ganar_musculo') {
+            $calorias += 500;
+        }
+
+        // Cálculo de macronutrientes (ejemplo: 40% carbos, 30% proteínas, 30% grasas)
+        $proteinas = ($calorias * 0.3) / 4;  // 1g de proteína = 4 calorías
+        $carbohidratos = ($calorias * 0.4) / 4; // 1g de carbohidrato = 4 calorías
+        $grasas = ($calorias * 0.3) / 9; // 1g de grasa = 9 calorías
+
+        // Guardamos los datos en la base de datos
+        $user->update([
+            'peso' => $this->peso,
+            'altura' => $this->altura,
+            'objetivo' => $this->objetivo,
+            'actividad' => $this->actividad,
+            'calorias_necesarias' => round($calorias),
+            'proteinas' => round($proteinas),
+            'carbohidratos' => round($carbohidratos),
+            'grasas' => round($grasas),
+        ]);
+
+        session()->flash('message', 'Cuestionario completado correctamente y datos guardados.');
 
         return redirect()->route('user.alimentos');
     }
+
+
+
 
 
 

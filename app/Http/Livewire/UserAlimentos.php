@@ -28,7 +28,11 @@ class UserAlimentos extends Component
 
     public function guardarSeleccion()
     {
-        Auth::user()->alimentosFavoritos()->sync($this->favoritos);
-        session()->flash('message', 'Selección guardada correctamente.');
+        $user = Auth::user();
+        $user->alimentosFavoritos()->sync($this->favoritos);
+
+        // Redirigir al dashboard después de guardar
+        return redirect()->route('dashboard')->with('message', 'Alimentos guardados correctamente.');
     }
+
 }

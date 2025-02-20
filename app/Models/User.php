@@ -20,7 +20,10 @@ class User extends Authenticatable
         'gender',
         'objetivo',
         'actividad',
-        'calorias_necesarias', // Nuevo campo para guardar las calorías
+        'calorias_necesarias',
+        'proteinas',
+        'carbohidratos',
+        'grasas'
     ];
 
     /**
@@ -77,32 +80,8 @@ class User extends Authenticatable
         }
     }
 
-    public function calcularMacronutrientes()
-    {
-        if (!$this->calorias_necesarias || !$this->objetivo) {
-            return null; // Evita errores si faltan datos
-        }
 
-        // Porcentajes de macronutrientes según el objetivo
-        $objetivos = [
-            'perder_peso' => ['proteina' => 0.30, 'grasa' => 0.25, 'carbohidratos' => 0.45],
-            'mantener_peso' => ['proteina' => 0.25, 'grasa' => 0.25, 'carbohidratos' => 0.50],
-            'ganar_musculo' => ['proteina' => 0.35, 'grasa' => 0.20, 'carbohidratos' => 0.45],
-        ];
 
-        $macro = $objetivos[$this->objetivo] ?? $objetivos['mantener_peso'];
-
-        // Cálculo de gramos de macronutrientes
-        $proteinas = round(($this->calorias_necesarias * $macro['proteina']) / 4);
-        $grasas = round(($this->calorias_necesarias * $macro['grasa']) / 9);
-        $carbohidratos = round(($this->calorias_necesarias * $macro['carbohidratos']) / 4);
-
-        return [
-            'proteinas' => $proteinas,
-            'grasas' => $grasas,
-            'carbohidratos' => $carbohidratos,
-        ];
-    }
 
     /**
      * Guardar las calorías y macronutrientes en la base de datos.
@@ -121,6 +100,11 @@ class User extends Authenticatable
     }
 
     public function alimentosFavoritos()
+    {
+        return $this->belongsToMany(Alimento::class, 'user_alimentos');
+    }
+
+    public function alimentos()
     {
         return $this->belongsToMany(Alimento::class, 'user_alimentos');
     }
