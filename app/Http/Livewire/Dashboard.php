@@ -23,9 +23,19 @@ class Dashboard extends Component
         $user = Auth::user();
         $this->dieta = $this->dietaService->generarDietaSemanal($user);
 
-        // Configurar Carbon para que devuelva el día en español correctamente
-        setlocale(LC_TIME, 'es_ES.UTF-8');
-        $this->diaActual = ucfirst(Carbon::now()->translatedFormat('l'));
+        // 🔥 Obtener el día manualmente sin depender de locale()
+        $dias = [
+            'Monday' => 'Lunes',
+            'Tuesday' => 'Martes',
+            'Wednesday' => 'Miércoles',
+            'Thursday' => 'Jueves',
+            'Friday' => 'Viernes',
+            'Saturday' => 'Sábado',
+            'Sunday' => 'Domingo'
+        ];
+
+        $diaIngles = Carbon::now()->format('l'); // Obtiene el día en inglés
+        $this->diaActual = $dias[$diaIngles] ?? 'Día desconocido';
     }
 
     public function cambiarDia($dia)
