@@ -10,7 +10,8 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * La ruta a la que los usuarios serán redirigidos después de iniciar sesión.
      */
-    public const HOME = '/';
+    public const HOME = '/seleccionar-alimentos';
+
 
     /**
      * Define las rutas de la aplicación.

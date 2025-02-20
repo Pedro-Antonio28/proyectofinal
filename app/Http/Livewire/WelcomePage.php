@@ -8,10 +8,8 @@ class WelcomePage extends Component
 {
     public function render()
     {
-        return view('livewire.welcome-page');
-
-
-
+        return view('livewire.welcome-page')->layout('layouts.CalorixLayout');
     }
+
 
 }

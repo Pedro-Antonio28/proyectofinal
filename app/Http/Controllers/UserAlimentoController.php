@@ -14,6 +14,9 @@ class UserAlimentoController extends Controller
         $favoritos = Auth::user()->alimentosFavoritos->pluck('id')->toArray();
 
         return view('user.alimentos', compact('alimentos', 'favoritos'));
+
+
+
     }
 
     public function store(Request $request)
@@ -21,6 +24,6 @@ class UserAlimentoController extends Controller
         $user = Auth::user();
         $user->alimentosFavoritos()->sync($request->input('alimentos', [])); // Guardar selección
 
-        return redirect()->route('dashboard')->with('message', 'Alimentos guardados correctamente.');
+        return redirect()->route('user.alimentos')->with('message', 'Alimentos guardados correctamente.');
     }
 }

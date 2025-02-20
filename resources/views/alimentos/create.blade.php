@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.CalorixLayout')
 
 @section('content')
     <div class="container">

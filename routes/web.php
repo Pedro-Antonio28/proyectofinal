@@ -5,24 +5,27 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\UserAlimentoController;
-
-
-Route::get('/questionnaire/{step}', [QuestionnaireController::class, 'show'])->name('questionnaire.show');
-Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+use App\Http\Livewire\Questionnaire;
+use App\Http\Livewire\UserAlimentos;
 
 
 
 
-Route::get('/', function () {
-    return app(WelcomePage::class)->render();
-})->name('home');
+
+
+Route::get('/questionnaire', Questionnaire::class)->name('questionnaire.show');
+
+
+
+
+
+
+
+
+Route::get('/', WelcomePage::class)->name('home');
+
 
 
 
@@ -46,6 +49,7 @@ Route::get('/dashboard', function () {
 
 
 
+
 // Ruta para mostrar la vista de registro
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 
@@ -55,14 +59,16 @@ Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::c
 
 
 
-Route::post('/questionnaire', [UserController::class, 'saveQuestionnaire'])->name('questionnaire.post');
 
 Route::resource('alimentos', AlimentoController::class)->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/seleccionar-alimentos', [UserAlimentoController::class, 'index'])->name('user.alimentos');
-    Route::post('/seleccionar-alimentos', [UserAlimentoController::class, 'store'])->name('user.alimentos.store');
+
+
+    Route::get('/seleccionar-alimentos', UserAlimentos::class)->name('user.alimentos');
 });
+
+
 
 
 

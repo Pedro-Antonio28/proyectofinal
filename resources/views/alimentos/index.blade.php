@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.CalorixLayout')
 
 @section('content')
     <div class="container">
@@ -30,7 +30,8 @@
                     <td>{{ $alimento->grasas }} g</td>
                     <td>
                         <a href="{{ route('alimentos.edit', $alimento->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('alimentos.destroy', $alimento->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('alimentos.destroy', $alimento->id) }}" method="POST"
+                              style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.CalorixLayout')
 
 @section('content')
     <div class="container">
@@ -16,10 +16,14 @@
             <div class="mb-3">
                 <label>Categoría:</label>
                 <select name="categoria" class="form-control">
-                    <option value="proteinas" {{ $alimento->categoria == 'proteinas' ? 'selected' : '' }}>Proteínas</option>
-                    <option value="carbohidratos" {{ $alimento->categoria == 'carbohidratos' ? 'selected' : '' }}>Carbohidratos</option>
+                    <option value="proteinas" {{ $alimento->categoria == 'proteinas' ? 'selected' : '' }}>Proteínas
+                    </option>
+                    <option value="carbohidratos" {{ $alimento->categoria == 'carbohidratos' ? 'selected' : '' }}>
+                        Carbohidratos
+                    </option>
                     <option value="frutas" {{ $alimento->categoria == 'frutas' ? 'selected' : '' }}>Frutas</option>
-                    <option value="verduras" {{ $alimento->categoria == 'verduras' ? 'selected' : '' }}>Verduras</option>
+                    <option value="verduras" {{ $alimento->categoria == 'verduras' ? 'selected' : '' }}>Verduras
+                    </option>
                 </select>
             </div>
 
@@ -44,7 +48,8 @@
 
             <div class="mb-3">
                 <label>Carbohidratos:</label>
-                <input type="number" name="carbohidratos" class="form-control" value="{{ $alimento->carbohidratos }}" required>
+                <input type="number" name="carbohidratos" class="form-control" value="{{ $alimento->carbohidratos }}"
+                       required>
             </div>
 
             <div class="mb-3">
