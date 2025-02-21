@@ -64,25 +64,41 @@
 
         @foreach ($comidas as $tipoComida => $alimentos)
             <div class="mb-8">
-                <h4 class="text-xl font-bold text-gray-800 border-b-2 border-[#a7d675] pb-2">{{ $tipoComida }}</h4>
+                <h4 class="text-xl font-bold text-gray-800 border-b-2 border-[#a7d675] pb-2 flex justify-between items-center">
+                    {{ $tipoComida }}
+
+                    <!-- Botón para añadir alimento -->
+                    <a href="{{ route('agregar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida]) }}"
+                       class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
+                        ➕ Añadir
+                    </a>
+                </h4>
+
                 <div class="grid grid-cols-3 gap-6 mt-4">
                     @foreach ($alimentos as $comida)
-                        <div class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300">
+                        <!-- Contenedor clickeable -->
+                        <a href="{{ route('editar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida, 'alimentoId' => $comida['alimento_id']]) }}"
+                           class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300
+                          hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer relative">
+
                             <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
                             <p class="text-gray-600 text-sm text-center">
                                 {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
                             </p>
 
-                            <!-- ✅ Checkbox solo si es el día actual -->
+                            <!-- Checkbox solo si es el día actual -->
                             @if ($esDiaActual)
-                                <input type="checkbox" wire:click="toggleAlimento({{ $comida['alimento_id'] }})"
-                                    {{ in_array($comida['alimento_id'], $alimentosConsumidos) ? 'checked' : '' }}>
+                                <input type="checkbox" wire:click.prevent="toggleAlimento({{ $comida['alimento_id'] }})"
+                                       {{ in_array($comida['alimento_id'], $alimentosConsumidos) ? 'checked' : '' }}
+                                       class="mt-2">
                             @endif
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
         @endforeach
+
+
 
     </section>
 </div>

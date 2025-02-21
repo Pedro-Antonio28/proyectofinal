@@ -1,19 +1,37 @@
-<div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 mt-12">
-    <h2 class="text-2xl font-bold text-gray-800">✏️ Editar Alimento</h2>
+<div class="flex justify-center items-center min-h-screen bg-[#f8fff4]">
+    <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-300 w-full max-w-md">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">✏️ Editar Alimento</h2>
 
-    @if ($alimento)
-        <p class="text-gray-600 mt-2">{{ $alimento['nombre'] }}</p>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-semibold">Nombre del alimento</label>
+                <input type="text" value="{{ $alimento->alimento->nombre }}" disabled class="w-full px-4 py-2 border border-gray-300 bg-gray-200 rounded-lg">
+            </div>
 
-        <label class="block mt-4 text-gray-700">Cantidad (g):</label>
-        <input type="number" min="1" wire:model="cantidad" class="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1">
+            <div>
+                <label class="block text-gray-700 font-semibold">Cantidad (g)</label>
+                <input type="number" wire:model="cantidad" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500" placeholder="Ej: 150">
+            </div>
 
-        <div class="flex justify-between mt-6">
-            <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg">Volver</a>
-            <button wire:click="actualizarAlimento" class="px-4 py-2 bg-green-500 text-white rounded-lg">Guardar</button>
-            <button wire:click="eliminarAlimento" class="px-4 py-2 bg-red-500 text-white rounded-lg">Eliminar</button>
+            <div class="text-gray-700">
+                <p><strong>🔥 Calorías:</strong> {{ $alimento->alimento->calorias }} kcal</p>
+                <p><strong>🥩 Proteínas:</strong> {{ $alimento->alimento->proteinas }} g</p>
+                <p><strong>🍞 Carbohidratos:</strong> {{ $alimento->alimento->carbohidratos }} g</p>
+                <p><strong>🥑 Grasas:</strong> {{ $alimento->alimento->grasas }} g</p>
+            </div>
         </div>
-    @else
-        <p class="text-red-500 text-center mt-4">⚠️ Alimento no encontrado.</p>
-        <a href="{{ route('dashboard') }}" class="block text-center mt-4 text-blue-500">Volver al dashboard</a>
-    @endif
+
+        <div class="mt-6 flex justify-between">
+            <button wire:click="actualizar" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
+                Guardar Cambios
+            </button>
+            <button wire:click="eliminar" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
+                Eliminar
+            </button>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="{{ route('dashboard') }}" class="text-gray-500 hover:underline">Volver</a>
+        </div>
+    </div>
 </div>

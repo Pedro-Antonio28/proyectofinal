@@ -86,10 +86,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/agregar-alimento/{dia}/{tipoComida}', App\Http\Livewire\AgregarAlimento::class)
     ->name('agregar.alimento');
 
-
-// Ruta para editar alimento
 Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', App\Http\Livewire\EditarAlimento::class)
     ->name('editar.alimento');
+
 
 
 
