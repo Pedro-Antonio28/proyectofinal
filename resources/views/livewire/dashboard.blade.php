@@ -1,5 +1,7 @@
-<div class="grid grid-cols-12 gap-6 p-6 min-h-screen bg-gray-100">
+<div class="grid grid-cols-12 gap-6 p-6 min-h-screen bg-gray-100 mt-20">
     <!-- 🏆 Sidebar: Meta del Día -->
+    @include('components.navbar')
+
     <aside class="col-span-4 bg-white shadow-lg rounded-lg p-6 h-full flex flex-col justify-between">
         <div>
             <h3 class="text-lg font-bold text-gray-800 mb-4">🎯 Meta del Día</h3>
