@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('dietas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('semana'); // Guardará el número de la semana
-            $table->json('dieta'); // Se guardará la dieta en formato JSON
+            $table->integer('semana')->default(1); // Guardará el número de la semana
+            $table->json('dieta')->nullable(); // Se guardará la dieta en formato JSON
             $table->timestamps();
         });
     }

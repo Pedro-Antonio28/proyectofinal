@@ -10,7 +10,8 @@ use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\UserAlimentoController;
 use App\Http\Livewire\Questionnaire;
 use App\Http\Livewire\UserAlimentos;
-
+use App\Http\Livewire\EditarAlimento;
+use App\Http\Livewire\AgregarAlimento;
 
 
 
@@ -44,11 +45,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 // Ruta protegida para el dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard', [
-        'user' => Auth::user()
-    ]);
-})->middleware(['auth'])->name('dashboard');
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -84,5 +81,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Ruta para agregar alimento
+Route::get('/agregar-alimento/{dia}/{tipoComida}', App\Http\Livewire\AgregarAlimento::class)
+    ->name('agregar.alimento');
+
+
+// Ruta para editar alimento
+Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', App\Http\Livewire\EditarAlimento::class)
+    ->name('editar.alimento');
+
+
+
 
 require __DIR__.'/auth.php';

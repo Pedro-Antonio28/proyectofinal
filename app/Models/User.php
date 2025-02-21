@@ -109,5 +109,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Alimento::class, 'user_alimentos');
     }
 
+    public function dietas()
+    {
+        return $this->hasMany(Dieta::class);
+    }
 }
 

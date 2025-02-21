@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dieta extends Model
 {
-use HasFactory;
+    use HasFactory;
 
-protected $fillable = ['user_id', 'semana', 'dieta'];
+    protected $table = 'dietas';
+    protected $fillable = ['user_id', 'semana', 'dieta'];
 
-// Relación con el usuario
-public function user()
-{
-return $this->belongsTo(User::class);
-}
+    public function alimentos()
+    {
+        return $this->hasMany(DietaAlimento::class);
+    }
+
 }
