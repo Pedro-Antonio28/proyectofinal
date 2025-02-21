@@ -25,18 +25,32 @@ class Dashboard extends Component
     public function mount()
     {
         $user = Auth::user();
-        $this->dieta = $this->dietaService->generarDietaSemanal($user);
 
+        // 🗓️ Obtener la semana actual (Ejemplo: "2024-W08")
+        $semanaActual = now()->format('o-W');
+
+        // 🔹 Comprobar si ya hay una dieta generada en la sesión para esta semana
+        if (!session()->has("dieta_semana_{$semanaActual}")) {
+            // ⚡ Generar la dieta solo si no está en la sesión
+            $this->dieta = $this->dietaService->generarDietaSemanal($user);
+
+            // 🏷️ Guardar en la sesión para que no cambie hasta la próxima semana
+            session(["dieta_semana_{$semanaActual}" => $this->dieta]);
+        } else {
+            // 🔄 Recuperar la dieta guardada en la sesión
+            $this->dieta = session("dieta_semana_{$semanaActual}");
+        }
+
+        // 🗓️ Determinar el día actual en español
         $dias = [
             'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miércoles',
             'Thursday' => 'Jueves', 'Friday' => 'Viernes', 'Saturday' => 'Sábado', 'Sunday' => 'Domingo'
         ];
-
-        $diaIngles = Carbon::now()->format('l');
+        $diaIngles = now()->format('l');
         $this->diaActual = $dias[$diaIngles] ?? 'Lunes';
 
-        // 🔹 Asegurar que `esDiaActual` se calcula bien al iniciar el componente
-        $hoy = Carbon::now()->locale('es')->isoFormat('dddd');
+        // 🔹 Verificar si el día actual es el mismo día del sistema
+        $hoy = now()->locale('es')->isoFormat('dddd');
         $this->esDiaActual = (ucfirst($this->diaActual) === ucfirst($hoy));
 
         // 🔹 Cargar los alimentos seleccionados en la sesión
@@ -47,14 +61,17 @@ class Dashboard extends Component
             $this->alimentosConsumidos = [];
         }
 
-        // 🚀 Registrar el estado inicial
-        logger()->info("🔄 Montando componente Dashboard", [
+        // 🚀 Registrar estado inicial
+        logger()->info("🔄 Montando Dashboard con dieta semanal", [
+            'Semana' => $semanaActual,
             'Día actual' => $this->diaActual,
             'Hoy es' => ucfirst($hoy),
+            'Dieta fija' => session("dieta_semana_{$semanaActual}"),
             'esDiaActual' => $this->esDiaActual,
             'alimentosConsumidos' => $this->alimentosConsumidos
         ]);
     }
+
 
 
 

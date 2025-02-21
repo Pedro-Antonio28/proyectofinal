@@ -9,10 +9,10 @@
             <h3 class="text-lg font-bold text-gray-800 mb-4">🎯 Progreso del Día</h3>
 
             <div class="text-gray-700 space-y-2">
-                <p><strong>Calorías:</strong> {{ Auth::user()->calorias_necesarias }} kcal</p>
-                <p><strong>Proteínas:</strong> {{ Auth::user()->proteinas }} g</p>
-                <p><strong>Carbohidratos:</strong> {{ Auth::user()->carbohidratos }} g</p>
-                <p><strong>Grasas:</strong> {{ Auth::user()->grasas }} g</p>
+                <p><strong>🔥 Calorías:</strong> {{ Auth::user()->calorias_necesarias }} kcal</p>
+                <p><strong>🥩 Proteínas:</strong> {{ Auth::user()->proteinas }} g</p>
+                <p><strong>🍞 Carbohidratos:</strong> {{ Auth::user()->carbohidratos }} g</p>
+                <p><strong>🥑 Grasas:</strong> {{ Auth::user()->grasas }} g</p>
             </div>
 
             <!-- 🔥 Barra de progreso que aumenta al marcar alimentos -->
@@ -76,7 +76,12 @@
 
 
                                     <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
-                                    <p class="text-gray-600 text-sm text-center">{{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal</p>
+                                    <p class="text-gray-600 text-sm text-center">
+                                        {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
+                                    </p>
+                                    <p class="text-xs text-gray-500 text-center">
+                                        🥩 {{ $comida['proteinas'] }}g | 🍞 {{ $comida['carbohidratos'] }}g | 🥑 {{ $comida['grasas'] }}g
+                                    </p>
                                 </div>
                             @endforeach
                         </div>

@@ -98,6 +98,8 @@ class Questionnaire extends Component
 
         // Guardamos los datos en la base de datos
         $user->update([
+            'gender' => $this->gender,
+            'age' => $this->age,
             'peso' => $this->peso,
             'altura' => $this->altura,
             'objetivo' => $this->objetivo,
