@@ -64,31 +64,37 @@ class Dashboard extends Component
     {
         $this->diaActual = $dia;
 
-        // 🔹 Obtener el día actual real en español correctamente
-        $hoy = Carbon::now()->locale('es')->isoFormat('dddd'); // Esto devuelve el nombre del día en español correctamente
-
-        // 🔹 Comparar con `ucfirst()` para que coincidan exactamente
+        // 🔹 Verificar si es el día actual
+        $hoy = Carbon::now()->locale('es')->isoFormat('dddd');
         $this->esDiaActual = (ucfirst($this->diaActual) === ucfirst($hoy));
 
-        // 🔹 Cargar alimentos del día seleccionado
-        $this->alimentosConsumidos = session("alimentos_consumidos.{$this->diaActual}", []);
+        // 🔹 Cargar alimentos desde la sesión si existen, de lo contrario, forzar array vacío
+        $alimentosGuardados = session("alimentos_consumidos.{$this->diaActual}");
 
-        // 🔹 Si la sesión devuelve `null` o `string`, forzamos un array vacío
-        if (!is_array($this->alimentosConsumidos)) {
+        if (is_null($alimentosGuardados)) {
+            logger()->info("⚠ No hay alimentos guardados en la sesión para {$this->diaActual}, manteniendo los actuales.");
+            return; // No sobreescribas, mantenemos lo anterior
+        }
+
+        if (is_array($alimentosGuardados)) {
+            $this->alimentosConsumidos = $alimentosGuardados;
+        } else {
+            logger()->error("❌ ERROR en cambiarDia(): `alimentosConsumidos` no es un array, sino un: " . gettype($alimentosGuardados));
             $this->alimentosConsumidos = [];
         }
 
-        // 🚀 Registrar en el log para verificar si ahora funciona bien
+
+        // 🚀 Registrar en el log para verificar qué está pasando
         logger()->info("📅 Día cambiado a: {$this->diaActual}", [
             'Hoy es' => ucfirst($hoy),
             'esDiaActual' => $this->esDiaActual,
-            'alimentosConsumidos' => $this->alimentosConsumidos
+            'alimentosConsumidos' => json_encode($this->alimentosConsumidos)
         ]);
+
+        // 🔹 Forzar actualización visual de los checkboxes
+        $this->js('window.dispatchEvent(new Event("refreshCheckboxes"))');
+
     }
-
-
-
-
 
     public function toggleAlimento($alimento)
     {
@@ -97,30 +103,32 @@ class Dashboard extends Component
             return;
         }
 
-        // 🚀 Asegurar que `alimentosConsumidos` es un array antes de modificarlo
+        // Si `alimentosConsumidos` no es un array, lo inicializamos
         if (!is_array($this->alimentosConsumidos)) {
-            logger()->error("⚠ ERROR en toggleAlimento(): `alimentosConsumidos` NO es un array, tipo detectado: " . gettype($this->alimentosConsumidos));
             $this->alimentosConsumidos = [];
         }
 
         if (in_array($alimento, $this->alimentosConsumidos)) {
-            $this->alimentosConsumidos = array_values(array_diff((array) $this->alimentosConsumidos, [$alimento]) ?: []);
+            $this->alimentosConsumidos = array_values(array_diff($this->alimentosConsumidos, [$alimento]));
         } else {
             $this->alimentosConsumidos[] = $alimento;
         }
 
-        // 🚀 Registrar qué estamos guardando antes de almacenarlo en la sesión
+        // ✅ Guardar en la sesión asegurando que es un array
+        session(["alimentos_consumidos.{$this->diaActual}" => array_values($this->alimentosConsumidos)]);
+        session()->save();
+
+        // 🚀 Registrar cambios en el log
         logger()->info("✅ Alimento actualizado: {$alimento}", [
             'Día actual' => $this->diaActual,
             'esDiaActual' => $this->esDiaActual,
-            'alimentosConsumidos' => $this->alimentosConsumidos
+            'alimentosConsumidos' => json_encode($this->alimentosConsumidos)
         ]);
 
-        // ✅ Guardar en la sesión asegurando que es un array
-        session(["alimentos_consumidos.{$this->diaActual}" => array_values((array) $this->alimentosConsumidos)]);
+        // 🔹 Forzar actualización visual en los checkboxes
+        $this->dispatch('refreshCheckboxes');
+
     }
-
-
 
 
 

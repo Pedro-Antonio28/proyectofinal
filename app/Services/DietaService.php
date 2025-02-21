@@ -2,70 +2,88 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Models\Dieta;
-use Carbon\Carbon;
+use App\Models\Alimento;
+use Illuminate\Support\Facades\Auth;
 
 class DietaService
 {
-    public function generarDietaSemanal(User $user): array
+    public function generarDietaSemanal($user)
     {
-        $numeroSemana = Carbon::now()->weekOfYear;
-        $dietaGuardada = Dieta::where('user_id', $user->id)->where('semana', $numeroSemana)->first();
-
-        if ($dietaGuardada) {
-            return json_decode($dietaGuardada->dieta, true);
-        }
-
-        $alimentosSeleccionados = $user->alimentos()->get();
-        if ($alimentosSeleccionados->isEmpty()) {
-            return [];
-        }
-
         $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-        $comidasDelDia = ['Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena'];
+        $categorias = ['proteinas', 'carbohidratos', 'grasas', 'frutas', 'verduras'];
+
         $dieta = [];
 
         foreach ($diasSemana as $dia) {
-            $dieta[$dia] = []; // 🔥 Asegurar que cada día tiene categorías vacías
-
-            foreach ($comidasDelDia as $tipoComida) {
-                $totalCalorias = 0;
-                $comidas = [];
-
-                while ($totalCalorias < ($user->calorias_necesarias * 0.95) / count($comidasDelDia)) {
-                    $alimento = $alimentosSeleccionados->random();
-                    $cantidad = rand(50, 150);
-
-                    $calorias = ($alimento->calorias / 100) * $cantidad;
-                    $proteinas = ($alimento->proteinas / 100) * $cantidad;
-                    $carbohidratos = ($alimento->carbohidratos / 100) * $cantidad;
-                    $grasas = ($alimento->grasas / 100) * $cantidad;
-
-                    $comidas[] = [
-                        'nombre' => $alimento->nombre,
-                        'cantidad' => $cantidad,
-                        'calorias' => round($calorias),
-                        'proteinas' => round($proteinas),
-                        'carbohidratos' => round($carbohidratos),
-                        'grasas' => round($grasas),
-                    ];
-
-                    $totalCalorias += $calorias;
-                }
-
-                $dieta[$dia][$tipoComida] = $comidas; // 🔥 Asigna las comidas a la categoría correcta
-            }
+            $dieta[$dia] = $this->generarDietaDiaria($categorias);
         }
-
-        // 📌 Guarda la nueva dieta en la base de datos con la estructura correcta
-        Dieta::updateOrCreate(
-            ['user_id' => $user->id, 'semana' => $numeroSemana],
-            ['dieta' => json_encode($dieta)]
-        );
 
         return $dieta;
     }
+
+    private function generarDietaDiaria($categorias)
+    {
+        // 🔹 Obtener todos los alimentos seleccionados por el usuario
+        $user = Auth::user();
+        $alimentosDisponibles = $user->alimentos()->get()->groupBy('categoria');
+
+        // 🔹 Definir las comidas del día con sus pesos calóricos
+        $comidas = [
+            'Desayuno' => 0.25,  // 🔥 25% del total diario
+            'Almuerzo' => 0.075, // 🥗 7.5% del total diario
+            'Comida' => 0.40,    // 🍽️ 40% del total diario (Más grande)
+            'Merienda' => 0.075, // ☕ 7.5% del total diario
+            'Cena' => 0.20       // 🌙 20% del total diario
+        ];
+
+        $dietaDiaria = [];
+        $alimentosUsados = [];
+
+        foreach ($comidas as $comida => $proporcion) {
+            $dietaDiaria[$comida] = [];
+            $caloriasMeta = $user->calorias_necesarias * $proporcion; // 🔹 Ajustamos calorías según la comida
+            $caloriasAcumuladas = 0;
+
+            foreach ($categorias as $categoria) {
+                if (isset($alimentosDisponibles[$categoria])) {
+                    // 🔹 Filtrar alimentos que no han sido usados aún en el día
+                    $opcionesDisponibles = $alimentosDisponibles[$categoria]->whereNotIn('id', $alimentosUsados);
+
+                    if ($opcionesDisponibles->isNotEmpty()) {
+                        // 🔹 Seleccionar un alimento aleatorio dentro de la categoría
+                        $alimento = $opcionesDisponibles->random();
+                        $alimentosUsados[] = $alimento->id; // Marcarlo como usado
+
+                        // 🔹 Ajustar cantidad para cumplir el objetivo de calorías
+                        $cantidad = rand(80, 250); // 📌 Las comidas grandes tienen más cantidad
+
+                        // Si la comida es ligera (almuerzo o merienda), reducir la cantidad
+                        if (in_array($comida, ['Almuerzo', 'Merienda'])) {
+                            $cantidad = rand(50, 150);
+                        }
+
+                        // Calcular calorías según la cantidad
+                        $calorias = ($alimento->calorias * $cantidad) / 100;
+
+                        // Evitar que se pase demasiado del objetivo calórico de la comida
+                        if ($caloriasAcumuladas + $calorias <= $caloriasMeta) {
+                            $caloriasAcumuladas += $calorias;
+
+                            // 🔹 Agregar alimento a la comida
+                            $dietaDiaria[$comida][] = [
+                                'nombre' => $alimento->nombre,
+                                'cantidad' => $cantidad,
+                                'calorias' => round($calorias),
+                                'proteinas' => round(($alimento->proteinas * $cantidad) / 100, 1),
+                                'carbohidratos' => round(($alimento->carbohidratos * $cantidad) / 100, 1),
+                                'grasas' => round(($alimento->grasas * $cantidad) / 100, 1),
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $dietaDiaria;
+    }
 }
-
-

@@ -67,8 +67,12 @@
                                     <input type="checkbox"
                                            wire:click="toggleAlimento('{{ $comida['nombre'] }}')"
                                            class="mb-2 w-5 h-5 text-[#a7d675] border-gray-300 focus:ring-[#96c464] disabled:opacity-50"
-                                        {{ is_array($alimentosConsumidos) && in_array($comida['nombre'], $alimentosConsumidos) ? 'checked' : '' }}
-                                        {{ !$esDiaActual ? 'disabled' : '' }}>
+                                           @if ($esDiaActual && in_array($comida['nombre'], $alimentosConsumidos ?? []))
+                                               checked
+                                           @endif
+                                           @if (!$esDiaActual)
+                                               disabled
+                                        @endif>
 
 
                                     <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
@@ -84,5 +88,19 @@
         @endif
 
     </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Livewire.on('refreshCheckboxes', () => {
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = cb.hasAttribute('checked');
+                });
+            });
+        });
+    </script>
+
+
+
+
 </div>
 
