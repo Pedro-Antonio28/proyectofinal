@@ -65,10 +65,11 @@
                             @foreach ($dieta[$diaActual][$tipoComida] as $comida)
                                 <div class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300 transition-all duration-300 hover:shadow-lg hover:scale-105">
                                     <input type="checkbox"
-                                           wire:click="{{ $esDiaActual ? "toggleAlimento('$comida[nombre]')" : "" }}"
+                                           wire:click="toggleAlimento('{{ $comida['nombre'] }}')"
                                            class="mb-2 w-5 h-5 text-[#a7d675] border-gray-300 focus:ring-[#96c464] disabled:opacity-50"
-                                        {{ in_array($comida['nombre'], $alimentosConsumidos) ? 'checked' : '' }}
+                                        {{ is_array($alimentosConsumidos) && in_array($comida['nombre'], $alimentosConsumidos) ? 'checked' : '' }}
                                         {{ !$esDiaActual ? 'disabled' : '' }}>
+
 
                                     <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
                                     <p class="text-gray-600 text-sm text-center">{{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal</p>
@@ -81,6 +82,7 @@
         @else
             <p class="text-red-500 mt-4 text-center text-lg">❌ No hay comidas registradas para este día.</p>
         @endif
+
     </section>
 </div>
 
