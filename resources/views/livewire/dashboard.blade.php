@@ -5,24 +5,33 @@
     <aside class="col-span-4 bg-[#e5f2d8] shadow-xl rounded-2xl p-6 h-full border border-gray-300">
         <h3 class="text-lg font-bold text-gray-800 mb-4">🎯 Progreso del Día</h3>
 
-        <div class="grid grid-cols-2 gap-4 text-center">
+        <div class="grid grid-cols-2 gap-6 text-center">
             @foreach ([
-                ['🔥', 'Calorías', $caloriasConsumidas, $caloriasTotales, 'red'],
-                ['🥩', 'Proteínas', $proteinasConsumidas, $proteinasTotales, 'blue'],
-                ['🍞', 'Carbohidratos', $carbohidratosConsumidos, $carbohidratosTotales, 'orange'],
-                ['🥑', 'Grasas', $grasasConsumidas, $grasasTotales, 'green']
+                ['🔥', 'Calorías', $caloriasConsumidas, $caloriasTotales, '#FF5733'],
+                ['🥩', 'Proteínas', $proteinasConsumidas, $proteinasTotales, '#3498db'],
+                ['🍞', 'Carbohidratos', $carbohidratosConsumidos, $carbohidratosTotales, '#f39c12'],
+                ['🥑', 'Grasas', $grasasConsumidas, $grasasTotales, '#2ecc71']
             ] as [$emoji, $nombre, $consumido, $total, $color])
-                <div>
-                    <svg width="100" height="100">
-                        <circle cx="50" cy="50" r="40" stroke="gray" stroke-width="10" fill="none"></circle>
-                        <circle cx="50" cy="50" r="40"
+                <div class="relative flex flex-col items-center">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <!-- Círculo de fondo -->
+                        <circle cx="60" cy="60" r="50" stroke="#ddd" stroke-width="10" fill="none"></circle>
+
+                        <!-- Círculo de progreso con animación -->
+                        <circle cx="60" cy="60" r="50"
                                 stroke="{{ $color }}"
                                 stroke-width="10"
                                 fill="none"
-                                stroke-dasharray="251"
-                                stroke-dashoffset="{{ 251 - (251 * ($consumido / max(1, $total))) }}">
+                                stroke-linecap="round"
+                                stroke-dasharray="314"
+                                stroke-dashoffset="{{ 314 - (314 * ($consumido / max(1, $total))) }}"
+                                style="transition: stroke-dashoffset 0.6s ease-in-out;">
                         </circle>
-                        <text x="50" y="55" font-size="14" text-anchor="middle" fill="black">{{ round(($consumido / max(1, $total)) * 100) }}%</text>
+
+                        <!-- Porcentaje en el centro -->
+                        <text x="60" y="65" font-size="18" text-anchor="middle" fill="{{ $color }}" font-weight="bold">
+                            {{ round(($consumido / max(1, $total)) * 100) }}%
+                        </text>
                     </svg>
                     <p class="text-gray-800 font-bold mt-2">{{ $emoji }} {{ $nombre }}</p>
                     <p class="text-gray-600 text-sm">{{ round($consumido) }} / {{ round($total) }}</p>
