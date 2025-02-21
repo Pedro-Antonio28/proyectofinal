@@ -34,13 +34,14 @@
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold text-gray-800">📅 Dieta para {{ ucfirst($diaActual) }}</h3>
 
-            <!-- Botón para cambiar de día -->
-            <select wire:model="diaActual" class="border border-gray-300 rounded-lg px-3 py-2">
+            <!-- 📌 Ahora el select llama a cambiarDia() en Livewire -->
+            <select wire:model="diaActual" wire:change="cambiarDia($event.target.value)" class="border border-gray-300 rounded-lg px-3 py-2">
                 @foreach ($dieta as $dia => $info)
                     <option value="{{ $dia }}">{{ ucfirst($dia) }}</option>
                 @endforeach
             </select>
         </div>
+
 
         @if ($dieta && array_key_exists($diaActual, $dieta) && count($dieta[$diaActual]['comidas']) > 0)
             <div class="grid grid-cols-3 gap-4">
@@ -57,5 +58,6 @@
         @else
             <p class="text-red-500 mt-4 text-center">❌ No hay comidas registradas para este día.</p>
         @endif
+
     </section>
 </div>

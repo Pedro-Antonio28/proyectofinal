@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DietaService;
-use Carbon\Carbon;
 
 class Dashboard extends Component
 {
@@ -34,7 +34,7 @@ class Dashboard extends Component
         ];
 
         $diaIngles = Carbon::now()->format('l');
-        $this->diaActual = $dias[$diaIngles] ?? 'Día desconocido';
+        $this->diaActual = $dias[$diaIngles] ?? 'Lunes'; // Día actual o por defecto Lunes
     }
 
     public function cambiarDia($dia)
@@ -47,3 +47,4 @@ class Dashboard extends Component
         return view('livewire.dashboard')->layout('layouts.livewireLayout');
     }
 }
+
