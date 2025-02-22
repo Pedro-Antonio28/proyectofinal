@@ -21,6 +21,9 @@ class Dashboard extends Component
     public $grasasConsumidas = 0;
     public $comidas = [];
 
+    public $dummy = 0;
+
+
     public function mount()
     {
         $user = Auth::user();
@@ -43,8 +46,13 @@ class Dashboard extends Component
     public function determinarDiaActual()
     {
         $dias = [
-            'Monday' => 'Lunes', 'Tuesday' => 'Martes', 'Wednesday' => 'Miércoles',
-            'Thursday' => 'Jueves', 'Friday' => 'Viernes', 'Saturday' => 'Sábado', 'Sunday' => 'Domingo'
+            'Monday'    => 'Lunes',
+            'Tuesday'   => 'Martes',
+            'Wednesday' => 'Miércoles',
+            'Thursday'  => 'Jueves',
+            'Friday'    => 'Viernes',
+            'Saturday'  => 'Sábado',
+            'Sunday'    => 'Domingo'
         ];
         $this->diaActual = $dias[now()->format('l')] ?? 'Lunes';
 
@@ -54,28 +62,18 @@ class Dashboard extends Component
 
     public function cargarDietaDelDia()
     {
-        if (!$this->dieta) return;
+        if (!$this->dieta) {
+            return;
+        }
 
-        $comidasCollection = DietaAlimento::where('dieta_id', $this->dieta->id)
-            ->where('dia', $this->diaActual)
-            ->with('alimento')
-            ->get()
-            ->groupBy('tipo_comida');
+        $dietaJson = json_decode($this->dieta->dieta, true);
 
-        $this->comidas = $comidasCollection->map(function ($items) {
-            return $items->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'nombre' => $item->alimento->nombre,
-                    'cantidad' => $item->cantidad,
-                    'calorias' => $item->alimento->calorias,
-                    'proteinas' => $item->alimento->proteinas,
-                    'carbohidratos' => $item->alimento->carbohidratos,
-                    'grasas' => $item->alimento->grasas,
-                    'alimento_id' => $item->alimento_id,
-                ];
-            })->toArray();
-        })->toArray();
+        // Asegurar que $diaActual tiene un valor válido
+        if (!isset($dietaJson[$this->diaActual])) {
+            $this->comidas = [];
+        } else {
+            $this->comidas = $dietaJson[$this->diaActual];
+        }
 
         $this->actualizarMacrosConsumidos();
     }
@@ -97,30 +95,35 @@ class Dashboard extends Component
 
         $alimentos = DietaAlimento::where('dieta_id', $this->dieta->id)
             ->where('dia', $this->diaActual)
-            ->with('alimento') // Asegurar que traemos los datos del alimento
+            ->with('alimento')
             ->get();
 
         foreach ($alimentos as $alimento) {
             if (in_array($alimento->alimento_id, $this->alimentosConsumidos)) {
-                $cantidadReal = $alimento->cantidad; // Cantidad en gramos
-
-                $this->caloriasConsumidas += ($alimento->alimento->calorias * $cantidadReal) / 100;
-                $this->proteinasConsumidas += ($alimento->alimento->proteinas * $cantidadReal) / 100;
+                $cantidadReal = $alimento->cantidad;
+                $this->caloriasConsumidas      += ($alimento->alimento->calorias * $cantidadReal) / 100;
+                $this->proteinasConsumidas     += ($alimento->alimento->proteinas * $cantidadReal) / 100;
                 $this->carbohidratosConsumidos += ($alimento->alimento->carbohidratos * $cantidadReal) / 100;
-                $this->grasasConsumidas += ($alimento->alimento->grasas * $cantidadReal) / 100;
+                $this->grasasConsumidas        += ($alimento->alimento->grasas * $cantidadReal) / 100;
             }
         }
     }
 
-
-
-    public function cambiarDia($dia)
+    // Se dispara automáticamente cuando se actualiza la propiedad diaActual
+    public function updatedDiaActual()
     {
-        $this->diaActual = $dia;
-        $this->esDiaActual = ucfirst($this->diaActual) === ucfirst(Carbon::now()->locale('es')->isoFormat('dddd'));
+        $this->esDiaActual = (ucfirst($this->diaActual) === ucfirst(Carbon::now()->locale('es')->isoFormat('dddd')));
+
+        $this->comidas = []; // Vaciar temporalmente para forzar la actualización
         $this->cargarDietaDelDia();
-        $this->dispatch('refreshUI'); // 🔄 Forzar actualización en Livewire
+
+        $this->dummy++; // ⚡ Forzar a Livewire a detectar el cambio
     }
+
+
+
+
+
 
     public function toggleAlimento($alimentoId)
     {
@@ -143,15 +146,16 @@ class Dashboard extends Component
 
     public function render()
     {
+        $this->cargarDietaDelDia(); // Asegurar que siempre se carga la dieta correcta
         $user = Auth::user();
-
         return view('livewire.dashboard', [
-            'comidas' => $this->comidas,
-            'caloriasTotales' => $user->calorias_necesarias,
-            'proteinasTotales' => $user->proteinas,
+            'comidas'              => $this->comidas,
+            'caloriasTotales'      => $user->calorias_necesarias,
+            'proteinasTotales'     => $user->proteinas,
             'carbohidratosTotales' => $user->carbohidratos,
-            'grasasTotales' => $user->grasas,
-            'esDiaActual' => $this->esDiaActual,
+            'grasasTotales'        => $user->grasas,
+            'esDiaActual'          => $this->esDiaActual,
+            'alimentosConsumidos'  => $this->alimentosConsumidos,
         ])->layout('layouts.livewireLayout');
     }
 }

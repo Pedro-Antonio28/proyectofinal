@@ -25,7 +25,6 @@
                                 stroke-linecap="round"
                                 stroke-dasharray="314"
                                 stroke-dashoffset="{{ max(0, 314 - (314 * min(1, round($consumido / max(1, $total), 5)) )) }}"
-
                                 style="transition: stroke-dashoffset 0.6s ease-in-out;">
                         </circle>
 
@@ -47,23 +46,33 @@
             <h3 class="text-2xl font-bold text-gray-900">📅 Dieta para {{ ucfirst($diaActual) }}</h3>
 
             <!-- 🔥 Selector de Día -->
-            <select wire:model="diaActual" wire:change="cambiarDia($event.target.value)"
+            <select wire:model="diaActual" wire:change="$refresh"
                     class="border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 shadow-md transition-all duration-300 hover:border-gray-400 focus:border-[#96c464]">
                 @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
                     <option value="{{ $dia }}">{{ ucfirst($dia) }}</option>
                 @endforeach
             </select>
+
+            <!-- Este div ayuda a forzar la actualización de Livewire -->
+            <div wire:key="dashboard-{{ $dummy }}"></div>
         </div>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                Livewire.on('refreshUI', () => {
-                    Livewire.refresh(); // 🔄 Forzar actualización de la UI en Livewire
+                window.addEventListener('refresh-ui', () => {
+                    Livewire.refresh();
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                window.addEventListener('force-update', () => {
+                    setTimeout(() => Livewire.refresh(), 50);
                 });
             });
         </script>
 
-        @foreach ($comidas as $tipoComida => $alimentos)
+        <!-- Recorrer las comidas en el orden fijo deseado -->
+        @foreach (['Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena'] as $tipoComida)
             <div class="mb-8">
                 <h4 class="text-xl font-bold text-gray-800 border-b-2 border-[#a7d675] pb-2 flex justify-between items-center">
                     {{ $tipoComida }}
@@ -76,13 +85,10 @@
                 </h4>
 
                 <div class="grid grid-cols-3 gap-6 mt-4">
-                    @foreach ($alimentos as $comida)
-                        <!-- Evitar generar enlaces rotos -->
-                        @if(isset($comida['alimento_id']))
+                    @if(isset($comidas[$tipoComida]))
+                        @foreach ($comidas[$tipoComida] as $comida)
                             <a href="{{ route('editar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida, 'alimentoId' => $comida['alimento_id']]) }}"
-                               class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300
-                              hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer relative">
-
+                               class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300 hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer">
                                 <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
                                 <p class="text-gray-600 text-sm text-center">
                                     {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
@@ -95,14 +101,12 @@
                                            class="mt-2">
                                 @endif
                             </a>
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @else
+                        <p>No hay alimentos asignados.</p>
+                    @endif
                 </div>
             </div>
         @endforeach
-
-
-
-
     </section>
 </div>
