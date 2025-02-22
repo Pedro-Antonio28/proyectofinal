@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PDF; // Asegúrate de importar la fachada: use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de importar la fachada: use Barryvdh\DomPDF\Facade as PDF;
 use App\Models\Dieta;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -38,5 +38,4 @@ class DietaController extends Controller
         $pdf = PDF::loadView('dieta.pdf', $data);
 
         return $pdf->download("dieta_{$dia}.pdf");
-    }
-}
+    }  }

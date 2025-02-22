@@ -46,12 +46,22 @@
             <h3 class="text-2xl font-bold text-gray-900">📅 Dieta para {{ ucfirst($diaActual) }}</h3>
 
             <!-- 🔥 Selector de Día -->
-            <select wire:model="diaActual" wire:change="$refresh"
-                    class="border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 shadow-md transition-all duration-300 hover:border-gray-400 focus:border-[#96c464]">
-                @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
-                    <option value="{{ $dia }}">{{ ucfirst($dia) }}</option>
-                @endforeach
-            </select>
+            <div class="flex items-center space-x-4 mb-6">
+                <!-- Selector de Día -->
+                <select wire:model="diaActual" wire:change="$refresh"
+                        class="border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 shadow-md transition-all duration-300 hover:border-gray-400 focus:border-[#96c464]">
+                    @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
+                        <option value="{{ $dia }}">{{ ucfirst($dia) }}</option>
+                    @endforeach
+                </select>
+
+                <!-- Botón para generar PDF -->
+                <a href="{{ route('pdf.dieta', ['dia' => $diaActual]) }}"
+                   class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md transition-all duration-300 hover:bg-blue-600">
+                    Generar PDF
+                </a>
+            </div>
+
 
             <!-- Este div ayuda a forzar la actualización de Livewire -->
             <div wire:key="dashboard-{{ $dummy }}"></div>

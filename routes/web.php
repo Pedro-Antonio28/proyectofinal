@@ -13,6 +13,7 @@ use App\Http\Livewire\UserAlimentos;
 use App\Http\Livewire\EditarAlimento;
 use App\Http\Livewire\AgregarAlimento;
 
+use App\Http\Controllers\DietaController;
 
 
 
@@ -90,6 +91,9 @@ Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', App\Http\Livewire
     ->name('editar.alimento');
 
 
+Route::get('/dieta/pdf/{dia}', [DietaController::class, 'pdf'])
+    ->name('pdf.dieta')
+    ->middleware('auth');
 
 
 
