@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Dieta;
 use App\Models\DietaAlimento;
+use App\Models\Alimento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -28,15 +29,23 @@ class EditarAlimento extends Component
             return redirect()->route('dashboard');
         }
 
-        // ✅ Buscar el alimento en la dieta
+        // ✅ Buscar el alimento en la dieta con `alimento` relacionado
         $this->alimento = DietaAlimento::where('dieta_id', $dieta->id)
             ->where('dia', $this->dia)
             ->where('tipo_comida', $this->tipoComida)
             ->where('alimento_id', $alimentoId)
+            ->with('alimento') // Relación con `alimento`
             ->first();
 
+        // ✅ Verificar si el alimento existe en `dieta_alimentos`
         if (!$this->alimento) {
-            Session::flash('error', 'El alimento no existe en tu dieta.');
+            Session::flash('error', "El alimento con ID $alimentoId no está en tu dieta.");
+            return redirect()->route('dashboard');
+        }
+
+        // ✅ Verificar si el alimento existe en `alimentos`
+        if (!$this->alimento->alimento) {
+            Session::flash('error', 'El alimento seleccionado ya no existe en la base de datos.');
             return redirect()->route('dashboard');
         }
 

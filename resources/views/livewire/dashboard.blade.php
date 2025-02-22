@@ -24,7 +24,8 @@
                                 fill="none"
                                 stroke-linecap="round"
                                 stroke-dasharray="314"
-                                stroke-dashoffset="{{ 314 - (314 * ($consumido / max(1, $total))) }}"
+                                stroke-dashoffset="{{ max(0, 314 - (314 * min(1, round($consumido / max(1, $total), 5)) )) }}"
+
                                 style="transition: stroke-dashoffset 0.6s ease-in-out;">
                         </circle>
 
@@ -76,27 +77,30 @@
 
                 <div class="grid grid-cols-3 gap-6 mt-4">
                     @foreach ($alimentos as $comida)
-                        <!-- Contenedor clickeable -->
-                        <a href="{{ route('editar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida, 'alimentoId' => $comida['alimento_id']]) }}"
-                           class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300
-                          hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer relative">
+                        <!-- Evitar generar enlaces rotos -->
+                        @if(isset($comida['alimento_id']))
+                            <a href="{{ route('editar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida, 'alimentoId' => $comida['alimento_id']]) }}"
+                               class="bg-[#f0f9eb] p-5 rounded-2xl shadow-md flex flex-col items-center border border-gray-300
+                              hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer relative">
 
-                            <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
-                            <p class="text-gray-600 text-sm text-center">
-                                {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
-                            </p>
+                                <h5 class="text-md font-semibold text-center text-gray-900">{{ $comida['nombre'] }}</h5>
+                                <p class="text-gray-600 text-sm text-center">
+                                    {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
+                                </p>
 
-                            <!-- Checkbox solo si es el día actual -->
-                            @if ($esDiaActual)
-                                <input type="checkbox" wire:click.prevent="toggleAlimento({{ $comida['alimento_id'] }})"
-                                       {{ in_array($comida['alimento_id'], $alimentosConsumidos) ? 'checked' : '' }}
-                                       class="mt-2">
-                            @endif
-                        </a>
+                                <!-- Checkbox solo si es el día actual -->
+                                @if ($esDiaActual)
+                                    <input type="checkbox" wire:click.prevent="toggleAlimento({{ $comida['alimento_id'] }})"
+                                           {{ in_array($comida['alimento_id'], $alimentosConsumidos) ? 'checked' : '' }}
+                                           class="mt-2">
+                                @endif
+                            </a>
+                        @endif
                     @endforeach
                 </div>
             </div>
         @endforeach
+
 
 
 

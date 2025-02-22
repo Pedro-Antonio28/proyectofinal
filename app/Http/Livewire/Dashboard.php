@@ -95,17 +95,24 @@ class Dashboard extends Component
             ->pluck('alimento_id')
             ->toArray();
 
-        foreach ($this->comidas as $tipoComida => $alimentos) {
-            foreach ($alimentos as $comida) {
-                if (in_array($comida['alimento_id'], $this->alimentosConsumidos)) {
-                    $this->caloriasConsumidas += $comida['calorias'];
-                    $this->proteinasConsumidas += $comida['proteinas'];
-                    $this->carbohidratosConsumidos += $comida['carbohidratos'];
-                    $this->grasasConsumidas += $comida['grasas'];
-                }
+        $alimentos = DietaAlimento::where('dieta_id', $this->dieta->id)
+            ->where('dia', $this->diaActual)
+            ->with('alimento') // Asegurar que traemos los datos del alimento
+            ->get();
+
+        foreach ($alimentos as $alimento) {
+            if (in_array($alimento->alimento_id, $this->alimentosConsumidos)) {
+                $cantidadReal = $alimento->cantidad; // Cantidad en gramos
+
+                $this->caloriasConsumidas += ($alimento->alimento->calorias * $cantidadReal) / 100;
+                $this->proteinasConsumidas += ($alimento->alimento->proteinas * $cantidadReal) / 100;
+                $this->carbohidratosConsumidos += ($alimento->alimento->carbohidratos * $cantidadReal) / 100;
+                $this->grasasConsumidas += ($alimento->alimento->grasas * $cantidadReal) / 100;
             }
         }
     }
+
+
 
     public function cambiarDia($dia)
     {
