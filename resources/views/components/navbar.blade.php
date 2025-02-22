@@ -1,5 +1,6 @@
 <!-- 📌 Barra de Navegación (Navbar) -->
-<nav class="fixed top-0 left-0 w-full bg-[#e5f2d8] shadow-md z-50 py-5">
+<nav class="fixed top-0 left-0 w-full bg-[#e5f2d8] shadow-md z-50 py-3">
+
     <div class="flex items-center justify-between px-6 max-w-7xl mx-auto">
         <!-- 🔥 LOGO -->
         <div class="flex items-center gap-2">
@@ -28,6 +29,7 @@
                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                     📝 Ver Perfil
                 </a>
+
 
                 <!-- 🔥 Solo visible para administradores -->
                 @if(Auth::user()->hasRole('admin'))

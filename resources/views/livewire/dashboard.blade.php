@@ -1,4 +1,4 @@
-<div class="grid grid-cols-12 gap-6 p-8 min-h-screen bg-[#f8fff4] pt-24">
+<div class="grid grid-cols-12 gap-6 p-8 min-h-screen bg-[#f8fff4] pt-32">
     @include('components.navbar')
 
     <!-- 🏆 Sidebar: Progreso de Macronutrientes -->
@@ -120,5 +120,12 @@
                 </div>
             </div>
         @endforeach
+
+        <style>
+            a, h1, h2, h3, h4, h5, h6, p, span {
+                text-decoration: none !important;
+            }
+        </style>
+
     </section>
 </div>
