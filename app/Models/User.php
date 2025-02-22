@@ -119,20 +119,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
-    }
-
     public function hasRole($role)
     {
         return $this->roles->contains('name', $role);
-    }
-
-    public function hasPermission($permission)
-    {
-        return $this->permissions->contains('name', $permission) ||
-            $this->roles->flatMap->permissions->contains('name', $permission);
     }
 }
 

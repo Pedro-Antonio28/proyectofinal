@@ -95,6 +95,8 @@ Route::get('/dieta/pdf/{dia}', [DietaController::class, 'pdf'])
     ->name('pdf.dieta')
     ->middleware('auth');
 
-
+Route::get('/admin', function () {
+    return "Bienvenido, Administrador";
+})->middleware(RoleMiddleware::class . ':admin');
 
 require __DIR__.'/auth.php';
