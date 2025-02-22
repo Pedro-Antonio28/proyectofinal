@@ -12,9 +12,9 @@ use App\Http\Livewire\Questionnaire;
 use App\Http\Livewire\UserAlimentos;
 use App\Http\Livewire\EditarAlimento;
 use App\Http\Livewire\AgregarAlimento;
-
 use App\Http\Controllers\DietaController;
-
+use App\Middleware\RoleMiddleware;
+use App\Http\Controllers\AdminController;
 
 
 
@@ -98,5 +98,20 @@ Route::get('/dieta/pdf/{dia}', [DietaController::class, 'pdf'])
 Route::get('/admin', function () {
     return "Bienvenido, Administrador";
 })->middleware(RoleMiddleware::class . ':admin');
+
+Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
+    Route::delete('/admin/users/{id}', [AdminController::class, 'destroy'])->name('admin.users.delete');
+    Route::get('/admin/users/{id}/edit', [AdminController::class, 'edit'])->name('admin.users.edit');
+    Route::post('/admin/users/{id}/update', [AdminController::class, 'update'])->name('admin.users.update');
+});
+
+Route::get('/admin/users/{id}/dieta', [AdminController::class, 'verDieta'])->name('admin.users.dieta');
+
+Route::delete('/admin/dieta/{id}/delete', [AdminController::class, 'eliminarDieta'])->name('admin.dieta.delete');
+
+Route::get('/admin/dieta/{id}/editar-alimento', [AdminController::class, 'editarAlimento'])->name('admin.dieta.editar-alimento');
+
+Route::post('/admin/dieta/{id}/update-alimento', [AdminController::class, 'actualizarAlimento'])->name('admin.dieta.update-alimento');
 
 require __DIR__.'/auth.php';

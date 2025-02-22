@@ -17,4 +17,5 @@ class Dieta extends Model
         return $this->hasMany(DietaAlimento::class);
     }
 
+
 }

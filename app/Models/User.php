@@ -123,5 +123,11 @@ class User extends Authenticatable
     {
         return $this->roles->contains('name', $role);
     }
+
+    public function dieta()
+    {
+        return $this->hasOne(Dieta::class, 'user_id');
+    }
+
 }
 

@@ -6,9 +6,7 @@
         <h3 class="text-lg font-bold text-gray-800 mb-4">🎯 Progreso del Día</h3>
 
         <div class="grid grid-cols-2 gap-6 text-center">
-            @if(auth()->user()->hasRole('admin'))
-                <p>Bienvenido, Administrador</p>
-            @endif
+
 
         @foreach ([
                 ['🔥', 'Calorías', $caloriasConsumidas, $caloriasTotales, '#FF5733'],
