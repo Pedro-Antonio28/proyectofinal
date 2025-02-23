@@ -60,6 +60,15 @@
             Registrarse
         </button>
     </form>
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-3 rounded-md mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <!-- Separador -->
     <div class="flex items-center justify-center my-6">
@@ -75,6 +84,8 @@
         <a href="{{ route('login') }}" class="text-[#a7d675] hover:underline">Inicia sesión aquí</a>
     </p>
 </div>
+
+
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
