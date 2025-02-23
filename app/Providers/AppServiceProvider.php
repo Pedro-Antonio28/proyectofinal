@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,10 +23,22 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
+
+
     public function boot()
     {
-        setlocale(LC_TIME, 'es_ES.UTF-8'); // Establecer español en el sistema
-        Carbon::setLocale('es'); // Carbon usa español
-        App::setLocale('es'); // Laravel usa español
+        if (Session::has('locale')) {
+            $locale = Session::get('locale');
+        } else {
+            $locale = Config::get('app.locale'); // Usar el idioma por defecto si no está en sesión
+            Session::put('locale', $locale);
+        }
+
+        App::setLocale($locale);
+        Config::set('app.locale', $locale);
+
+        \Log::info('Idioma cargado en AppServiceProvider: ' . $locale);
     }
+
+
 }

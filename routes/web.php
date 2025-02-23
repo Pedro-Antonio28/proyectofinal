@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\WelcomePage;
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -14,21 +16,46 @@ use App\Http\Livewire\EditarAlimento;
 use App\Http\Livewire\AgregarAlimento;
 use App\Http\Controllers\DietaController;
 use App\Middleware\RoleMiddleware;
+use App\Middleware\SetLocale;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NutricionistaController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
+
 
 Route::get('/questionnaire', Questionnaire::class)->middleware('auth')->name('questionnaire.show');
 
 
 
+Route::get('/change-language/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'es'])) {
+        Session::put('locale', $locale);
+        Session::save(); // 🔹 Guardar la sesión antes de redirigir
+        App::setLocale($locale);
+        Config::set('app.locale', $locale);
+    }
+
+    \Log::info('Cambio de idioma a: ' . Session::get('locale'));
+
+    return redirect()->back()->withCookie(cookie()->forever('locale', $locale));
+})->name('change.language');
 
 
 
 
 
 
-Route::get('/', WelcomePage::class)->name('home');
+
+
+
+
+
+Route::middleware(SetLocale::class)->group(function () {
+    Route::get('/', WelcomePage::class)->name('home');
+    // ... otras rutas que usen la configuración del idioma
+});
+
 
 
 
@@ -51,7 +78,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', App\Http\Livewire\Dashboard::class)->name('dashboard');
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
 });
 
 
@@ -86,10 +113,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // Ruta para agregar alimento
-Route::get('/agregar-alimento/{dia}/{tipoComida}', App\Http\Livewire\AgregarAlimento::class)
+Route::get('/agregar-alimento/{dia}/{tipoComida}', AgregarAlimento::class)
     ->name('agregar.alimento');
 
-Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', App\Http\Livewire\EditarAlimento::class)
+Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', EditarAlimento::class)
     ->name('editar.alimento');
 
 
@@ -146,18 +173,5 @@ Route::get('/nutricionista/dieta/{id}/agregar', [NutricionistaController::class,
     ->name('nutricionista.dieta.form_agregar');
 
 
-Route::get('/verify/{id}/{token}', function ($id, $token) {
-    $user = \App\Models\User::findOrFail($id);
-
-    if (sha1($user->email) !== $token) {
-        return redirect()->route('login')->with('error', 'Enlace de verificación inválido.');
-    }
-
-    // Marcar el correo como verificado
-    $user->email_verified_at = now();
-    $user->save();
-
-    return redirect()->route('login')->with('success', 'Correo verificado. Ahora puedes iniciar sesión.');
-})->name('verification.verify');
 
 
