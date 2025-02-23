@@ -16,9 +16,10 @@ use App\Http\Controllers\DietaController;
 use App\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NutricionistaController;
+use Illuminate\Support\Facades\DB;
 
+Route::get('/questionnaire', Questionnaire::class)->middleware('auth')->name('questionnaire.show');
 
-Route::get('/questionnaire', Questionnaire::class)->name('questionnaire.show');
 
 
 
@@ -59,7 +60,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 
 // Ruta para procesar el registro
-Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])->name('register.post');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
 
 
 
@@ -144,4 +146,18 @@ Route::get('/nutricionista/dieta/{id}/agregar', [NutricionistaController::class,
     ->name('nutricionista.dieta.form_agregar');
 
 
-require __DIR__.'/auth.php';
+Route::get('/verify/{id}/{token}', function ($id, $token) {
+    $user = \App\Models\User::findOrFail($id);
+
+    if (sha1($user->email) !== $token) {
+        return redirect()->route('login')->with('error', 'Enlace de verificación inválido.');
+    }
+
+    // Marcar el correo como verificado
+    $user->email_verified_at = now();
+    $user->save();
+
+    return redirect()->route('login')->with('success', 'Correo verificado. Ahora puedes iniciar sesión.');
+})->name('verification.verify');
+
+

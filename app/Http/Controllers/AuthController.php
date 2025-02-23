@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
+use App\Jobs\SendVerificationEmail;
 class AuthController extends Controller
 {
     // Mostrar la vista de inicio de sesión
@@ -15,7 +15,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard'); // Evita que un usuario autenticado vea el login
         }
-        return view('login');
+        return view('auth.login');
     }
 
 
@@ -30,9 +30,14 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // Si el usuario no ha completado el cuestionario, lo redirige
+            // Bloquear acceso si el email no está verificado
+            if (!$user->email_verified_at) {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Debes verificar tu correo antes de acceder.']);
+            }
+
             if (!$user->peso || !$user->altura || !$user->objetivo || !$user->actividad) {
-                return redirect()->route('questionnaire');
+                return redirect()->route('questionnaire.show');
             }
 
             return redirect()->route('dashboard');
@@ -40,6 +45,7 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
+
 
     // Cerrar sesión
     public function logout()
@@ -51,8 +57,11 @@ class AuthController extends Controller
 
     public function showRegister()
     {
-        return view('register');
+        return view('auth.register');
+
     }
+
+
 
     public function register(Request $request)
     {
@@ -66,12 +75,17 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'email_verified_at' => null,
         ]);
 
-        Auth::login($user); // Iniciar sesión automáticamente después del registro
+        // Enviar el email en segundo plano
+        SendVerificationEmail::dispatch($user);
 
-        return redirect()->route('questionnaire'); // Redirigir al cuestionario
+        \Log::info('Ejecutando AuthController::register para: ' . $request->email);
+
+        return redirect()->route('login')->with('success', 'Te hemos enviado un correo de verificación. Verifica tu email antes de iniciar sesión.');
     }
+
 
 
 
