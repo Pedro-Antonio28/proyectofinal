@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\DietaAlimento;
 use App\Models\Dieta;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Events\UserDeleted;
 
 class AdminController extends Controller
 {
@@ -46,8 +47,11 @@ class AdminController extends Controller
     {
         $usuario = User::findOrFail($id);
 
-        // Aplicar autorización
+        // Aplicar autorización correctamente
         $this->authorize('deleteUser', $usuario);
+
+        // Disparar el evento antes de eliminar el usuario
+        event(new UserDeleted($usuario));
 
         $usuario->delete();
 
