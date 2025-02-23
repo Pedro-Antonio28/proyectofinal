@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
+
+use App\Models\Role;
+
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
 
     protected $fillable = [
         'name',
@@ -121,12 +127,23 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->roles->contains('name', $role);
+        return $this->roles()->where('name', $role)->exists();
     }
+
 
     public function dieta()
     {
         return $this->hasOne(Dieta::class, 'user_id');
+    }
+
+    public function clientes()
+    {
+        return $this->belongsToMany(User::class, 'nutricionista_cliente', 'nutricionista_id', 'cliente_id');
+    }
+
+    public function nutricionista()
+    {
+        return $this->belongsToMany(User::class, 'nutricionista_cliente', 'cliente_id', 'nutricionista_id');
     }
 
 }

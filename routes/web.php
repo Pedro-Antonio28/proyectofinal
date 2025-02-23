@@ -15,7 +15,7 @@ use App\Http\Livewire\AgregarAlimento;
 use App\Http\Controllers\DietaController;
 use App\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\NutricionistaController;
 
 
 Route::get('/questionnaire', Questionnaire::class)->name('questionnaire.show');
@@ -114,4 +114,12 @@ Route::get('/admin/dieta/{id}/editar-alimento', [AdminController::class, 'editar
 
 Route::post('/admin/dieta/{id}/update-alimento', [AdminController::class, 'actualizarAlimento'])->name('admin.dieta.update-alimento');
 
+
+Route::middleware(\App\Middleware\RoleMiddleware::class . ':nutricionista')->group(function () {
+    Route::get('/nutricionista', [NutricionistaController::class, 'index'])->name('nutricionista.panel');
+    Route::get('/nutricionista/clientes/{id}', [NutricionistaController::class, 'verDieta'])->name('nutricionista.cliente.dieta');
+    Route::post('/nutricionista/dieta/{id}/add', [NutricionistaController::class, 'agregarAlimento'])->name('nutricionista.dieta.add');
+    Route::post('/nutricionista/dieta/{id}/update', [NutricionistaController::class, 'editarAlimento'])->name('nutricionista.dieta.update');
+    Route::delete('/nutricionista/dieta/{id}/delete', [NutricionistaController::class, 'eliminarAlimento'])->name('nutricionista.dieta.delete');
+});
 require __DIR__.'/auth.php';

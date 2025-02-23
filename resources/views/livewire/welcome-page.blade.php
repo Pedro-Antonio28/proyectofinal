@@ -175,7 +175,11 @@
             </footer>
 
             <!-- Scripts -->
-
+            <style>
+                a, h1, h2, h3, h4, h5, h6, p, span {
+                    text-decoration: none !important;
+                }
+            </style>
         </div> <!-- 📌 Cierre del div raíz -->
     </div> <!-- 📌 Cierre del contenedor Livewire -->
 

@@ -30,11 +30,17 @@
                     📝 Ver Perfil
                 </a>
 
-
                 <!-- 🔥 Solo visible para administradores -->
                 @if(Auth::user()->hasRole('admin'))
                     <a href="{{ route('admin.users') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                         ⚙️ Panel de Administración
+                    </a>
+                @endif
+
+                <!-- 🍏 Solo visible para nutricionistas -->
+                @if(Auth::user()->hasRole('nutricionista'))
+                    <a href="{{ route('nutricionista.panel') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                        🍏 Panel de Nutricionista
                     </a>
                 @endif
 
@@ -45,6 +51,7 @@
                     </button>
                 </form>
             </div>
+
         </div>
     </div>
 </nav>
