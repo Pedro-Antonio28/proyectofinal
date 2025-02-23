@@ -60,20 +60,18 @@ class Questionnaire extends Component
     {
         $user = auth()->user();
 
-        // Verifica si el usuario está autenticado
         if (!$user) {
             session()->flash('error', 'Debes iniciar sesión para completar el cuestionario.');
             return;
         }
 
-        // Cálculo del TMB (Tasa Metabólica Basal)
+        // Cálculo de calorías y macronutrientes (esto ya está correcto)
         if ($this->gender == 'male') {
-            $tmb = 10 * $this->peso + 6.25 * $this->altura - 5 * 25 + 5; // Suponiendo edad promedio de 25
+            $tmb = 10 * $this->peso + 6.25 * $this->altura - 5 * 25 + 5;
         } else {
             $tmb = 10 * $this->peso + 6.25 * $this->altura - 5 * 25 - 161;
         }
 
-        // Multiplicador según nivel de actividad
         $multiplicadores = [
             'sedentario' => 1.2,
             'ligero' => 1.375,
@@ -81,22 +79,20 @@ class Questionnaire extends Component
             'intenso' => 1.725
         ];
 
-        $factor = $multiplicadores[$this->actividad] ?? 1.2; // Por defecto sedentario
+        $factor = $multiplicadores[$this->actividad] ?? 1.2;
         $calorias = $tmb * $factor;
 
-        // Ajuste según objetivo
         if ($this->objetivo == 'perder_peso') {
             $calorias -= 500;
         } elseif ($this->objetivo == 'ganar_musculo') {
             $calorias += 500;
         }
 
-        // Cálculo de macronutrientes (ejemplo: 40% carbos, 30% proteínas, 30% grasas)
-        $proteinas = ($calorias * 0.3) / 4;  // 1g de proteína = 4 calorías
-        $carbohidratos = ($calorias * 0.4) / 4; // 1g de carbohidrato = 4 calorías
-        $grasas = ($calorias * 0.3) / 9; // 1g de grasa = 9 calorías
+        $proteinas = ($calorias * 0.3) / 4;
+        $carbohidratos = ($calorias * 0.4) / 4;
+        $grasas = ($calorias * 0.3) / 9;
 
-        // Guardamos los datos en la base de datos
+        // Guardar datos en la BD
         $user->update([
             'gender' => $this->gender,
             'age' => $this->age,
@@ -110,10 +106,15 @@ class Questionnaire extends Component
             'grasas' => round($grasas),
         ]);
 
+        // ✅ Vuelve a autenticar al usuario por si la sesión se pierde
+        auth()->login($user);
+
         session()->flash('message', 'Cuestionario completado correctamente y datos guardados.');
 
+        // ✅ Redirigir correctamente a la selección de alimentos
         return redirect()->route('user.alimentos');
     }
+
 
 
 

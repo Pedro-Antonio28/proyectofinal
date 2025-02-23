@@ -144,6 +144,15 @@ class Dashboard extends Component
         $this->actualizarMacrosConsumidos();
     }
 
+    protected $listeners = ['alimentoAgregado' => 'refreshDieta'];
+
+    public function refreshDieta()
+    {
+        $this->comidas = DietaAlimento::where('dieta_id', $this->dieta->id)
+            ->get()
+            ->groupBy('tipo_comida');
+    }
+
     public function render()
     {
         $this->cargarDietaDelDia(); // Asegurar que siempre se carga la dieta correcta

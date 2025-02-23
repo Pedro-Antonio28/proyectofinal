@@ -8,6 +8,8 @@ use App\Models\DietaAlimento;
 use App\Models\Alimento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\UpdateAlimentoRequest;
+
 
 class EditarAlimento extends Component
 {
@@ -52,19 +54,55 @@ class EditarAlimento extends Component
         $this->cantidad = $this->alimento->cantidad;
     }
 
+
+
     public function actualizar()
     {
-        $this->validate([
-            'cantidad' => 'required|numeric|min:1',
-        ]);
+        try {
+            // Validar solo la cantidad, ya que es lo único que editas
+            $validatedData = $this->validate([
+                'cantidad' => 'required|numeric|min:1',
+            ]);
 
-        $this->alimento->update([
-            'cantidad' => $this->cantidad,
-        ]);
+            if ($this->alimento->dieta->user_id !== Auth::id()) {
+                session()->flash('error', '❌ No tienes permiso para editar este alimento.');
+                return redirect()->route('dashboard');
+            }
 
-        session()->flash('message', '✅ Alimento actualizado con éxito.');
-        return redirect()->route('dashboard');
+            // Actualizar la cantidad en la tabla DietaAlimento
+            $this->alimento->update($validatedData);
+
+            // Actualizar el campo JSON en la dieta
+            $dieta = $this->alimento->dieta;
+            $dietaJson = json_decode($dieta->dieta, true);
+            if (!$dietaJson) {
+                $dietaJson = [];
+            }
+
+            // Verificar que existen las claves para el día y el tipo de comida
+            if (isset($dietaJson[$this->dia][$this->tipoComida])) {
+                foreach ($dietaJson[$this->dia][$this->tipoComida] as &$item) {
+                    if ($item['alimento_id'] == $this->alimento->alimento_id) {
+                        // Actualizar la cantidad y forzar categoría e imagen
+                        $item['cantidad'] = $validatedData['cantidad'];
+                        $item['categoria'] = 'otro';
+                        $item['imagen'] = null;
+                    }
+                }
+                unset($item);
+            }
+
+            $dieta->dieta = json_encode($dietaJson);
+            $dieta->save();
+
+            session()->flash('message', '✅ Alimento actualizado con éxito.');
+            return redirect()->route('dashboard');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->addError('validation', '❌ Error: Hay campos inválidos o vacíos.');
+            session()->flash('error', '❌ Verifica los campos antes de continuar.');
+        }
     }
+
 
     public function eliminar()
     {

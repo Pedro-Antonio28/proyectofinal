@@ -29,10 +29,23 @@ class UserAlimentos extends Component
     public function guardarSeleccion()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            session()->flash('error', 'Debes iniciar sesión para continuar.');
+            return $this->redirect(route('login'));
+        }
+
         $user->alimentosFavoritos()->sync($this->favoritos);
 
-        // Redirigir al dashboard después de guardar
-        return redirect()->route('dashboard')->with('message', 'Alimentos guardados correctamente.');
+        session()->flash('message', 'Alimentos guardados correctamente.');
+
+        // ✅ Volver a autenticar al usuario por si se perdió la sesión
+        Auth::login($user);
+
+        // ✅ Redirigir correctamente al dashboard
+        $this->redirect(route('dashboard'));
     }
+
+
 
 }

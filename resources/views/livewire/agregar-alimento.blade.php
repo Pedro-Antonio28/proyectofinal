@@ -28,6 +28,19 @@
                 </div>
             </div>
         </div>
+        @if (session()->has('error'))
+            <div class="text-red-600 bg-red-100 border border-red-500 rounded-lg p-4 text-center mb-6">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="text-red-600 bg-red-100 border border-red-500 rounded-lg p-4 text-center mb-6">
+                @foreach ($errors->all() as $error)
+                    <p>❌ {{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
 
         <div class="mt-6 flex justify-between">
             <button wire:click="guardar" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">

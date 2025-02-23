@@ -4,7 +4,10 @@ use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\WelcomePage;
 use App\Http\Controllers\ProfileController;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -174,4 +177,21 @@ Route::get('/nutricionista/dieta/{id}/agregar', [NutricionistaController::class,
 
 
 
+// Ruta de verificación de email sin necesidad de autenticación
+// Ruta de verificación de email con firma válida
+Route::get('/email/verify/{id}', function (Request $request, $id) {
+    $user = User::findOrFail($id);
 
+    // ✅ Validar que la URL es segura y no ha sido modificada
+    if (! $request->hasValidSignature()) {
+        return redirect()->route('login')->with('error', 'El enlace de verificación ha expirado o es inválido.');
+    }
+
+    // ✅ Marcar el email como verificado si aún no lo está
+    if (!$user->email_verified_at) {
+        $user->email_verified_at = now();
+        $user->save();
+    }
+
+    return redirect()->route('login')->with('success', 'Tu correo ha sido verificado. Ahora puedes iniciar sesión.');
+})->name('verification.verify');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAlimentoRequest;
+use App\Http\Requests\UpdateAlimentoRequest;
 use Illuminate\Http\Request;
 use App\Models\Alimento;
 
@@ -18,22 +20,12 @@ class AlimentoController extends Controller
         return view('alimentos.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreAlimentoRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'categoria' => 'required|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validar la imagen
-            'calorias' => 'required|integer|min:0',
-            'proteinas' => 'required|integer|min:0',
-            'carbohidratos' => 'required|integer|min:0',
-            'grasas' => 'required|integer|min:0',
-        ]);
-
         $imagenPath = null;
 
         if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('alimentos', 'public'); // Guardar en `storage/app/public/alimentos`
+            $imagenPath = $request->file('imagen')->store('alimentos', 'public');
         }
 
         Alimento::create([
@@ -49,18 +41,8 @@ class AlimentoController extends Controller
         return redirect()->route('alimentos.index')->with('success', 'Alimento agregado correctamente.');
     }
 
-    public function update(Request $request, Alimento $alimento)
+    public function update(UpdateAlimentoRequest $request, Alimento $alimento)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'categoria' => 'required|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'calorias' => 'required|integer|min:0',
-            'proteinas' => 'required|integer|min:0',
-            'carbohidratos' => 'required|integer|min:0',
-            'grasas' => 'required|integer|min:0',
-        ]);
-
         if ($request->hasFile('imagen')) {
             $imagenPath = $request->file('imagen')->store('alimentos', 'public');
             $alimento->imagen = $imagenPath;
