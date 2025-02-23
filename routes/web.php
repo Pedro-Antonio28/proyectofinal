@@ -118,8 +118,30 @@ Route::post('/admin/dieta/{id}/update-alimento', [AdminController::class, 'actua
 Route::middleware(\App\Middleware\RoleMiddleware::class . ':nutricionista')->group(function () {
     Route::get('/nutricionista', [NutricionistaController::class, 'index'])->name('nutricionista.panel');
     Route::get('/nutricionista/clientes/{id}', [NutricionistaController::class, 'verDieta'])->name('nutricionista.cliente.dieta');
-    Route::post('/nutricionista/dieta/{id}/add', [NutricionistaController::class, 'agregarAlimento'])->name('nutricionista.dieta.add');
-    Route::post('/nutricionista/dieta/{id}/update', [NutricionistaController::class, 'editarAlimento'])->name('nutricionista.dieta.update');
+    Route::post('/nutricionista/dieta/{id}/add', [NutricionistaController::class, 'agregarAlimento'])
+        ->name('nutricionista.dieta.add');
+    Route::put('/nutricionista/dieta/{id}/update', [NutricionistaController::class, 'editarAlimento'])->name('nutricionista.dieta.update');
     Route::delete('/nutricionista/dieta/{id}/delete', [NutricionistaController::class, 'eliminarAlimento'])->name('nutricionista.dieta.delete');
 });
+
+Route::get('/nutricionista/dieta/{id}/editar', [NutricionistaController::class, 'mostrarFormularioEdicion'])
+    ->name('nutricionista.dieta.editar');
+
+Route::get('/nutricionista/dieta/{id}/agregar', [NutricionistaController::class, 'mostrarFormularioAgregar'])
+    ->name('nutricionista.dieta.form_agregar');
+
+Route::get('/nutricionista/dieta/{clienteId}/{dia}/{tipoComida}/{alimentoId}/editar',
+    [NutricionistaController::class, 'mostrarFormularioEdicion'])->name('nutricionista.dieta.editar');
+
+Route::put('/nutricionista/dieta/{clienteId}/{dia}/{tipoComida}/{alimentoId}/update',
+    [NutricionistaController::class, 'editarAlimento'])->name('nutricionista.dieta.update');
+
+
+Route::delete('/nutricionista/dieta/{clienteId}/{dia}/{tipoComida}/{alimentoId}/delete',
+    [NutricionistaController::class, 'eliminarAlimento'])->name('nutricionista.dieta.delete');
+
+Route::get('/nutricionista/dieta/{id}/agregar', [NutricionistaController::class, 'mostrarFormularioAgregar'])
+    ->name('nutricionista.dieta.form_agregar');
+
+
 require __DIR__.'/auth.php';

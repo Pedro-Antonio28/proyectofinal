@@ -45,11 +45,16 @@
 
                     <td>
                         <a href="{{ route('admin.users.edit', $usuario->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('admin.users.delete', $usuario->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">Eliminar</button>
-                        </form>
+                        @can('deleteUser', $usuario)
+                            <form action="{{ route('admin.users.delete', $usuario->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                                    Eliminar
+                                </button>
+                            </form>
+                        @endcan
+
                     </td>
                 </tr>
             @endforeach

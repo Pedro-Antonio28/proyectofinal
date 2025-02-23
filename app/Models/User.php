@@ -136,15 +136,19 @@ class User extends Authenticatable
         return $this->hasOne(Dieta::class, 'user_id');
     }
 
+    // En el modelo User (para el nutricionista)
     public function clientes()
     {
         return $this->belongsToMany(User::class, 'nutricionista_cliente', 'nutricionista_id', 'cliente_id');
     }
 
+
+
     public function nutricionista()
     {
         return $this->belongsToMany(User::class, 'nutricionista_cliente', 'cliente_id', 'nutricionista_id');
     }
+
 
 }
 

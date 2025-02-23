@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\DietaAlimento;
 use App\Models\Dieta;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdminController extends Controller
 {
+    use AuthorizesRequests;
     // Listar todos los usuarios en la vista de administración
     public function index()
     {
@@ -43,10 +45,15 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $usuario = User::findOrFail($id);
+
+        // Aplicar autorización
+        $this->authorize('deleteUser', $usuario);
+
         $usuario->delete();
 
-        return redirect()->route('admin.users')->with('success', 'Usuario eliminado correctamente');
+        return redirect()->route('admin.users')->with('success', 'Usuario eliminado correctamente.');
     }
+
 
     public function verDieta($id)
     {
