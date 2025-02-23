@@ -28,24 +28,24 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        // Buscar el usuario sin aplicar el Scope Global
+        $user = User::where('email', $request->email)->first();
 
-            // Bloquear acceso si el email no está verificado
-            if (!$user->email_verified_at) {
-                Auth::logout();
-                return back()->withErrors(['email' => 'Debes verificar tu correo antes de acceder.']);
-            }
 
-            if (!$user->peso || !$user->altura || !$user->objetivo || !$user->actividad) {
-                return redirect()->route('questionnaire.show');
-            }
-
-            return redirect()->route('dashboard');
+        // Si no existe el usuario, o la contraseña es incorrecta, devolver error
+        if (!$user || !Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Credenciales incorrectas.']);
         }
 
-        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
+        // Bloquear acceso si el email no está verificado
+        if (!$user->email_verified_at) {
+            Auth::logout();
+            return back()->withErrors(['email' => 'Debes verificar tu correo antes de acceder.']);
+        }
+
+        return redirect()->route('dashboard');
     }
+
 
 
     // Cerrar sesión

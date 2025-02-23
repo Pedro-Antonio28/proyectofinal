@@ -16,6 +16,7 @@ class AdminController extends Controller
     // Listar todos los usuarios en la vista de administración
     public function index()
     {
+
         $usuarios = User::with('dieta')->get(); // Carga los usuarios con su dieta
         return view('admin.users', compact('usuarios'));
     }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Scopes\ExcludeAdminsScope;
+use App\Scopes\OrderByNameScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -122,13 +124,14 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user');
     }
 
-    public function hasRole($role)
+    public function hasRole($roleName)
     {
-        return $this->roles()->where('name', $role)->exists();
+        return $this->roles()->where('name', $roleName)->exists();
     }
+
 
 
     public function dieta()
@@ -150,5 +153,9 @@ class User extends Authenticatable
     }
 
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new OrderByNameScope());
+    }
 }
 

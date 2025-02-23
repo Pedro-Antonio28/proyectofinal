@@ -21,4 +21,19 @@ class DietaAlimento extends Model
     {
         return $this->belongsTo(Dieta::class);
     }
+
+    public function scopeConsumidos($query, $dietaId, $dia)
+    {
+        return $query->where('dieta_id', $dietaId)
+            ->where('dia', $dia)
+            ->where('consumido', true);
+    }
+
+    public function scopeDelDia($query, $dietaId, $dia)
+    {
+        return $query->where('dieta_id', $dietaId)
+            ->where('dia', $dia)
+            ->with('alimento');
+    }
+
 }

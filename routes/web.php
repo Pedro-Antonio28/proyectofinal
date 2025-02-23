@@ -131,7 +131,7 @@ Route::get('/admin', function () {
     return "Bienvenido, Administrador";
 })->middleware(RoleMiddleware::class . ':admin');
 
-Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users');
     Route::delete('/admin/users/{id}', [AdminController::class, 'destroy'])->name('admin.users.delete');
     Route::get('/admin/users/{id}/edit', [AdminController::class, 'edit'])->name('admin.users.edit');

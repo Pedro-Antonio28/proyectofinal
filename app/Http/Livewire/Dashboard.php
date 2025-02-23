@@ -29,10 +29,8 @@ class Dashboard extends Component
         $user = Auth::user();
         $semanaActual = Carbon::now()->weekOfYear;
 
-        $this->dieta = Dieta::where('user_id', $user->id)
-            ->where('semana', $semanaActual)
-            ->with('alimentos.alimento')
-            ->first();
+        $this->dieta = Dieta::deSemanaActual($user->id)->first();
+
 
         if (!$this->dieta) {
             $dietaService = new DietaService();
@@ -87,16 +85,13 @@ class Dashboard extends Component
         $this->carbohidratosConsumidos = 0;
         $this->grasasConsumidas = 0;
 
-        $this->alimentosConsumidos = DietaAlimento::where('dieta_id', $this->dieta->id)
-            ->where('dia', $this->diaActual)
-            ->where('consumido', true)
+        $this->alimentosConsumidos = DietaAlimento::consumidos($this->dieta->id, $this->diaActual)
             ->pluck('alimento_id')
             ->toArray();
 
-        $alimentos = DietaAlimento::where('dieta_id', $this->dieta->id)
-            ->where('dia', $this->diaActual)
-            ->with('alimento')
-            ->get();
+
+        $alimentos = DietaAlimento::delDia($this->dieta->id, $this->diaActual)->get();
+
 
         foreach ($alimentos as $alimento) {
             if (in_array($alimento->alimento_id, $this->alimentosConsumidos)) {
