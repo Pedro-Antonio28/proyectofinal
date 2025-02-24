@@ -11,11 +11,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 use App\Models\Role;
+use Laravel\Sanctum\HasApiTokens;
 
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
 
     protected $fillable = [

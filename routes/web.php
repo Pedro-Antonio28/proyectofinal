@@ -1,30 +1,25 @@
 <?php
 
-use App\Http\Livewire\Dashboard;
-use App\Http\Livewire\WelcomePage;
-use App\Http\Controllers\ProfileController;
-
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlimentoController;
-use App\Http\Controllers\UserAlimentoController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DietaController;
+use App\Http\Controllers\NutricionistaController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\AgregarAlimento;
+use App\Http\Livewire\Dashboard;
+use App\Http\Livewire\EditarAlimento;
 use App\Http\Livewire\Questionnaire;
 use App\Http\Livewire\UserAlimentos;
-use App\Http\Livewire\EditarAlimento;
-use App\Http\Livewire\AgregarAlimento;
-use App\Http\Controllers\DietaController;
+use App\Http\Livewire\WelcomePage;
 use App\Middleware\RoleMiddleware;
 use App\Middleware\SetLocale;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\NutricionistaController;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 
 Route::get('/questionnaire', Questionnaire::class)->middleware('auth')->name('questionnaire.show');
@@ -195,3 +190,7 @@ Route::get('/email/verify/{id}', function (Request $request, $id) {
 
     return redirect()->route('login')->with('success', 'Tu correo ha sido verificado. Ahora puedes iniciar sesión.');
 })->name('verification.verify');
+
+
+
+
