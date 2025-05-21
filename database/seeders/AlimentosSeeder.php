@@ -76,6 +76,13 @@ class AlimentosSeeder extends Seeder
             ['nombre' => 'Champiñones', 'categoria' => 'verduras', 'imagen' => 'alimentos/champinones.png', 'calorias' => 22, 'proteinas' => 3.1, 'carbohidratos' => 3.3, 'grasas' => 0.3],
             ['nombre' => 'Remolacha', 'categoria' => 'verduras', 'imagen' => 'alimentos/remolacha.png', 'calorias' => 43, 'proteinas' => 1.6, 'carbohidratos' => 10, 'grasas' => 0.2],
 
+            // 🔹 GRASAS
+            ['nombre' => 'Aceite de Oliva', 'categoria' => 'grasas', 'imagen' => 'alimentos/aceite_oliva.png', 'calorias' => 884, 'proteinas' => 0, 'carbohidratos' => 0, 'grasas' => 100],
+            ['nombre' => 'Aguacate', 'categoria' => 'grasas', 'imagen' => 'alimentos/aguacate.png', 'calorias' => 160, 'proteinas' => 2, 'carbohidratos' => 9, 'grasas' => 15],
+            ['nombre' => 'Mantequilla', 'categoria' => 'grasas', 'imagen' => 'alimentos/mantequilla.png', 'calorias' => 717, 'proteinas' => 0.85, 'carbohidratos' => 0.06, 'grasas' => 81],
+            ['nombre' => 'Crema de cacahuete', 'categoria' => 'grasas', 'imagen' => 'alimentos/crema_cacahuete.png', 'calorias' => 588, 'proteinas' => 25, 'carbohidratos' => 20, 'grasas' => 50],
+            ['nombre' => 'Aceitunas', 'categoria' => 'grasas', 'imagen' => 'alimentos/aceitunas.png', 'calorias' => 115, 'proteinas' => 0.8, 'carbohidratos' => 6.3, 'grasas' => 10.7],
+
 
         ];
 

@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-
+use App\Http\Livewire\Blog\PostForm;
+use App\Http\Livewire\Blog\PostList;
+use App\Http\Controllers\PublicBlogController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ExcelDietaController;
 
 Route::get('/questionnaire', Questionnaire::class)->middleware('auth')->name('questionnaire.show');
 
@@ -192,5 +196,25 @@ Route::get('/email/verify/{id}', function (Request $request, $id) {
 })->name('verification.verify');
 
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/posts', PostList::class)->name('posts.index');
+    Route::get('/posts/create', PostForm::class)->name('posts.create');
+    Route::get('/posts/{post}/edit', PostForm::class)->name('posts.edit');
+});
 
 
+Route::get('/blog', [PublicBlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [PublicBlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/{post}/add-to-diet', [PublicBlogController::class, 'addToDiet'])
+    ->middleware('auth')
+    ->name('blog.add-to-diet');
+
+
+
+
+Route::get('/blog/export/excel', [ExportController::class, 'exportExcel'])->name('blog.export.excel');
+
+
+
+
+Route::get('/dieta/exportar/excel', [ExcelDietaController::class, 'export'])->name('dieta.exportar.excel');

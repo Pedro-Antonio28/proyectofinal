@@ -16,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
 protected $policies = [
     Dieta::class => DietaPolicy::class,
     User::class => UserPolicy::class,
+    Post::class => PostPolicy::class,
 ];
 
 public function boot()

@@ -47,7 +47,6 @@
 <!-- AOS y Re-activación para Livewire -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    import AOS from "aos/src/js/aos.js";
 
     document.addEventListener("DOMContentLoaded", function () {
         AOS.init({

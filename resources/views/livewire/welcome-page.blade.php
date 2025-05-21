@@ -12,12 +12,7 @@
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">
                         {{ __('messages.home') }}
                     </a>
-                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">
-                        {{ __('messages.about') }}
-                    </a>
-                    <a href="{{ route('blog') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">
-                        {{ __('messages.blog') }}
-                    </a>
+
                 </div>
 
                 <a href="{{ route('change.language', ['locale' => App::getLocale() === 'es' ? 'en' : 'es']) }}"

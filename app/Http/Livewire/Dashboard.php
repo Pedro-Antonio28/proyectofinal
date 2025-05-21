@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Dieta;
 use App\Models\DietaAlimento;
 use Carbon\Carbon;
+use App\Exports\DietaDiariaExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Response;
+use App\Jobs\EnviarPDFPorCorreoJob;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\DietaPDFMail;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\EnviarDietaPdfJob;
+
 
 class Dashboard extends Component
 {
@@ -162,4 +171,34 @@ class Dashboard extends Component
             'alimentosConsumidos'  => $this->alimentosConsumidos,
         ])->layout('layouts.livewireLayout');
     }
+
+
+    public function exportarExcel()
+    {
+        return Excel::download(
+            new DietaDiariaExport($this->comidas, $this->diaActual),
+            'dieta_' . $this->diaActual . '.xlsx'
+        );
+    }
+
+
+
+
+
+
+    public function enviarDietaSemanalPorCorreo()
+    {
+        \Log::info('✅ Livewire: Método enviarDietaSemanalPorCorreo ejecutado');
+
+        $user = auth()->user();
+        $dietaJson = json_decode($this->dieta->dieta, true);
+
+        \App\Jobs\EnviarDietaPdfJob::dispatch($user, $dietaJson);
+
+        session()->flash('success', '📬 Dieta encolada para enviar por correo.');
+    }
+
+
+
+
 }

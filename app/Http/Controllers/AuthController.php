@@ -28,23 +28,33 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Buscar el usuario sin aplicar el Scope Global
         $user = User::where('email', $request->email)->first();
 
-
-        // Si no existe el usuario, o la contraseña es incorrecta, devolver error
         if (!$user || !Auth::attempt($credentials)) {
             return back()->withErrors(['email' => 'Credenciales incorrectas.']);
         }
 
-        // Bloquear acceso si el email no está verificado
-        if (!$user->email_verified_at) {
-            Auth::logout();
-            return back()->withErrors(['email' => 'Debes verificar tu correo antes de acceder.']);
+        // 🔒 Verificar si ha completado el cuestionario
+        if (
+            !$user->peso ||
+            !$user->altura ||
+            !$user->age ||
+            !$user->gender ||
+            !$user->objetivo ||
+            !$user->actividad
+        ) {
+            return redirect()->route('questionnaire.show');
         }
 
+        // 🔒 Verificar si ha seleccionado alimentos
+        if ($user->alimentos()->count() === 0) {
+            return redirect()->route('user.alimentos');
+        }
+
+        // ✅ Todo correcto, puede entrar
         return redirect()->route('dashboard');
     }
+
 
 
 
@@ -70,16 +80,16 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'email_verified_at' => null,
+            // Puedes agregar campos extra si quieres
         ]);
 
-        // Enviar el email en segundo plano
-        SendVerificationEmail::dispatch($user);
+        // Iniciar sesión automáticamente
+        Auth::login($user);
 
-        \Log::info('Ejecutando AuthController::register para: ' . $request->email);
-
-        return redirect()->route('login')->with('success', 'Te hemos enviado un correo de verificación. Verifica tu email antes de iniciar sesión.');
+        // Redirigir al cuestionario
+        return redirect()->route('questionnaire.show');
     }
+
 
 
 

@@ -11,9 +11,12 @@
         <!-- 🔥 Menú de Navegación -->
         <div class="hidden md:flex items-center gap-8">
             <a href="{{ route('home') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">Inicio</a>
-            <a href="{{ route('about') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">Sobre Nosotros</a>
-            <a href="{{ route('blog') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">Blog de Nutrición</a>
+
+            <a href="{{ route('blog.index') }}" class="text-gray-700 hover:text-gray-900 transition-all duration-300">
+                🥗 Blog de Dietas
+            </a>
         </div>
+
 
         <!-- 🔥 MENÚ DE CUENTA DEL USUARIO -->
         <div x-data="{ open: false }" class="relative">

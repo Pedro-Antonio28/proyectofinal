@@ -12,7 +12,8 @@
                 'proteinas' => 'Proteínas',
                 'carbohidratos' => 'Carbohidratos',
                 'frutas' => 'Frutas',
-                'verduras' => 'Verduras'
+                'verduras' => 'Verduras',
+                'grasas' => 'Grasas'
             ];
         @endphp
 
@@ -58,6 +59,15 @@
                 Guardar selección
             </button>
         </div>
+
+        @if ($errors->has('seleccion'))
+            <div class="mt-4 text-red-600 text-center">
+                @foreach ($errors->get('seleccion') as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+
     </form>
 
     @if (session()->has('message'))

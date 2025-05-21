@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AlimentosSeeder::class, // Agregar el seeder de alimentos
+            UsersTableSeeder::class,
+            RoleSeeder::class,
+            RoleUserSeeder::class,
+            NutricionistaClienteSeeder::class,
+            BlogSeeder::class,
         ]);
 
     }

@@ -45,25 +45,23 @@ class DietaService
      */
     private function generarDietaBase(Dieta $dieta, $user)
     {
-        // 1. Definir comidas y días en el orden deseado
         $comidas = ['Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena'];
         $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
-        // 2. Obtener alimentos disponibles agrupados por categoría (en minúsculas)
-        $alimentosDisponibles = $user->alimentos()->get()->groupBy(function($item) {
+        $alimentosDisponibles = $user->alimentos()->get()->groupBy(function ($item) {
             return strtolower($item->categoria);
         });
 
-        // 3. Objetivos diarios
         $caloriasDiarias      = $user->calorias_necesarias;
         $proteinasDiarias     = $user->proteinas;
         $carbohidratosDiarias = $user->carbohidratos;
         $grasasDiarias        = $user->grasas;
 
-        // 4. Estructura para el JSON final
+        $umbralInferior = 0.93;
+        $umbralSuperior = 1.07;
+
         $dietaJson = [];
 
-        // 5. Máximo de alimentos por comida
         $maxAlimentosPorComida = [
             'Desayuno' => 3,
             'Almuerzo' => 2,
@@ -72,7 +70,6 @@ class DietaService
             'Cena'     => 4
         ];
 
-        // 6. Reparto de macros para cada comida
         $repartoMacros = [
             'Desayuno' => 0.20,
             'Almuerzo' => 0.10,
@@ -81,46 +78,44 @@ class DietaService
             'Cena'     => 0.20,
         ];
 
-        // 7. Arreglo global para alimentos usados en la semana (opcional, si se quiere evitar repetir entre días)
+        $limitesPorCategoria = [
+            'proteinas' => ['min' => 50, 'max' => 200],
+            'carbohidratos' => ['min' => 50, 'max' => 200],
+            'verduras' => ['min' => 30, 'max' => 100],
+            'frutas' => ['min' => 50, 'max' => 150],
+            'grasas' => ['min' => 10, 'max' => 50],
+        ];
+
         $alimentosUsadosGlobal = [];
 
-        // 8. Generar la dieta para cada día
         foreach ($diasSemana as $dia) {
             $dietaJson[$dia] = [];
-
-            // Arreglo para evitar repetir alimentos en el mismo día
             $alimentosUsadosDia = [];
 
             foreach ($comidas as $tipoComida) {
                 $alimentosSeleccionados = [];
 
-                // Objetivos para la comida
                 $calObj  = $caloriasDiarias      * $repartoMacros[$tipoComida];
                 $protObj = $proteinasDiarias     * $repartoMacros[$tipoComida];
                 $carbObj = $carbohidratosDiarias * $repartoMacros[$tipoComida];
                 $grasObj = $grasasDiarias        * $repartoMacros[$tipoComida];
 
-                // Totales acumulados en esta comida
                 $totCal  = 0;
                 $totProt = 0;
                 $totCarb = 0;
                 $totGras = 0;
 
                 $intentos = 0;
-                $seAgregoAlimento = false;
 
-                // Obtener y barajar las categorías permitidas para este tipo de comida
                 $categorias = $this->categoriasParaComida($tipoComida);
                 shuffle($categorias);
 
-                // Bucle de selección: se intenta agregar alimentos hasta alcanzar ~98% de los objetivos,
-                // o hasta agotar los intentos o llegar al máximo de alimentos permitidos.
                 while (
                     (
-                        $totCal  < $calObj  * 0.98 ||
-                        $totProt < $protObj * 0.98 ||
-                        $totCarb < $carbObj * 0.98 ||
-                        $totGras < $grasObj * 0.98
+                        $totCal  < $calObj  * $umbralInferior ||
+                        $totProt < $protObj * $umbralInferior ||
+                        $totCarb < $carbObj * $umbralInferior ||
+                        $totGras < $grasObj * $umbralInferior
                     )
                     && count($alimentosSeleccionados) < $maxAlimentosPorComida[$tipoComida]
                     && $intentos < 10
@@ -131,31 +126,37 @@ class DietaService
                     $mejorAlimento = null;
                     $mejorCantidad = null;
 
-                    // Recorrer las categorías (ya en orden aleatorio)
                     foreach ($categorias as $cat) {
-                        if (!isset($alimentosDisponibles[$cat])) {
-                            continue;
-                        }
-                        // Filtrar los alimentos que aún no se han usado en la semana y en el día actual
-                        $opciones = $alimentosDisponibles[$cat]->whereNotIn('id', array_merge($alimentosUsadosGlobal, $alimentosUsadosDia));
-                        // Fallback: si no quedan opciones nuevas, se usan todos los alimentos disponibles en la categoría,
-                        // pero se evita repetir en el mismo día.
+                        if (!isset($alimentosDisponibles[$cat])) continue;
+
+                        $usadosGlobal = $alimentosUsadosGlobal[$tipoComida] ?? [];
+                        $opciones = $alimentosDisponibles[$cat]->whereNotIn('id', array_merge($usadosGlobal, $alimentosUsadosDia));
+
                         if ($opciones->isEmpty()) {
                             $opciones = $alimentosDisponibles[$cat]->whereNotIn('id', $alimentosUsadosDia);
                         }
-                        // Barajar las opciones para variar el orden
-                        $opciones = $opciones->shuffle();
 
-                        foreach ($opciones as $al) {
-                            // Probar diferentes cantidades en saltos de 10g
-                            for ($candCant = 50; $candCant <= 200; $candCant += 10) {
+                        foreach ($opciones->shuffle() as $al) {
+                            $categoria = strtolower($al->categoria);
+                            $min = $limitesPorCategoria[$categoria]['min'] ?? 50;
+                            $max = $limitesPorCategoria[$categoria]['max'] ?? 200;
+
+                            for ($candCant = $min; $candCant <= $max; $candCant += 10) {
                                 $fCal  = $totCal  + ($al->calorias      * $candCant / 100);
                                 $fProt = $totProt + ($al->proteinas     * $candCant / 100);
                                 $fCarb = $totCarb + ($al->carbohidratos * $candCant / 100);
                                 $fGras = $totGras + ($al->grasas        * $candCant / 100);
 
-                                // Calcular el "score": diferencia relativa con el objetivo.
-                                // Se agrega una pequeña variación aleatoria para romper empates.
+                                // Limita exceso por encima del umbral superior
+                                if (
+                                    $fCal  > $calObj  * $umbralSuperior ||
+                                    $fProt > $protObj * $umbralSuperior ||
+                                    $fCarb > $carbObj * $umbralSuperior ||
+                                    $fGras > $grasObj * $umbralSuperior
+                                ) {
+                                    continue;
+                                }
+
                                 $score = 0;
                                 if ($calObj  > 0) $score += pow(($fCal  - $calObj ) / $calObj, 2);
                                 if ($protObj > 0) $score += pow(($fProt - $protObj) / $protObj, 2);
@@ -172,43 +173,11 @@ class DietaService
                         }
                     }
 
-                    // Si no se encontró alimento adecuado, salir del while
-                    if (!$mejorAlimento) {
-                        break;
-                    }
+                    if (!$mejorAlimento) break;
 
-                    // Marcar el alimento como usado en el día y (opcionalmente) en la semana
                     $alimentosUsadosDia[] = $mejorAlimento->id;
-                    $alimentosUsadosGlobal[] = $mejorAlimento->id;
+                    $alimentosUsadosGlobal[$tipoComida][] = $mejorAlimento->id;
 
-                    // Calcular el efecto de agregar este alimento
-                    $futureCal  = $totCal  + ($mejorAlimento->calorias      * $mejorCantidad / 100);
-                    $futureProt = $totProt + ($mejorAlimento->proteinas     * $mejorCantidad / 100);
-                    $futureCarb = $totCarb + ($mejorAlimento->carbohidratos * $mejorCantidad / 100);
-                    $futureGras = $totGras + ($mejorAlimento->grasas        * $mejorCantidad / 100);
-
-                    $margen = 1.05;
-                    if (
-                        ($calObj > 0 && $futureCal > $calObj * $margen) ||
-                        ($protObj > 0 && $futureProt > $protObj * $margen) ||
-                        ($carbObj > 0 && $futureCarb > $carbObj * $margen) ||
-                        ($grasObj > 0 && $futureGras > $grasObj * $margen)
-                    ) {
-                        $factorCal  = ($calObj > 0 && $futureCal > $calObj * $margen) ? ($calObj * $margen) / $futureCal : 1;
-                        $factorProt = ($protObj > 0 && $futureProt > $protObj * $margen) ? ($protObj * $margen) / $futureProt : 1;
-                        $factorCarb = ($carbObj > 0 && $futureCarb > $carbObj * $margen) ? ($carbObj * $margen) / $futureCarb : 1;
-                        $factorGras = ($grasObj > 0 && $futureGras > $grasObj * $margen) ? ($grasObj * $margen) / $futureGras : 1;
-
-                        $factorFinal = min($factorCal, $factorProt, $factorCarb, $factorGras);
-                        $recalc = floor($mejorCantidad * $factorFinal);
-
-                        if ($recalc < 10) {
-                            continue;
-                        }
-                        $mejorCantidad = $recalc;
-                    }
-
-                    // Crear el registro en la base de datos
                     DietaAlimento::create([
                         'dieta_id'    => $dieta->id,
                         'alimento_id' => $mejorAlimento->id,
@@ -232,38 +201,6 @@ class DietaService
                         'carbohidratos' => round(($mejorAlimento->carbohidratos * $mejorCantidad) / 100, 1),
                         'grasas'        => round(($mejorAlimento->grasas * $mejorCantidad) / 100, 1),
                     ];
-                    $seAgregoAlimento = true;
-                }
-
-                // Fallback general: si la comida quedó vacía, agregar un alimento aleatorio de las categorías permitidas.
-                if (empty($alimentosSeleccionados)) {
-                    foreach ($this->categoriasParaComida($tipoComida) as $cat) {
-                        if (isset($alimentosDisponibles[$cat])) {
-                            $fallbackAlimento = $alimentosDisponibles[$cat]->random();
-                            if ($fallbackAlimento) {
-                                DietaAlimento::create([
-                                    'dieta_id'    => $dieta->id,
-                                    'alimento_id' => $fallbackAlimento->id,
-                                    'dia'         => $dia,
-                                    'tipo_comida' => $tipoComida,
-                                    'cantidad'    => 100,
-                                    'consumido'   => false
-                                ]);
-                                $alimentosSeleccionados[] = [
-                                    'alimento_id'   => $fallbackAlimento->id,
-                                    'nombre'        => $fallbackAlimento->nombre,
-                                    'cantidad'      => 100,
-                                    'calorias'      => round(($fallbackAlimento->calorias * 100) / 100),
-                                    'proteinas'     => round(($fallbackAlimento->proteinas * 100) / 100, 1),
-                                    'carbohidratos' => round(($fallbackAlimento->carbohidratos * 100) / 100, 1),
-                                    'grasas'        => round(($fallbackAlimento->grasas * 100) / 100, 1),
-                                ];
-                                $alimentosUsadosDia[] = $fallbackAlimento->id;
-                                $alimentosUsadosGlobal[] = $fallbackAlimento->id;
-                                break;
-                            }
-                        }
-                    }
                 }
 
                 $dietaJson[$dia][$tipoComida] = $alimentosSeleccionados;
@@ -272,6 +209,8 @@ class DietaService
 
         $dieta->update(['dieta' => json_encode($dietaJson)]);
     }
+
+
 
 
     /**
@@ -286,23 +225,29 @@ class DietaService
         $carbohidratosDiarias = $user->carbohidratos;
         $grasasDiarias        = $user->grasas;
 
-        // Alimentos disponibles, sin filtrar por categoría (queremos libertad para “parchar” déficits)
+        // Alimentos disponibles sin filtrar
         $alimentosDisponibles = $user->alimentos()->get();
 
-        // Recuperamos el JSON de la dieta
+        // Rango aceptable: 93% a 107%
+        $umbralInferior = 0.93;
+        $umbralSuperior = 1.07;
+
+        $limitesPorCategoria = [
+            'proteinas' => ['min' => 50, 'max' => 200],
+            'carbohidratos' => ['min' => 50, 'max' => 200],
+            'verduras' => ['min' => 30, 'max' => 100],
+            'frutas' => ['min' => 50, 'max' => 150],
+            'grasas' => ['min' => 10, 'max' => 50],
+        ];
+
         $dietaJson = json_decode($dieta->dieta, true);
 
-        // Para cada día de la semana, calculamos los totales reales y vemos si hay déficits grandes
         foreach ($dietaJson as $dia => $comidasDia) {
-            // 1. Calcular totales actuales de macros
-            $totalCalorias      = 0;
-            $totalProteinas     = 0;
+            $totalCalorias = 0;
+            $totalProteinas = 0;
             $totalCarbohidratos = 0;
-            $totalGrasas        = 0;
+            $totalGrasas = 0;
 
-            // Para no re-calcular a mano, podemos tirar de la tabla DietaAlimento
-            // pero si prefieres, recorre $comidasDia (que ya tiene la info).
-            // Aquí haré un cálculo rápido desde DB para ser exacto:
             $dietaAlimentos = DietaAlimento::where('dieta_id', $dieta->id)
                 ->where('dia', $dia)
                 ->get();
@@ -317,68 +262,62 @@ class DietaService
                 $totalGrasas        += ($alimento->grasas        * $cantidad) / 100;
             }
 
-            // 2. Determinar si estamos por debajo de un umbral (p.ej. 90%) en alguno de los macros
-            $umbral = 0.90;
-            $necesitaMasCal   = ($totalCalorias      < $caloriasDiarias      * $umbral);
-            $necesitaMasProt  = ($totalProteinas     < $proteinasDiarias     * $umbral);
-            $necesitaMasCarb  = ($totalCarbohidratos < $carbohidratosDiarias * $umbral);
-            $necesitaMasGrasa = ($totalGrasas        < $grasasDiarias        * $umbral);
+            $necesitaMasCal   = ($totalCalorias      < $caloriasDiarias      * $umbralInferior);
+            $necesitaMasProt  = ($totalProteinas     < $proteinasDiarias     * $umbralInferior);
+            $necesitaMasCarb  = ($totalCarbohidratos < $carbohidratosDiarias * $umbralInferior);
+            $necesitaMasGrasa = ($totalGrasas        < $grasasDiarias        * $umbralInferior);
 
-            // Si no falta nada, seguimos con el siguiente día
             if (!($necesitaMasCal || $necesitaMasProt || $necesitaMasCarb || $necesitaMasGrasa)) {
                 continue;
             }
 
-            // 3. Creamos una "comida" extra para parchear el déficit, si no existe
             if (!isset($dietaJson[$dia]['Snack'])) {
                 $dietaJson[$dia]['Snack'] = [];
             }
 
-            // 4. Escoger 1 o 2 alimentos para compensar el macro más deficitario
-            //    Repetimos el proceso un par de veces para cubrir varios macros
             for ($i = 0; $i < 2; $i++) {
-                // Volvemos a calcular déficits actualizados
                 $faltanteCal   = max(0, $caloriasDiarias      - $totalCalorias);
                 $faltanteProt  = max(0, $proteinasDiarias     - $totalProteinas);
                 $faltanteCarb  = max(0, $carbohidratosDiarias - $totalCarbohidratos);
                 $faltanteGrasa = max(0, $grasasDiarias        - $totalGrasas);
 
-                // Ratio de déficit
                 $ratioCal   = ($caloriasDiarias      > 0) ? $faltanteCal   / $caloriasDiarias      : 0;
                 $ratioProt  = ($proteinasDiarias     > 0) ? $faltanteProt  / $proteinasDiarias     : 0;
                 $ratioCarb  = ($carbohidratosDiarias > 0) ? $faltanteCarb  / $carbohidratosDiarias : 0;
                 $ratioGrasa = ($grasasDiarias        > 0) ? $faltanteGrasa / $grasasDiarias        : 0;
 
-                // Macro más crítico
                 $maxRatio = max($ratioCal, $ratioProt, $ratioCarb, $ratioGrasa);
-                if ($maxRatio < (1 - $umbral)) {
-                    // Si ya no hay ningún macro por debajo del 90%, paramos
+                if ($maxRatio < (1 - $umbralInferior)) {
                     break;
                 }
 
-                // Identificamos el macro que más falta
-                if ($maxRatio === $ratioCal) {
-                    $macroCritico = 'calorias';
-                } elseif ($maxRatio === $ratioProt) {
-                    $macroCritico = 'proteinas';
-                } elseif ($maxRatio === $ratioCarb) {
-                    $macroCritico = 'carbohidratos';
-                } else {
-                    $macroCritico = 'grasas';
-                }
+                $macroCritico = match (true) {
+                    $maxRatio === $ratioCal => 'calorias',
+                    $maxRatio === $ratioProt => 'proteinas',
+                    $maxRatio === $ratioCarb => 'carbohidratos',
+                    default => 'grasas',
+                };
 
-                // Seleccionamos un alimento que sea "rico" en ese macro
-                // Por ejemplo, si falta carbohidratos, buscar alimentos con > 50% de calorías provenientes de carbos, etc.
                 $alimentoExtra = $this->seleccionarAlimentoPorMacro($alimentosDisponibles, $macroCritico);
-                if (!$alimentoExtra) {
-                    // Si no encontramos nada adecuado, salimos
-                    break;
+                if (!$alimentoExtra) break;
+
+                $categoria = strtolower($alimentoExtra->categoria);
+                $min = $limitesPorCategoria[$categoria]['min'] ?? 50;
+                $max = $limitesPorCategoria[$categoria]['max'] ?? 200;
+
+                $cantidad = 100;
+                if ($macroCritico === 'proteinas' && $alimentoExtra->proteinas > 0) {
+                    $cantidad = round($faltanteProt * 100 / $alimentoExtra->proteinas);
+                } elseif ($macroCritico === 'carbohidratos' && $alimentoExtra->carbohidratos > 0) {
+                    $cantidad = round($faltanteCarb * 100 / $alimentoExtra->carbohidratos);
+                } elseif ($macroCritico === 'grasas' && $alimentoExtra->grasas > 0) {
+                    $cantidad = round($faltanteGrasa * 100 / $alimentoExtra->grasas);
+                } elseif ($macroCritico === 'calorias' && $alimentoExtra->calorias > 0) {
+                    $cantidad = round($faltanteCal * 100 / $alimentoExtra->calorias);
                 }
 
-                // Calculamos una cantidad para no pasarnos demasiado
-                $cantidad = $this->calcularCantidadExtra($alimentoExtra, $faltanteCal, $faltanteProt, $faltanteCarb, $faltanteGrasa, $macroCritico);
+                $cantidad = min($max, max($min, $cantidad));
 
-                // Creamos el registro en la DB
                 DietaAlimento::create([
                     'dieta_id'    => $dieta->id,
                     'alimento_id' => $alimentoExtra->id,
@@ -388,7 +327,6 @@ class DietaService
                     'consumido'   => false
                 ]);
 
-                // Añadimos al JSON
                 $dietaJson[$dia]['Snack'][] = [
                     'nombre'        => $alimentoExtra->nombre,
                     'cantidad'      => $cantidad,
@@ -398,17 +336,27 @@ class DietaService
                     'grasas'        => round(($alimentoExtra->grasas        * $cantidad) / 100, 1),
                 ];
 
-                // Actualizamos los totales
+                // Actualizar los totales
                 $totalCalorias      += ($alimentoExtra->calorias      * $cantidad) / 100;
                 $totalProteinas     += ($alimentoExtra->proteinas     * $cantidad) / 100;
                 $totalCarbohidratos += ($alimentoExtra->carbohidratos * $cantidad) / 100;
                 $totalGrasas        += ($alimentoExtra->grasas        * $cantidad) / 100;
+
+                // Si ya pasamos del 107% en todos los macros, cortamos
+                if (
+                    $totalCalorias      > $caloriasDiarias      * $umbralSuperior &&
+                    $totalProteinas     > $proteinasDiarias     * $umbralSuperior &&
+                    $totalCarbohidratos > $carbohidratosDiarias * $umbralSuperior &&
+                    $totalGrasas        > $grasasDiarias        * $umbralSuperior
+                ) {
+                    break;
+                }
             }
         }
 
-        // Guardar el JSON modificado
         $dieta->update(['dieta' => json_encode($dietaJson)]);
     }
+
 
     /**
      * Ejemplo de función para seleccionar un alimento “rico” en un macro concreto.
@@ -477,14 +425,15 @@ class DietaService
     private function categoriasParaComida($tipoComida)
     {
         return match ($tipoComida) {
-            'Desayuno' => ['carbohidratos', 'proteinas'],
-            'Almuerzo' => ['frutas', 'proteinas'],
-            'Comida' => ['proteinas', 'carbohidratos', 'verduras'],
+            'Desayuno' => ['carbohidratos', 'proteinas', 'grasas'],
+            'Almuerzo' => ['frutas', 'proteinas', 'grasas'],
+            'Comida'   => ['proteinas', 'carbohidratos', 'verduras', 'grasas'],
             'Merienda' => ['proteinas', 'frutas'],
-            'Cena' => ['proteinas', 'verduras'],
-            default => ['proteinas'],
+            'Cena'     => ['proteinas', 'verduras', 'grasas'],
+            default    => ['proteinas'],
         };
     }
+
 
     private function determinarCantidad($tipoComida)
     {

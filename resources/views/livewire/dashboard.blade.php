@@ -40,7 +40,25 @@
                 </div>
             @endforeach
         </div>
+
+        <!-- 🔘 Botones de acción -->
+        <div class="mt-8 flex flex-col gap-3">
+            <!-- 📄 Descargar dieta del día -->
+            <a href="{{ route('pdf.dieta', ['dia' => $diaActual]) }}"
+               class="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md text-center hover:bg-blue-700 transition">
+                📄 Descargar dieta de {{ $diaActual }}
+            </a>
+
+            <!-- 📬 Enviar dieta semanal por correo -->
+            <button wire:click="enviarDietaSemanalPorCorreo"
+                    type="button"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-700 transition">
+                📬 Enviar dieta semanal por correo
+            </button>
+        </div>
+
     </aside>
+
 
     <!-- 🍽️ Contenido: Dieta del Día -->
     <section class="col-span-8 bg-white shadow-xl rounded-2xl p-8 border border-gray-300">
@@ -57,11 +75,13 @@
                     @endforeach
                 </select>
 
-                <!-- Botón para generar PDF -->
-                <a href="{{ route('pdf.dieta', ['dia' => $diaActual]) }}"
-                   class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md transition-all duration-300 hover:bg-blue-600">
-                    Generar PDF
-                </a>
+                <form wire:submit.prevent="exportarExcel">
+                    <button type="submit"
+                            class="bg-emerald-600 text-white px-4 py-2 rounded-md shadow-md transition-all duration-300 hover:bg-emerald-700">
+                        Exportar a Excel
+                    </button>
+                </form>
+
             </div>
 
 
