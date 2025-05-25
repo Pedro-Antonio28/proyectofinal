@@ -66,9 +66,7 @@ Route::get('/sobre-nosotros', function () {
     return view('about');
 })->name('about');
 
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
+
 
 // Rutas de autenticación
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -203,11 +201,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/blog', [PublicBlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{slug}', [PublicBlogController::class, 'show'])->name('blog.show');
-Route::post('/blog/{post}/add-to-diet', [PublicBlogController::class, 'addToDiet'])
-    ->middleware('auth')
-    ->name('blog.add-to-diet');
+//Route::get('/blog', [PublicBlogController::class, 'index'])->name('blog.index');
+//Route::get('/blog/{slug}', [PublicBlogController::class, 'show'])->name('blog.show');
+//Route::post('/blog/{post}/add-to-diet', [PublicBlogController::class, 'addToDiet'])
+   // ->middleware('auth')
+    //->name('blog.add-to-diet');
 
 
 

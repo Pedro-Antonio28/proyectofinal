@@ -22,7 +22,10 @@ class PostFactory extends Factory
             'macros' => [
                 'calories' => $this->faker->numberBetween(300, 900),
                 'protein' => $this->faker->randomFloat(1, 10, 50),
+                'carbs'   => $this->faker->randomFloat(1, 20, 100),
+                'fat'     => $this->faker->randomFloat(1, 5, 30),
             ],
+
             'image_path' => null,
         ];
     }

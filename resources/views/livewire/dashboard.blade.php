@@ -56,8 +56,6 @@
                 📬 Enviar dieta semanal por correo
             </button>
         </div>
-
-
     </aside>
 
 

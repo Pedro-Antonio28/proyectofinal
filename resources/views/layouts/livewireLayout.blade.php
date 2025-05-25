@@ -26,8 +26,9 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#f8fff4]">
+<body class="pt-24 min-h-screen bg-[#f8fff4]">
 
+@include('components.navbar')
 <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
 

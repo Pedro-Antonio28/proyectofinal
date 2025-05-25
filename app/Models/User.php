@@ -158,5 +158,11 @@ class User extends Authenticatable
     {
         static::addGlobalScope(new OrderByNameScope());
     }
+
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'likes')->withTimestamps();
+    }
+
 }
 
