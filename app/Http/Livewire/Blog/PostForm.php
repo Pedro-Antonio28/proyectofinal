@@ -2,53 +2,83 @@
 
 namespace App\Http\Livewire\Blog;
 
-use App\Models\Post;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Post;
 
 class PostForm extends Component
 {
     use WithFileUploads;
 
-    public Post $post;
-    public $image;
+    public $post = [
+        'title' => '',
+        'description' => '',
+    ];
 
-    protected function rules()
+    public $image;
+    public $ingredients = [];
+    public $macrosData = [
+        'calories' => null,
+        'protein' => null,
+        'carbs' => null,
+        'fat' => null,
+    ];
+
+    public function mount()
     {
-        return [
-            'post.title' => 'required|string|max:255',
-            'post.description' => 'required|string',
-            'post.macros.calories' => 'required|numeric|min:0',
-            'post.macros.protein' => 'required|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
+        $this->ingredients = [
+            ['name' => '', 'quantity' => '']
         ];
     }
 
-    public function mount(Post $post = null)
+    public function addIngredient()
     {
-        $this->post = $post ?? new Post();
+        $this->ingredients[] = ['name' => '', 'quantity' => ''];
     }
 
-    public function save()
+    public function removeIngredient($index)
     {
-        $this->validate();
+        unset($this->ingredients[$index]);
+        $this->ingredients = array_values($this->ingredients); // Reindexar
+    }
 
-        $this->post->user_id = auth()->id();
-        $this->post->slug = Str::slug($this->post->title);
+    public function guardarPost()
+    {
+        $this->validate([
+            'post.title' => 'required|string|max:255',
+            'post.description' => 'required|string',
+            'macrosData.calories' => 'required|numeric|min:0',
+            'macrosData.protein' => 'required|numeric|min:0',
+            'macrosData.carbs' => 'required|numeric|min:0',
+            'macrosData.fat' => 'required|numeric|min:0',
+            'image' => 'nullable|image|max:2048',
+            'ingredients.*.name' => 'required|string|max:255',
+            'ingredients.*.quantity' => 'required|string|max:255',
+        ]);
+
+        $nuevoPost = new Post();
+        $nuevoPost->title = $this->post['title'];
+        $nuevoPost->description = $this->post['description'];
+        $nuevoPost->macros = $this->macrosData;
+        $nuevoPost->ingredients = $this->ingredients;
+        $nuevoPost->user_id = auth()->id();
+
 
         if ($this->image) {
-            $this->post->image_path = $this->image->store('posts', 'public');
+            $imagePath = $this->image->store('posts', 'public');
+            $nuevoPost->image_path = $imagePath;
         }
 
-        $this->post->save();
+        $nuevoPost->save();
 
-        session()->flash('success', __('Post guardado correctamente'));
+        session()->flash('success', 'Receta guardada correctamente ✅');
+
         return redirect()->route('posts.index');
     }
 
     public function render()
     {
-        return view('livewire.blog.post-form');
+        return view('livewire.blog.post-form')->layout('layouts.livewireLayout');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -16,6 +17,7 @@ class Post extends Model
 
     protected $casts = [
         'macros' => 'array',
+        'ingredients' => 'array',
     ];
 
     public function user()
@@ -38,6 +40,15 @@ class Post extends Model
     public function isLikedBy(User $user)
     {
         return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+
+
+    protected static function booted()
+    {
+        static::creating(function ($post) {
+            $post->slug = Str::slug($post->title);
+        });
     }
 
 }

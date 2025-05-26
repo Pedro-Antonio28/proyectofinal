@@ -1,4 +1,5 @@
-<div class="bg-white rounded-3xl overflow-hidden shadow-xl transform transition-all hover:scale-[1.02] flex flex-col justify-between"
+<div onclick="window.location='{{ route('post.show', ['post' => $postId]) }}'"
+     class="cursor-pointer bg-white rounded-3xl overflow-hidden shadow-xl transform transition-all hover:scale-[1.02] flex flex-col justify-between"
      wire:key="post-{{ $postId }}">
 
     @if ($image)
@@ -44,9 +45,11 @@
         <div class="mt-4 flex items-center justify-center gap-2">
             @auth
                 <button wire:click="like"
+                        onclick="event.stopPropagation()"
                         class="text-pink-600 hover:text-pink-800 text-2xl transition transform active:scale-125">
                     ❤️
                 </button>
+
                 <span class="text-sm text-gray-600">
                     {{ $likes }} me gusta
                 </span>
@@ -67,3 +70,4 @@
         </div>
     </div>
 </div>
+

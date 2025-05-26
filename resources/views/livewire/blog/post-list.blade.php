@@ -3,6 +3,17 @@
         🥗 Dietas del Blog
     </h2>
 
+    <div class="text-center mb-10">
+        <a href="{{ route('posts.create') }}"
+           class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white font-semibold rounded-full shadow hover:bg-green-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Añadir nueva receta
+        </a>
+    </div>
+
     {{-- ⚡ AOS solo aquí: en envoltorio que no se actualiza --}}
     <div data-aos="zoom-in">
         {{-- Contenedor Livewire reactivo sin AOS --}}

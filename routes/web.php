@@ -198,16 +198,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts', PostList::class)->name('posts.index');
     Route::get('/posts/create', PostForm::class)->name('posts.create');
     Route::get('/posts/{post}/edit', PostForm::class)->name('posts.edit');
+    Route::get('/posts/{post}', \App\Http\Livewire\Blog\PostDetail::class)->name('post.show');
+
 });
-
-
-//Route::get('/blog', [PublicBlogController::class, 'index'])->name('blog.index');
-//Route::get('/blog/{slug}', [PublicBlogController::class, 'show'])->name('blog.show');
-//Route::post('/blog/{post}/add-to-diet', [PublicBlogController::class, 'addToDiet'])
-   // ->middleware('auth')
-    //->name('blog.add-to-diet');
-
-
 
 
 Route::get('/blog/export/excel', [ExportController::class, 'exportExcel'])->name('blog.export.excel');

@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Livewire Styles -->
     @livewireStyles
+    @stack('styles')
 
     <!-- Evitar múltiples instancias de Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -44,9 +45,11 @@
 
 <!-- Livewire Scripts -->
 @livewireScripts
-
+@stack('scripts')
 <!-- AOS y Re-activación para Livewire -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="//unpkg.com/alpinejs" defer></script>
+
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {

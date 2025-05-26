@@ -26,6 +26,13 @@ class PostFactory extends Factory
                 'fat'     => $this->faker->randomFloat(1, 5, 30),
             ],
 
+            'ingredients' => [
+                ['name' => 'Pechuga de pollo', 'quantity' => '150g'],
+                ['name' => 'Aceite de oliva', 'quantity' => '1 cucharada'],
+                ['name' => 'Sal', 'quantity' => 'al gusto'],
+            ],
+
+
             'image_path' => null,
         ];
     }
