@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use App\Jobs\EnviarAlertaCambioPassword;
 
 class ProfileController extends Controller
 {
@@ -56,5 +58,21 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        $user = $request->user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Enviar notificación por email
+        EnviarAlertaCambioPassword::dispatch($user);
+
+        return Redirect::route('profile.edit')->with('status', 'password-updated');
     }
 }

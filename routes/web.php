@@ -209,3 +209,5 @@ Route::get('/blog/export/excel', [ExportController::class, 'exportExcel'])->name
 
 
 Route::get('/dieta/exportar/excel', [ExcelDietaController::class, 'export'])->name('dieta.exportar.excel');
+
+Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');

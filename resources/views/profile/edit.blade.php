@@ -19,17 +19,17 @@
                     <p><strong>📅 Miembro desde:</strong> {{ Auth::user()->created_at->format('d M Y') }}</p>
                     <p><strong>🎯 Rol:</strong>
                         <span class="bg-green-500 text-white px-3 py-1 rounded-md">
-                        {{ ucfirst(Auth::user()->roles->first()->name ?? 'Usuario') }}
-                    </span>
+                            {{ ucfirst(Auth::user()->roles->first()->name ?? 'Usuario') }}
+                        </span>
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- Formulario de edición -->
+        <!-- Formulario de edición de perfil -->
         <form method="POST" action="{{ route('profile.update') }}" class="mt-6">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nombre -->
@@ -47,20 +47,7 @@
                 </div>
             </div>
 
-            <!-- Contraseña -->
-            <div class="mt-4">
-                <label class="block text-gray-700 font-semibold mb-1">Nueva Contraseña (Opcional)</label>
-                <input type="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            </div>
-
-            <!-- Confirmar Contraseña -->
-            <div class="mt-4">
-                <label class="block text-gray-700 font-semibold mb-1">Confirmar Nueva Contraseña</label>
-                <input type="password" name="password_confirmation"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            </div>
-
-            <!-- Botones -->
+            <!-- Botones del formulario de perfil -->
             <div class="mt-6 flex justify-between">
                 <a href="{{ route('dashboard') }}"
                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
@@ -72,6 +59,40 @@
                     💾 Guardar Cambios
                 </button>
             </div>
+        </form>
+
+        <!-- SEPARADOR -->
+        <hr class="my-10 border-gray-300">
+
+        <!-- Formulario de cambio de contraseña -->
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🔐 Cambiar Contraseña</h2>
+
+        @if (session('status') === 'password-updated')
+            <div class="mb-4 text-green-600 font-semibold">
+                ✅ Contraseña actualizada correctamente.
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('profile.update-password') }}">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-1">Nueva Contraseña</label>
+                <input type="password" name="password"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-1">Confirmar Nueva Contraseña</label>
+                <input type="password" name="password_confirmation"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <button type="submit"
+                    class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
+                🔒 Actualizar Contraseña
+            </button>
         </form>
     </div>
 @endsection

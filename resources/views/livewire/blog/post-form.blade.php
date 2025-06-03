@@ -74,8 +74,6 @@
             </div>
         </div>
 
-        {{-- Imagen --}}
-        {{-- Imagen con drag and drop --}}
         <div
             x-data="{ isDropping: false }"
             x-on:dragover.prevent="isDropping = true"
@@ -83,24 +81,32 @@
             x-on:drop.prevent="
         isDropping = false;
         $refs.input.files = event.dataTransfer.files;
-        $dispatch('input', $refs.input.files)
+        $dispatch('input', $refs.input.files);
     "
             class="mt-4 border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all"
             :class="{ 'border-green-500 bg-green-50': isDropping, 'border-gray-300': !isDropping }"
         >
             <p class="text-gray-600">Arrastra una imagen aquí o haz clic para seleccionarla</p>
 
-            <input x-ref="input" type="file" wire:model="image" class="hidden" id="imageUpload" />
-            <label for="imageUpload" class="block mt-2 text-sm font-medium text-green-700 hover:underline cursor-pointer">
+            <input
+                type="file"
+                x-ref="input"
+                wire:model="image"
+                class="hidden"
+                id="imageUpload"
+                accept="image/*"
+            />
+
+            <label for="imageUpload"
+                   class="block mt-2 text-sm font-medium text-green-700 hover:underline cursor-pointer">
                 Seleccionar imagen
             </label>
 
-            {{-- Loading mientras sube --}}
+            {{-- Feedback visual --}}
             <div wire:loading wire:target="image" class="text-sm text-gray-500 mt-2">
                 📤 Subiendo imagen...
             </div>
 
-            {{-- Imagen subida + mensaje --}}
             <div wire:loading.remove wire:target="image">
                 @if ($image)
                     <div class="text-green-600 text-sm mt-2">✅ Imagen lista</div>
@@ -108,6 +114,7 @@
                 @endif
             </div>
         </div>
+
 
 
 
