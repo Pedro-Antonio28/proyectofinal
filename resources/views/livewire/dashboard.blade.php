@@ -109,10 +109,34 @@
                     {{ $tipoComida }}
 
                     <!-- Botón para añadir alimento -->
-                    <a href="{{ route('agregar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida]) }}"
-                       class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
-                        ➕ Añadir
-                    </a>
+                    @if(auth()->user()->is_premium)
+                        <a href="{{ route('agregar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida]) }}"
+                           class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
+                            ➕ Añadir
+                        </a>
+                    @else
+                        <button onclick="document.getElementById('modalPremium').showModal()"
+                                class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
+                            ➕ Añadir
+                        </button>
+                    @endif
+
+                    <dialog id="modalPremium" class="rounded-xl w-1/2 shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-center">🔒 Función Premium</h2>
+                        <p class="text-center text-gray-700 mb-6">Para añadir alimentos a tu dieta, necesitas ser usuario premium.</p>
+
+                        <div class="flex justify-center gap-4">
+                            <a href="{{ route('paypal.create') }}"
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+                                💳 Pagar con PayPal
+                            </a>
+                            <button onclick="document.getElementById('modalPremium').close()"
+                                    class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                                Cancelar
+                            </button>
+                        </div>
+                    </dialog>
+
                 </h4>
 
                 <div class="grid grid-cols-3 gap-6 mt-4">

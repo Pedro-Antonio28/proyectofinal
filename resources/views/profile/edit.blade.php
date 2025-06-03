@@ -45,6 +45,22 @@
                     <input type="email" value="{{ Auth::user()->email }}" disabled
                            class="w-full px-4 py-2 border border-gray-300 bg-gray-200 rounded-lg cursor-not-allowed">
                 </div>
+
+                <!-- Estado del Plan -->
+                <div class="mt-10 bg-green-50 p-6 rounded-xl border border-green-200 text-gray-800 shadow-sm">
+                    <h3 class="text-xl font-bold mb-2">💼 Tu Plan Actual</h3>
+
+                    @if(Auth::user()->is_premium)
+                        <p class="text-green-700 font-semibold">✅ Eres usuario <strong>Premium</strong>. ¡Gracias por tu apoyo!</p>
+                    @else
+                        <p class="text-red-700 font-semibold">🔒 Estás usando el plan gratuito.</p>
+                        <a href="{{ route('paypal.create') }}"
+                           class="mt-4 inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md shadow-md transition-all duration-300">
+                            💳 Mejorar a Premium
+                        </a>
+                    @endif
+                </div>
+
             </div>
 
             <!-- Botones del formulario de perfil -->

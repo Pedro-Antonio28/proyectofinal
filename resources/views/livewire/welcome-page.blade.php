@@ -150,6 +150,27 @@
                     {{ __('messages.start_plan') }}
                 </a>
             </div>
+
+            <!-- 🌟 Plan Premium Destacado -->
+            <section class="bg-[#fef9e7] py-16 mt-24">
+                <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
+                    <div class="flex-1 space-y-6" data-aos="fade-right">
+                        <h2 class="text-4xl font-bold text-gray-900">🌟 Plan Premium Calorix</h2>
+                        <p class="text-lg text-gray-700">
+                            Desbloquea todas las funciones: genera dietas personalizadas ilimitadas, recibe consejos exclusivos y mejora tu salud de forma profesional.
+                        </p>
+                        <a href="{{ route('paypal.create') }}"
+                           class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-md hover:scale-105">
+                            💳 Acceder al plan premium
+                        </a>
+                    </div>
+
+                    <div class="flex-1" data-aos="zoom-in">
+                        <img src="{{ asset('images/premium-plan.png') }}" alt="Plan Premium" class="w-full rounded-xl shadow-lg">
+                    </div>
+                </div>
+            </section>
+
         </section>
 
         <!-- Footer -->
@@ -173,6 +194,8 @@
                     </p>
                 </div>
             </div>
+
+
         </footer>
 
 

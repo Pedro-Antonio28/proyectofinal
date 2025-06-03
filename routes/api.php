@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\V1\ApiPostController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -40,4 +42,15 @@ Route::post('/login', function (Request $request) {
     $token = $user->createToken('auth_token')->plainTextToken;
 
     return response()->json(['token' => $token], 200);
+});
+
+
+
+Route::get('/posts', [ApiPostController::class, 'index']);
+Route::get('/posts/{post}', [ApiPostController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/posts', [ApiPostController::class, 'store']);
+    Route::put('/posts/{post}', [ApiPostController::class, 'update']);
+    Route::delete('/posts/{post}', [ApiPostController::class, 'destroy']);
 });
