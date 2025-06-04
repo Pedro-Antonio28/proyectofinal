@@ -16,7 +16,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\DietaPDFMail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\EnviarDietaPdfJob;
-
+use App\Events\DietaSolicitada;
 
 class Dashboard extends Component
 {
@@ -32,6 +32,8 @@ class Dashboard extends Component
 
     public $dummy = 0;
 
+    public $mostrarModalTelegram = false;
+    public $nuevoTelegramId;
 
     public function mount()
     {
@@ -182,7 +184,44 @@ class Dashboard extends Component
     }
 
 
+    public function guardarTelegramId()
+    {
+        $this->validate([
+            'nuevoTelegramId' => 'required|numeric',
+        ]);
 
+        \App\Models\TelegramUser::updateOrCreate(
+            ['user_id' => auth()->id()],
+            ['telegram_id' => $this->nuevoTelegramId]
+        );
+
+        $this->mostrarModalTelegram = false;
+
+        DietaSolicitada::dispatch(auth()->user());
+
+        session()->flash('success', '✅ Telegram conectado y dieta enviada');
+    }
+
+    public function enviarDietaPorTelegram()
+    {
+        $user = auth()->user();
+
+        if (!$user->telegram) {
+            $this->nuevoTelegramId = '';
+            $this->mostrarModalTelegram = true;
+            return;
+        }
+
+        DietaSolicitada::dispatch($user);
+        session()->flash('success', '✅ Tu dieta fue enviada por Telegram');
+    }
+
+
+    public function abrirModalTelegram()
+    {
+        $this->nuevoTelegramId = '';
+        $this->mostrarModalTelegram = true;
+    }
 
 
 

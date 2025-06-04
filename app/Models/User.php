@@ -164,5 +164,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class, 'likes')->withTimestamps();
     }
 
+    public function telegram()
+    {
+        return $this->hasOne(TelegramUser::class);
+    }
+
 }
 

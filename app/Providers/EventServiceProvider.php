@@ -6,6 +6,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Events\UserDeleted;
 use App\Listeners\LogUserDeleted;
+use App\Events\PostLiked;
+use App\Listeners\SendTelegramNotification;
+use App\Events\DietaSolicitada;
+use App\Listeners\EnviarDietaPorTelegram;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         UserDeleted::class => [
             LogUserDeleted::class,
+        ],
+
+        DietaSolicitada::class => [
+            EnviarDietaPorTelegram::class,
         ],
     ];
 

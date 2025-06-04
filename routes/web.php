@@ -26,7 +26,7 @@ use App\Http\Controllers\PublicBlogController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ExcelDietaController;
 use App\Http\Controllers\PayPalController;
-
+use App\Http\Controllers\TelegramWebhookController;
 
 Route::get('/questionnaire', Questionnaire::class)->middleware('auth')->name('questionnaire.show');
 
@@ -220,3 +220,7 @@ Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->n
 Route::get('/paypal/pay', [PayPalController::class, 'createTransaction'])->name('paypal.create');
 Route::get('/paypal/success', [PayPalController::class, 'successTransaction'])->name('paypal.success');
 Route::get('/paypal/cancel', [PayPalController::class, 'cancelTransaction'])->name('paypal.cancel');
+
+
+
+Route::post('/telegram/webhook', [TelegramWebhookController::class, 'handle']);

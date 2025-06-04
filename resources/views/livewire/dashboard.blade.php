@@ -46,6 +46,13 @@
                 📬 Enviar dieta semanal por correo
             </button>
         </div>
+
+        <form wire:submit.prevent="enviarDietaPorTelegram" class="mt-3">
+            <button type="submit"
+                    class="w-full bg-green-600 text-white px-4 py-2 rounded-md shadow-md text-center hover:bg-green-700 transition">
+                📤 Enviar dieta por Telegram
+            </button>
+        </form>
     </aside>
 
     <!-- 🍽️ Dieta -->
@@ -183,4 +190,38 @@
         @endif
 
     </section>
+
+    @if ($mostrarModalTelegram)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+            <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 animate-fade-in">
+                <h2 class="text-2xl font-bold text-gray-900 text-center mb-4">🤖 Conectar con Telegram</h2>
+
+                <p class="text-gray-600 text-center mb-4">
+                    Habla con <a href="https://t.me/RealCalorix_bot" target="_blank" class="text-blue-600 underline">@RealCalorix_bot</a>
+                    y obtén tu <strong>Telegram ID</strong> usando <a href="https://t.me/userinfobot" target="_blank" class="text-blue-600 underline">@userinfobot</a>.
+                </p>
+
+                <form wire:submit.prevent="guardarTelegramId" class="space-y-4">
+                    <input type="text" wire:model="nuevoTelegramId"
+                           class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-green-300"
+                           placeholder="Ej: 123456789" />
+
+                    @error('nuevoTelegramId') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+
+                    <div class="flex justify-between mt-4">
+                        <button type="button" wire:click="$set('mostrarModalTelegram', false)"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition">
+                            Cancelar
+                        </button>
+
+                        <button type="submit"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold shadow transition">
+                            ✅ Guardar ID y vincular
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+
 </div>

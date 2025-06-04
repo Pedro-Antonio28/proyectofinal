@@ -30,10 +30,10 @@ class PostCard extends Component
     }
 
 
+
     public function like()
     {
         $user = auth()->user();
-
         $post = Post::findOrFail($this->postId);
         $like = $post->likes()->where('user_id', $user->id)->first();
 
@@ -41,10 +41,14 @@ class PostCard extends Component
             $like->delete();
         } else {
             $post->likes()->create(['user_id' => $user->id]);
+
+
+
         }
 
         $this->likes = $post->likes()->count();
     }
+
 
 
     public function render()
