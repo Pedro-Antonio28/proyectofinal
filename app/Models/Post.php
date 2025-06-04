@@ -42,6 +42,11 @@ class Post extends Model
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+    public function images()
+    {
+        return $this->hasMany(PostImage::class);
+    }
+
 
 
     protected static function booted()

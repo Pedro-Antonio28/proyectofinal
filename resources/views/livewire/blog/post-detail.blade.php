@@ -18,13 +18,49 @@
     </h1>
 
     {{-- Imagen destacada --}}
-    @if ($post->image_path)
-        <div data-aos="zoom-in" class="rounded-2xl overflow-hidden shadow-lg mb-10">
-            <img src="{{ asset('storage/' . $post->image_path) }}"
-                 alt="{{ $post->title }}"
-                 class="w-full h-80 object-cover transition duration-300 hover:brightness-90">
+    @if ($post->images && $post->images->count())
+        <div x-data="{
+        current: 0,
+        images: @js($post->images->map(fn($img) => asset('storage/' . $img->path)))
+    }" class="relative w-full max-w-3xl mx-auto mb-10">
+            <div class="overflow-hidden rounded-xl shadow-md">
+                <template x-for="(img, index) in images" :key="index">
+                    <div x-show="current === index" class="transition duration-500 ease-in-out">
+                        <img :src="img" class="w-full max-h-96 object-contain rounded-xl cursor-zoom-in" @click="fullscreen = true; fullscreenImg = img">
+
+                    </div>
+                </template>
+            </div>
+
+            {{-- Modal fullscreen --}}
+            <div x-show="fullscreen"
+                 x-transition
+                 class="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
+                 @click.away="fullscreen = false"
+                 @keydown.escape.window="fullscreen = false"
+                 x-cloak>
+                <img :src="fullscreenImg" class="max-h-screen max-w-full object-contain shadow-xl rounded">
+                <button @click="fullscreen = false"
+                        class="absolute top-5 right-5 text-white text-3xl hover:text-red-500">
+                    &times;
+                </button>
+            </div>
+
+
+            {{-- Flechas --}}
+            <button @click="current = (current - 1 + images.length) % images.length"
+                    class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow hover:bg-opacity-100">
+                ◀
+            </button>
+            <button @click="current = (current + 1) % images.length"
+                    class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow hover:bg-opacity-100">
+                ▶
+            </button>
         </div>
     @endif
+
+
+
 
     {{-- Ingredientes primero --}}
     @if (!empty($post->ingredients))

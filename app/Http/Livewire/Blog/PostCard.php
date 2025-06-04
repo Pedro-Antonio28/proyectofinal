@@ -8,18 +8,25 @@ use Livewire\Component;
 class PostCard extends Component
 {
     public int $postId;
+
     public string $title;
     public ?string $image;
+    public array $images = [];
     public array $macroData = [];
     public int $likes;
+
+    public int $postUserId;
 
     public function mount(Post $post)
     {
         $this->postId = $post->id;
         $this->title = $post->title;
         $this->image = $post->image_path;
+        $this->images = $post->images->pluck('path')->toArray();
         $this->macroData = $post->macros ?? [];
         $this->likes = $post->likes()->count();
+        $this->postUserId = $post->user_id;
+
     }
 
 

@@ -1,25 +1,20 @@
 <div class="grid grid-cols-12 gap-6 p-8 min-h-screen bg-[#f8fff4] pt-32">
     @include('components.navbar')
 
-    <!-- 🏆 Sidebar: Progreso de Macronutrientes -->
+    <!-- 🏆 Sidebar -->
     <aside class="col-span-4 bg-[#e5f2d8] shadow-xl rounded-2xl p-6 h-full border border-gray-300">
         <h3 class="text-lg font-bold text-gray-800 mb-4">🎯 Progreso del Día</h3>
 
         <div class="grid grid-cols-2 gap-6 text-center">
-
-
-        @foreach ([
-                ['🔥', 'Calorías', $caloriasConsumidas, $caloriasTotales, '#FF5733'],
-                ['🥩', 'Proteínas', $proteinasConsumidas, $proteinasTotales, '#3498db'],
-                ['🍞', 'Carbohidratos', $carbohidratosConsumidos, $carbohidratosTotales, '#f39c12'],
-                ['🥑', 'Grasas', $grasasConsumidas, $grasasTotales, '#2ecc71']
-            ] as [$emoji, $nombre, $consumido, $total, $color])
+            @foreach ([
+                    ['🔥', 'Calorías', $caloriasConsumidas, $caloriasTotales, '#FF5733'],
+                    ['🥩', 'Proteínas', $proteinasConsumidas, $proteinasTotales, '#3498db'],
+                    ['🍞', 'Carbohidratos', $carbohidratosConsumidos, $carbohidratosTotales, '#f39c12'],
+                    ['🥑', 'Grasas', $grasasConsumidas, $grasasTotales, '#2ecc71']
+                ] as [$emoji, $nombre, $consumido, $total, $color])
                 <div class="relative flex flex-col items-center">
                     <svg width="120" height="120" viewBox="0 0 120 120">
-                        <!-- Círculo de fondo -->
                         <circle cx="60" cy="60" r="50" stroke="#ddd" stroke-width="10" fill="none"></circle>
-
-                        <!-- Círculo de progreso con animación -->
                         <circle cx="60" cy="60" r="50"
                                 stroke="{{ $color }}"
                                 stroke-width="10"
@@ -29,8 +24,6 @@
                                 stroke-dashoffset="{{ max(0, 314 - (314 * min(1, round($consumido / max(1, $total), 5)) )) }}"
                                 style="transition: stroke-dashoffset 0.6s ease-in-out;">
                         </circle>
-
-                        <!-- Porcentaje en el centro -->
                         <text x="60" y="65" font-size="18" text-anchor="middle" fill="{{ $color }}" font-weight="bold">
                             {{ round(($consumido / max(1, $total)) * 100) }}%
                         </text>
@@ -41,15 +34,12 @@
             @endforeach
         </div>
 
-        <!-- 🔘 Botones de acción -->
         <div class="mt-8 flex flex-col gap-3">
-            <!-- 📄 Descargar dieta del día -->
             <a href="{{ route('pdf.dieta', ['dia' => $diaActual]) }}"
                class="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md text-center hover:bg-blue-700 transition">
                 📄 Descargar dieta de {{ $diaActual }}
             </a>
 
-            <!-- 📬 Enviar dieta semanal por correo -->
             <button wire:click="enviarDietaSemanalPorCorreo"
                     type="button"
                     class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-700 transition">
@@ -58,15 +48,12 @@
         </div>
     </aside>
 
-
-    <!-- 🍽️ Contenido: Dieta del Día -->
+    <!-- 🍽️ Dieta -->
     <section class="col-span-8 bg-white shadow-xl rounded-2xl p-8 border border-gray-300">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-2xl font-bold text-gray-900">📅 Dieta para {{ ucfirst($diaActual) }}</h3>
 
-            <!-- 🔥 Selector de Día -->
             <div class="flex items-center space-x-4 mb-6">
-                <!-- Selector de Día -->
                 <select wire:model="diaActual" wire:change="$refresh"
                         class="border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-800 shadow-md transition-all duration-300 hover:border-gray-400 focus:border-[#96c464]">
                     @foreach (['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] as $dia)
@@ -80,63 +67,43 @@
                         Exportar a Excel
                     </button>
                 </form>
-
             </div>
 
-
-            <!-- Este div ayuda a forzar la actualización de Livewire -->
             <div wire:key="dashboard-{{ $dummy }}"></div>
         </div>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                window.addEventListener('refresh-ui', () => {
-                    Livewire.refresh();
-                });
+                window.addEventListener('refresh-ui', () => Livewire.refresh());
+                window.addEventListener('force-update', () => setTimeout(() => Livewire.refresh(), 50));
             });
 
-            document.addEventListener("DOMContentLoaded", function () {
-                window.addEventListener('force-update', () => {
-                    setTimeout(() => Livewire.refresh(), 50);
-                });
-            });
+            function abrirModalPremium() {
+                document.getElementById('modalOverlayPremium').classList.remove('hidden');
+            }
+
+            function cerrarModalPremium() {
+                document.getElementById('modalOverlayPremium').classList.add('hidden');
+            }
         </script>
 
-        <!-- Recorrer las comidas en el orden fijo deseado -->
         @foreach (['Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena'] as $tipoComida)
             <div class="mb-8">
                 <h4 class="text-xl font-bold text-gray-800 border-b-2 border-[#a7d675] pb-2 flex justify-between items-center">
                     {{ $tipoComida }}
 
-                    <!-- Botón para añadir alimento -->
                     @if(auth()->user()->is_premium)
                         <a href="{{ route('agregar.alimento', ['dia' => $diaActual, 'tipoComida' => $tipoComida]) }}"
                            class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
                             ➕ Añadir
                         </a>
                     @else
-                        <button onclick="document.getElementById('modalPremium').showModal()"
+                        <button type="button"
+                                onclick="abrirModalPremium()"
                                 class="bg-green-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-300">
                             ➕ Añadir
                         </button>
                     @endif
-
-                    <dialog id="modalPremium" class="rounded-xl w-1/2 shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4 text-center">🔒 Función Premium</h2>
-                        <p class="text-center text-gray-700 mb-6">Para añadir alimentos a tu dieta, necesitas ser usuario premium.</p>
-
-                        <div class="flex justify-center gap-4">
-                            <a href="{{ route('paypal.create') }}"
-                               class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-                                💳 Pagar con PayPal
-                            </a>
-                            <button onclick="document.getElementById('modalPremium').close()"
-                                    class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
-                                Cancelar
-                            </button>
-                        </div>
-                    </dialog>
-
                 </h4>
 
                 <div class="grid grid-cols-3 gap-6 mt-4">
@@ -149,7 +116,6 @@
                                     {{ $comida['cantidad'] }}g - {{ $comida['calorias'] }} kcal
                                 </p>
 
-                                <!-- Checkbox solo si es el día actual -->
                                 @if ($esDiaActual)
                                     <input type="checkbox" wire:click.prevent="toggleAlimento({{ $comida['alimento_id'] }})"
                                            {{ in_array($comida['alimento_id'], $alimentosConsumidos) ? 'checked' : '' }}
@@ -168,7 +134,53 @@
             a, h1, h2, h3, h4, h5, h6, p, span {
                 text-decoration: none !important;
             }
+
+            @keyframes fade-in {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            .animate-fade-in {
+                animation: fade-in 0.25s ease-out forwards;
+            }
         </style>
+
+        <!-- 🔒 Modal Premium -->
+        @if (!auth()->user()->is_premium)
+            <div id="modalOverlayPremium"
+                 class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-4">
+                <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 transform transition-all scale-95 animate-fade-in">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">🚀 Función Premium</h2>
+                    <p class="text-gray-600 text-center mb-6 leading-relaxed">
+                        Añadir alimentos a tu dieta es una función premium.<br>
+                        Desbloquéala por solo <strong>4.99€</strong> y accede a todos los beneficios.
+                    </p>
+
+                    <div class="w-20 h-20 mx-auto mb-6 animate-bounce text-yellow-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l2.9 6.6L22 9.3l-5.5 5.1L17.8 22 12 18.4 6.2 22l1.3-7.6L2 9.3l7.1-0.7z"/>
+                        </svg>
+                    </div>
+
+
+                    <div class="flex justify-center gap-4">
+                        <a href="{{ route('paypal.create') }}"
+                           class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg font-semibold shadow transition">
+                            💳 Comprar Premium
+                        </a>
+                        <button onclick="cerrarModalPremium()"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-5 py-2 rounded-lg font-semibold transition">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
 
     </section>
 </div>

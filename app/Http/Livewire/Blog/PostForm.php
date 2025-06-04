@@ -16,7 +16,9 @@ class PostForm extends Component
         'description' => '',
     ];
 
-    public $image;
+    public $images = [];
+    public $imagesTemp = [];
+
     public $ingredients = [];
     public $macrosData = [
         'calories' => null,
@@ -25,11 +27,21 @@ class PostForm extends Component
         'fat' => null,
     ];
 
-    public function mount()
+    public ?Post $editingPost = null;
+
+    public function mount($post = null)
     {
-        $this->ingredients = [
-            ['name' => '', 'quantity' => '']
-        ];
+        if ($post instanceof Post) {
+            $this->editingPost = $post;
+            $this->post = [
+                'title' => $post->title,
+                'description' => $post->description,
+            ];
+            $this->macrosData = $post->macros ?? [];
+            $this->ingredients = $post->ingredients ?? [['name' => '', 'quantity' => '']];
+        } else {
+            $this->ingredients = [['name' => '', 'quantity' => '']];
+        }
     }
 
     public function addIngredient()
@@ -40,7 +52,16 @@ class PostForm extends Component
     public function removeIngredient($index)
     {
         unset($this->ingredients[$index]);
-        $this->ingredients = array_values($this->ingredients); // Reindexar
+        $this->ingredients = array_values($this->ingredients);
+    }
+
+    public function updatedImages($value)
+    {
+        foreach ($value as $img) {
+            $this->imagesTemp[] = $img;
+        }
+
+        $this->images = []; // limpiamos el input para permitir seleccionar más
     }
 
     public function guardarPost()
@@ -52,28 +73,28 @@ class PostForm extends Component
             'macrosData.protein' => 'required|numeric|min:0',
             'macrosData.carbs' => 'required|numeric|min:0',
             'macrosData.fat' => 'required|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
             'ingredients.*.name' => 'required|string|max:255',
             'ingredients.*.quantity' => 'required|string|max:255',
+            'imagesTemp' => 'array',
+            'imagesTemp.*' => 'image|max:2048',
         ]);
 
-        $nuevoPost = new Post();
-        $nuevoPost->title = $this->post['title'];
-        $nuevoPost->description = $this->post['description'];
-        $nuevoPost->macros = $this->macrosData;
-        $nuevoPost->ingredients = $this->ingredients;
-        $nuevoPost->user_id = auth()->id();
+        $post = $this->editingPost ?? new Post();
+        $post->title = $this->post['title'];
+        $post->description = $this->post['description'];
+        $post->macros = $this->macrosData;
+        $post->ingredients = $this->ingredients;
+        $post->user_id = auth()->id();
+        $post->save();
 
-
-        if ($this->image) {
-            $imagePath = $this->image->store('posts', 'public');
-            $nuevoPost->image_path = $imagePath;
+        if (!empty($this->imagesTemp)) {
+            foreach ($this->imagesTemp as $img) {
+                $path = $img->store('posts', 'public');
+                $post->images()->create(['path' => $path]);
+            }
         }
 
-        $nuevoPost->save();
-
         session()->flash('success', 'Receta guardada correctamente ✅');
-
         return redirect()->route('posts.index');
     }
 
