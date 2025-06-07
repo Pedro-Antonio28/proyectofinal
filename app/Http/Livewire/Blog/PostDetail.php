@@ -22,6 +22,9 @@ class PostDetail extends Component
 
     public $cantidadSeleccionada = 100;
 
+    public string $notaPersonal = '';
+    public bool $esFavorito = false;
+
 
     public function mount(Post $post)
     {
@@ -136,6 +139,15 @@ class PostDetail extends Component
             'dieta' => json_encode($dietaJson)
         ]);
 
+        $user->postsWhoSavedIt()->syncWithoutDetaching([
+            $post->id => [
+                'added_at' => now(),
+                'es_favorito' => $this->esFavorito,
+                'custom_notes' => $this->notaPersonal
+            ]
+        ]);
+
+
         $this->mostrarModal = false;
         session()->flash('success', 'Receta añadida a tu dieta correctamente.');
         $this->dispatch('alimentoAgregado');
@@ -146,9 +158,12 @@ class PostDetail extends Component
         return [
             'diaSeleccionado' => 'required|in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo',
             'tipoComidaSeleccionado' => 'required|in:Desayuno,Comida,Merienda,Cena',
-            'cantidadSeleccionada' => 'required|numeric|min:1'
+            'cantidadSeleccionada' => 'required|numeric|min:1',
+            'notaPersonal' => 'nullable|string|max:1000',
+            'esFavorito' => 'boolean'
         ];
     }
+
 
 
 

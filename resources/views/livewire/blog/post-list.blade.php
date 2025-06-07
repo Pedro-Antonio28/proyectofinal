@@ -16,6 +16,16 @@
         >
             Buscar
         </button>
+        <button
+            type="button"
+            onclick="window.location.href = '?mostrarFavoritos={{ $mostrarFavoritos ? '0' : '1' }}'"
+            class="px-4 py-2 rounded shadow font-semibold transition
+           {{ $mostrarFavoritos ? 'bg-yellow-500 text-white' : 'bg-gray-300 hover:bg-gray-400' }}">
+            {{ $mostrarFavoritos ? '🔙 Ver todos' : '⭐ Mostrar solo favoritos' }}
+        </button>
+
+
+
     </div>
 
 
@@ -36,7 +46,12 @@
         {{-- Contenedor Livewire reactivo sin AOS --}}
         <div class="grid gap-10 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
             @foreach ($posts as $post)
-                <livewire:blog.post-card :post="$post" :wire:key="'post-'.$post->id" />
+                <livewire:blog.post-card
+                    :post="$post"
+                    :mostrarNota="$mostrarFavoritos"
+                    :wire:key="'post-'.$post->id"
+                />
+
             @endforeach
 
 

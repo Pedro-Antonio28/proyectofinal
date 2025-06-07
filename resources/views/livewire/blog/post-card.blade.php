@@ -79,6 +79,21 @@
                 <span class="text-sm text-gray-400 italic">Inicia sesión para dar like</span>
             @endauth
         </div>
+
+        @if($mostrarNota)
+            @php
+                $postModel = \App\Models\Post::with('usersWhoSavedIt')->find($postId);
+                $nota = optional($postModel->usersWhoSavedIt->firstWhere('id', auth()->id()))->pivot->custom_notes ?? null;
+            @endphp
+
+            @if($nota)
+                <div class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg text-sm text-gray-800">
+                    <strong>📝 Tu nota:</strong> {{ $nota }}
+                </div>
+            @endif
+        @endif
+
+
     </div>
 
     @auth

@@ -156,6 +156,17 @@
                            class="w-full mt-1 border rounded p-2" />
                 </div>
 
+                <div>
+                    <label class="block text-sm font-semibold">¿Añadir a favoritos?</label>
+                    <input type="checkbox" wire:model="esFavorito" class="mt-1">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold">Nota personal (opcional):</label>
+                    <textarea wire:model="notaPersonal" rows="3" class="w-full mt-1 border rounded p-2" placeholder="Puedes escribir algo como: 'Muy buena después del entreno'..."></textarea>
+                </div>
+
+
                 <div class="flex justify-end gap-2 pt-4">
                     <x-button wire:click="$set('mostrarModal', false)" class="bg-gray-500 hover:bg-gray-600">Cancelar</x-button>
                     <x-button wire:click="guardarPostEnDieta" class="bg-green-600 hover:bg-green-700">Añadir</x-button>

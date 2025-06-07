@@ -15,9 +15,11 @@ class PostCard extends Component
     public array $macroData = [];
     public int $likes;
 
+    public bool $mostrarNota = false;
+
     public int $postUserId;
 
-    public function mount(Post $post)
+    public function mount(Post $post, $mostrarNota = false)
     {
         $this->postId = $post->id;
         $this->title = $post->title;
@@ -26,8 +28,9 @@ class PostCard extends Component
         $this->macroData = $post->macros ?? [];
         $this->likes = $post->likes()->count();
         $this->postUserId = $post->user_id;
-
+        $this->mostrarNota = $mostrarNota;
     }
+
 
 
 

@@ -169,5 +169,11 @@ class User extends Authenticatable
         return $this->hasOne(TelegramUser::class);
     }
 
+    public function postsWhoSavedIt()
+    {
+        return $this->belongsToMany(Post::class, 'post_user')
+            ->withPivot(['added_at', 'custom_notes', 'es_favorito'])
+            ->withTimestamps();
+    }
 }
 

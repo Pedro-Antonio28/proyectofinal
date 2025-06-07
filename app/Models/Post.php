@@ -29,7 +29,7 @@ class Post extends Model
     public function usersWhoSavedIt()
     {
         return $this->belongsToMany(User::class, 'post_user')
-            ->withPivot(['added_at', 'custom_notes'])
+            ->withPivot(['added_at', 'custom_notes', 'es_favorito'])
             ->withTimestamps();
     }
 
@@ -48,12 +48,6 @@ class Post extends Model
         return $this->hasMany(PostImage::class);
     }
 
-    public function scopeConMuchosLikes($query, $minLikes = 10)
-    {
-        return $query->withCount('likes')
-            ->having('likes_count', '>=', $minLikes)
-            ->orderByDesc('likes_count');
-    }
 
 
     protected static function booted() : void

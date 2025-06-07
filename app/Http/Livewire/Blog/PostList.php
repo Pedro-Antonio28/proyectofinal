@@ -17,7 +17,8 @@ class PostList extends Component
 
     public array $likesCount = [];
 
-    protected $queryString = ['search', 'showTrashed', 'ingrediente'];
+    protected $queryString = ['search', 'showTrashed', 'ingrediente', 'mostrarFavoritos'];
+
     protected $listeners = [
         'likePost' => 'toggleLike',
         'restorePost' => 'restore',
@@ -27,6 +28,8 @@ class PostList extends Component
     public string $ingrediente = '';
     public string $ingredienteABuscar = '';
 
+
+    public bool $mostrarFavoritos = false;
 
 
     public function updatingSearch()
@@ -78,6 +81,11 @@ class PostList extends Component
         $this->likesCount[$postId] = $post->likes()->count();
     }
 
+    public function updatedMostrarFavoritos()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = Post::withCount('likes')
@@ -86,7 +94,13 @@ class PostList extends Component
             )
             ->when($this->ingredienteABuscar !== '', fn($q) =>
             $q->conIngredientesSimilares($this->ingredienteABuscar)
-            );
+            )
+            ->when($this->mostrarFavoritos && auth()->check(), function ($q) {
+                $q->whereHas('usersWhoSavedIt', function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->where('es_favorito', true);
+                });
+            });
 
         if ($this->showTrashed) {
             $query->onlyTrashed();
@@ -103,6 +117,7 @@ class PostList extends Component
             'posts' => $posts,
         ])->layout('layouts.livewireLayout');
     }
+
 
 
 }
