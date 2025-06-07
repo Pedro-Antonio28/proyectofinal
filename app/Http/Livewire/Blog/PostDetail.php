@@ -37,6 +37,9 @@ class PostDetail extends Component
 
     public function añadirPostADieta($postId)
     {
+
+        $this->validate();
+
         $user = Auth::user();
         $post = \App\Models\Post::findOrFail($postId);
 
@@ -138,6 +141,14 @@ class PostDetail extends Component
         $this->dispatch('alimentoAgregado');
     }
 
+    public function rules()
+    {
+        return [
+            'diaSeleccionado' => 'required|in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo',
+            'tipoComidaSeleccionado' => 'required|in:Desayuno,Comida,Merienda,Cena',
+            'cantidadSeleccionada' => 'required|numeric|min:1'
+        ];
+    }
 
 
 

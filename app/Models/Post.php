@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Scopes\OrderByLikesScope;
 
 class Post extends Model
 {
@@ -47,13 +48,26 @@ class Post extends Model
         return $this->hasMany(PostImage::class);
     }
 
-
-
-    protected static function booted()
+    public function scopeConMuchosLikes($query, $minLikes = 10)
     {
+        return $query->withCount('likes')
+            ->having('likes_count', '>=', $minLikes)
+            ->orderByDesc('likes_count');
+    }
+
+
+    protected static function booted() : void
+    {
+        static::addGlobalScope(new OrderByLikesScope);
+
         static::creating(function ($post) {
             $post->slug = Str::slug($post->title);
         });
     }
 
+    public function scopeConIngredientesSimilares($query, string $nombre)
+    {
+        return $query->withCount('likes')
+            ->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(ingredients, '$'))) LIKE ?", ['%' . strtolower($nombre) . '%']);
+    }
 }

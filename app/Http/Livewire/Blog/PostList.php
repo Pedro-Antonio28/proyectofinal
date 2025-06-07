@@ -17,12 +17,16 @@ class PostList extends Component
 
     public array $likesCount = [];
 
-    protected $queryString = ['search', 'showTrashed'];
+    protected $queryString = ['search', 'showTrashed', 'ingrediente'];
     protected $listeners = [
         'likePost' => 'toggleLike',
         'restorePost' => 'restore',
         'deletePost' => 'delete',
     ];
+
+    public string $ingrediente = '';
+    public string $ingredienteABuscar = '';
+
 
 
     public function updatingSearch()
@@ -31,12 +35,22 @@ class PostList extends Component
     }
 
 
-    public function delete(Post $post)
+    public function delete($postId)
     {
+        $post = \App\Models\Post::findOrFail($postId);
         $this->authorize('delete', $post);
         $post->delete();
-        $this->emit('postDeleted');
+        $this->dispatch('postDeleted');
+        return redirect()->route('posts.index');
+
     }
+
+    public function buscarPorIngrediente()
+    {
+        $this->resetPage();
+        $this->ingredienteABuscar = $this->ingrediente;
+    }
+
 
     public function restore($id)
     {
@@ -67,21 +81,28 @@ class PostList extends Component
     public function render()
     {
         $query = Post::withCount('likes')
-            ->when($this->search, fn ($q) => $q->where('title', 'like', '%' . $this->search . '%'));
+            ->when($this->search, fn($q) =>
+            $q->where('title', 'like', '%' . $this->search . '%')
+            )
+            ->when($this->ingredienteABuscar !== '', fn($q) =>
+            $q->conIngredientesSimilares($this->ingredienteABuscar)
+            );
 
         if ($this->showTrashed) {
             $query->onlyTrashed();
         }
 
-        $posts = $query->latest()->paginate(10);
+        $posts = $query->paginate(10);
 
-        // Inicializar contador de likes
+        // Contador de likes
         foreach ($posts as $post) {
-            $this->likesCount[$post->id] = $post->likes_count;
+            $this->likesCount[$post->id] = $post->likes_count ?? 0;
         }
 
         return view('livewire.blog.post-list', [
             'posts' => $posts,
         ])->layout('layouts.livewireLayout');
     }
+
+
 }

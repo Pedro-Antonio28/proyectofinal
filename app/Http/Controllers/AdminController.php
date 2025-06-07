@@ -9,6 +9,8 @@ use App\Models\DietaAlimento;
 use App\Models\Dieta;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Events\UserDeleted;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateDietaAlimentoRequest;
 
 class AdminController extends Controller
 {
@@ -30,7 +32,9 @@ class AdminController extends Controller
     }
 
     // Actualizar datos del usuario
-    public function update(Request $request, $id)
+
+
+    public function update(UpdateUserRequest $request, $id)
     {
         $usuario = User::findOrFail($id);
 
@@ -74,6 +78,7 @@ class AdminController extends Controller
     public function eliminarDieta($id)
     {
         $dieta = Dieta::findOrFail($id);
+        $this->authorize('delete', $dieta);
         $dieta->delete();
 
         return redirect()->route('admin.users')->with('success', 'Dieta eliminada correctamente.');
@@ -82,24 +87,29 @@ class AdminController extends Controller
 
     public function editarAlimento($id)
     {
-        $alimento = DietaAlimento::findOrFail($id);
+        $alimento = DietaAlimento::with('dieta')->findOrFail($id);
+        $this->authorize('update', $alimento->dieta);
         return view('admin.editar-alimento', compact('alimento'));
     }
 
 
-    public function actualizarAlimento(Request $request, $id)
-    {
-        $request->validate([
-            'cantidad' => 'required|numeric|min:1',
-        ]);
 
-        $alimento = DietaAlimento::findOrFail($id);
-        $alimento->update(['cantidad' => $request->input('cantidad')]);
+
+    public function actualizarAlimento(UpdateDietaAlimentoRequest $request, $id)
+    {
+        $alimento = DietaAlimento::with('dieta')->findOrFail($id);
+
+        $this->authorize('update', $alimento->dieta);
+
+        $alimento->update([
+            'cantidad' => $request->input('cantidad'),
+        ]);
 
         // Actualizar el JSON de la dieta
         $this->actualizarDietaJSON($alimento->dieta);
 
-        return redirect()->route('admin.users.dieta', ['id' => $alimento->dieta->user_id])
+        return redirect()
+            ->route('admin.users.dieta', ['id' => $alimento->dieta->user_id])
             ->with('success', 'Alimento actualizado correctamente.');
     }
 

@@ -3,6 +3,23 @@
         🥗 Dietas del Blog
     </h2>
 
+    <div class="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <input
+            type="text"
+            wire:model="ingrediente"
+            placeholder="🔍 Buscar por ingrediente..."
+            class="border px-4 py-2 rounded w-full sm:w-1/2"
+        >
+        <button
+            wire:click="buscarPorIngrediente"
+            class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition"
+        >
+            Buscar
+        </button>
+    </div>
+
+
+
     <div class="text-center mb-10">
         <a href="{{ route('posts.create') }}"
            class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white font-semibold rounded-full shadow hover:bg-green-700 transition">

@@ -57,6 +57,13 @@ Route::get('/change-language/{locale}', function ($locale) {
 
 Route::middleware(SetLocale::class)->group(function () {
     Route::get('/', WelcomePage::class)->name('home');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    });
+    Route::get('/agregar-alimento/{dia}/{tipoComida}', AgregarAlimento::class)
+        ->name('agregar.alimento');
+    Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', EditarAlimento::class)
+        ->name('editar.alimento');
     // ... otras rutas que usen la configuración del idioma
 });
 
@@ -79,9 +86,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
-});
+
 
 
 
@@ -114,12 +119,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Ruta para agregar alimento
-Route::get('/agregar-alimento/{dia}/{tipoComida}', AgregarAlimento::class)
-    ->name('agregar.alimento');
 
-Route::get('/editar-alimento/{dia}/{tipoComida}/{alimentoId}', EditarAlimento::class)
-    ->name('editar.alimento');
+// Ruta para agregar alimento
+
 
 
 Route::get('/dieta/pdf/{dia}', [DietaController::class, 'pdf'])

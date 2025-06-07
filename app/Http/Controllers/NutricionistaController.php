@@ -7,6 +7,7 @@ use App\Models\Dieta;
 use App\Models\DietaAlimento;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Http\Requests\StoreAlimentoRequest;
 
 class NutricionistaController extends Controller
 {
@@ -32,8 +33,7 @@ class NutricionistaController extends Controller
     }
 
 
-
-    public function agregarAlimento(Request $request, $id)
+    public function agregarAlimento(StoreAlimentoRequest $request, $id)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',

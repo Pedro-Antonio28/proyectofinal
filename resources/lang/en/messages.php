@@ -25,5 +25,54 @@ return [
     'visible_transformation' => 'Transform your life with visible and sustainable results.',
     'twitter' => 'Twitter',
     'footer_rights' => '© Calorix 2025. All rights reserved. Promoting healthy nutrition for everyone.',
+    'change_language_tooltip' => 'Change language',
+
+    //Dashboard
+    'daily_progress' => '🎯 Daily Progress',
+    'calories' => 'Calories',
+    'proteins' => 'Proteins',
+    'carbohydrates' => 'Carbohydrates',
+    'fats' => 'Fats',
+    'download_diet' => '📄 Download diet for',
+    'send_weekly_email' => '📬 Send weekly diet by email',
+    'send_telegram' => '📤 Send diet via Telegram',
+    'diet_for' => '📅 Diet for',
+    'add' => '➕ Add',
+    'export_excel' => 'Export to Excel',
+    'no_food_assigned' => 'No food assigned.',
+    'connect_telegram' => '🤖 Connect with Telegram',
+    'get_telegram_id' => 'Talk to <a href="https://t.me/RealCalorix_bot" target="_blank" class="text-blue-600 underline">@RealCalorix_bot</a> and get your <strong>Telegram ID</strong> using <a href="https://t.me/userinfobot" target="_blank" class="text-blue-600 underline">@userinfobot</a>.',
+    'placeholder_telegram_id' => 'e.g., 123456789',
+    'cancel' => 'Cancel',
+    'save_telegram_id' => '✅ Save ID and link',
+
+    //agregar alimento
+    'add_food' => '➕ Add Food',
+    'food_name' => 'Food Name',
+    'calories_label' => 'Calories',
+    'calories_placeholder' => 'Calories per 100g',
+    'proteins_label' => 'Proteins (g)',
+    'carbs_label' => 'Carbohydrates (g)',
+    'fats_label' => 'Fats (g)',
+    'field_placeholder' => '0',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'form_error' => '❌ :error',
+
+    //Editar_Alimento
+    'edit_food' => '✏️ Edit Food',
+    'food_name' => 'Food Name',
+    'amount_g' => 'Amount (g)',
+    'amount_placeholder' => 'e.g., 150',
+    'calories_static' => '🔥 Calories:',
+    'proteins_static' => '🥩 Proteins:',
+    'carbs_static' => '🍞 Carbohydrates:',
+    'fats_static' => '🥑 Fats:',
+    'save_changes' => 'Save Changes',
+    'delete' => 'Delete',
+    'back' => 'Back',
+
+
+
 
 ];

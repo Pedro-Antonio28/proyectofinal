@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Config::set('app.locale', $locale);
 
         \Log::info('Idioma cargado en AppServiceProvider: ' . $locale);
+
     }
 
 

@@ -98,6 +98,11 @@ class PostForm extends Component
         return redirect()->route('posts.index');
     }
 
+    public function eliminarPost()
+    {
+        $this->emitUp('deletePost', $this->postId);
+    }
+
     public function render()
     {
         return view('livewire.blog.post-form')->layout('layouts.livewireLayout');

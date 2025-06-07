@@ -85,12 +85,16 @@
         @if (Auth::id() === $postUserId)
             <div class="pb-4 px-6">
                 <div class="flex justify-center gap-3">
-                    <a href="{{ route('posts.edit', $postId) }}">
+                    <a href="{{ route('posts.edit', $postId) }}" onclick="event.stopPropagation()">
                         <x-button size="sm">Editar</x-button>
                     </a>
-                    <x-button size="sm" wire:click="$emitUp('deletePost', {{ $postId }})" class="bg-red-600 hover:bg-red-700">
+                    <x-button size="sm"
+                              wire:click="eliminarPost"
+                              onclick="event.stopPropagation()"
+                              class="bg-red-600 hover:bg-red-700">
                         Eliminar
                     </x-button>
+
                 </div>
             </div>
         @endif

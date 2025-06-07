@@ -32,7 +32,9 @@ class EnviarDietaPdfJob implements ShouldQueue
             'dieta' => $this->dietaJson,
         ])->output();
 
-        Mail::to($this->user->email)->send(new DietaPDFMail($this->user, 'semanal'));
+        Mail::to($this->user->email)->send(new DietaPDFMail($this->user, $this->dietaJson, 'semanal'));
+
+
 
 
         \Log::info('[Job] PDF enviado con éxito a ' . $this->user->email);

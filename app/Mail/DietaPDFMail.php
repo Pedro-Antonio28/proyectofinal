@@ -15,23 +15,25 @@ class DietaPDFMail extends Mailable implements ShouldQueue
     public $user;
     public $pdf;
     public $dia;
+    public $dietaJson;
 
-    public function __construct($user, $dia)
+
+    public function __construct($user, $dietaJson, $dia)
     {
         $this->user = $user;
+        $this->dietaJson = $dietaJson;
         $this->dia = $dia;
+
     }
+
 
 
 
 
     public function build()
     {
-        // ⚠️ Asumimos que la dieta se obtiene desde el usuario directamente
-        $dieta = json_decode($this->user->dieta->dieta, true);
-
         $pdf = Pdf::loadView('exports.dieta-semanal', [
-            'dieta' => $dieta,
+            'dieta' => $this->dietaJson,
         ])->output();
 
         return $this->subject("Tu dieta semanal")
@@ -40,5 +42,7 @@ class DietaPDFMail extends Mailable implements ShouldQueue
                 'mime' => 'application/pdf',
             ]);
     }
+
+
 
 }

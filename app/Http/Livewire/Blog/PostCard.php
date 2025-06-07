@@ -49,6 +49,12 @@ class PostCard extends Component
         $this->likes = $post->likes()->count();
     }
 
+    public function eliminarPost()
+    {
+        $this->dispatch('deletePost', $this->postId);
+    }
+
+
 
 
     public function render()

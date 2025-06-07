@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\V1\ApiPostController;
-
+use App\Http\Controllers\Api\V1\ApiDietaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -53,4 +53,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts', [ApiPostController::class, 'store']);
     Route::put('/posts/{post}', [ApiPostController::class, 'update']);
     Route::delete('/posts/{post}', [ApiPostController::class, 'destroy']);
+});
+
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dietas', [ApiDietaController::class, 'index']);
+    Route::post('/dietas', [ApiDietaController::class, 'store']);
+    Route::get('/dietas/{dieta}', [ApiDietaController::class, 'show']);
+    Route::put('/dietas/{dieta}', [ApiDietaController::class, 'update']);
+    Route::delete('/dietas/{dieta}', [ApiDietaController::class, 'destroy']);
 });
