@@ -6,30 +6,26 @@
     <div class="flex items-center justify-between px-6 max-w-7xl mx-auto">
         <!-- 🔥 LOGO -->
         <div class="flex items-center gap-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Calorix Logo" class="w-10 h-10">
-            <span class="text-xl font-semibold">Calorix</span>
+            <img src="{{ asset('images/logo.png') }}" alt="{{ __('messages.logo_alt') }}" class="w-10 h-10">
+            <span class="text-xl font-semibold">{{ __('messages.logo_text') }}</span>
         </div>
-
-        @php
-            $current = Route::currentRouteName();
-        @endphp
 
         <a href="{{ route('home') }}"
            class="no-underline px-4 py-2 rounded-full font-medium transition duration-300
         {{ $current === 'home' ? 'bg-green-600 text-white shadow' : 'bg-white text-gray-700 hover:bg-green-100' }}">
-            Inicio
+            {{ __('messages.nav_home') }}
         </a>
 
         <a href="{{ route('posts.index') }}"
            class="no-underline px-4 py-2 rounded-full font-medium transition duration-300
         {{ $current === 'posts.index' ? 'bg-green-600 text-white shadow' : 'bg-white text-gray-700 hover:bg-green-100' }}">
-            🥗 Blog de Dietas
+            🥗 {{ __('messages.nav_blog') }}
         </a>
 
         <a href="{{ route('dashboard') }}"
            class="no-underline px-4 py-2 rounded-full font-medium transition duration-300
         {{ $current === 'dashboard' ? 'bg-green-600 text-white shadow' : 'bg-white text-gray-700 hover:bg-green-100' }}">
-            👤 Área personal
+            👤 {{ __('messages.nav_dashboard') }}
         </a>
 
         <!-- Botón cambio de idioma -->
@@ -39,7 +35,6 @@
            style="width: 40px; height: 40px;">
             🌐
         </a>
-
 
         <!-- 🔥 Usuario -->
         <div x-data="{ open: false }" class="relative">
@@ -56,22 +51,22 @@
             <div x-show="open" @click.away="open = false"
                  class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg py-2">
                 <a href="{{ route('profile.edit') }}"
-                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100">📝 Ver Perfil</a>
+                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100">📝 {{ __('messages.profile') }}</a>
 
                 @if(Auth::user()->hasRole('admin'))
                     <a href="{{ route('admin.users') }}"
-                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">⚙️ Administración</a>
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">⚙️ {{ __('messages.admin') }}</a>
                 @endif
 
                 @if(Auth::user()->hasRole('nutricionista'))
                     <a href="{{ route('nutricionista.panel') }}"
-                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">🍏 Panel Nutricionista</a>
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">🍏 {{ __('messages.nutritionist_panel') }}</a>
                 @endif
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                            class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">🚪 Cerrar Sesión</button>
+                            class="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">🚪 {{ __('messages.logout') }}</button>
                 </form>
             </div>
         </div>

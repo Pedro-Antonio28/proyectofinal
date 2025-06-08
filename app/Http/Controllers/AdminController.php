@@ -47,6 +47,31 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('success', 'Usuario actualizado correctamente');
     }
 
+    public function updateEmail(Request $request, $id)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+
+        $usuario = User::findOrFail($id);
+        $usuario->email = $request->input('email');
+        $usuario->save();
+
+        return redirect()->back()->with('success', 'Email actualizado correctamente.');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
+
+        $usuario = User::findOrFail($id);
+        $usuario->password = Hash::make($request->input('password'));
+        $usuario->save();
+
+        return redirect()->back()->with('success', 'Contraseña actualizada correctamente.');
+    }
     // Eliminar usuario
     public function destroy($id)
     {

@@ -29,10 +29,6 @@
 </head>
 <body class="pt-24 min-h-screen bg-[#f8fff4]">
 
-@if (!str_contains(request()->path(), 'alimentos'))
-    @include('components.navbar')
-@endif
-
 <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
 

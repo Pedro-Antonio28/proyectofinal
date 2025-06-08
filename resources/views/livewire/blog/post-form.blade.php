@@ -1,5 +1,5 @@
 <div class="max-w-3xl mx-auto py-12 px-4">
-    <h1 class="text-3xl font-bold mb-8 text-center">➕ Añadir nueva receta</h1>
+    <h1 class="text-3xl font-bold mb-8 text-center">➕ {{ __('messages.add_new_recipe') }}</h1>
 
     <form wire:submit.prevent="guardarPost" class="space-y-6">
         @if (session()->has('success'))
@@ -25,59 +25,63 @@
 
         {{-- Título y descripción --}}
         <div>
-            <label class="block text-sm font-medium text-gray-700">Título</label>
+            <label class="block text-sm font-medium text-gray-700">{{ __('messages.title') }}</label>
             <input type="text" wire:model.defer="post.title" class="w-full border rounded p-2 mt-1" required>
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+            <label class="block text-sm font-medium text-gray-700">{{ __('messages.description') }}</label>
             <textarea wire:model.defer="post.description" rows="5" class="w-full border rounded p-2 mt-1" required></textarea>
         </div>
 
         {{-- Ingredientes --}}
         <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Ingredientes</label>
+            <label class="block text-sm font-medium text-gray-700">{{ __('messages.ingredients') }}</label>
             @foreach($ingredients as $index => $ingredient)
                 <div class="flex gap-2">
-                    <input type="text" wire:model="ingredients.{{ $index }}.name" placeholder="Nombre" class="flex-1 border rounded p-2" required>
-                    <input type="text" wire:model="ingredients.{{ $index }}.quantity" placeholder="Cantidad" class="w-32 border rounded p-2" required>
-                    <button type="button" wire:click="removeIngredient({{ $index }})" class="text-red-600 hover:underline">Eliminar</button>
+                    <input type="text" wire:model="ingredients.{{ $index }}.name" placeholder="{{ __('messages.name') }}" class="flex-1 border rounded p-2" required>
+                    <input type="text" wire:model="ingredients.{{ $index }}.quantity" placeholder="{{ __('messages.quantity') }}" class="w-32 border rounded p-2" required>
+                    <button type="button" wire:click="removeIngredient({{ $index }})" class="text-red-600 hover:underline">
+                        {{ __('messages.remove') }}
+                    </button>
                 </div>
             @endforeach
-            <button type="button" wire:click="addIngredient" class="text-green-600 hover:underline mt-2">➕ Añadir ingrediente</button>
+            <button type="button" wire:click="addIngredient" class="text-green-600 hover:underline mt-2">
+                ➕ {{ __('messages.add_ingredient') }}
+            </button>
         </div>
 
         {{-- Macros --}}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Calorías</label>
+                <label class="block text-sm font-medium text-gray-700">{{ __('messages.calories') }}</label>
                 <input type="number" wire:model.defer="macrosData.calories" class="w-full border rounded p-2 mt-1" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Proteínas</label>
+                <label class="block text-sm font-medium text-gray-700">{{ __('messages.proteins') }}</label>
                 <input type="number" step="0.1" wire:model.defer="macrosData.protein" class="w-full border rounded p-2 mt-1" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Carbohidratos</label>
+                <label class="block text-sm font-medium text-gray-700">{{ __('messages.carbohydrates') }}</label>
                 <input type="number" step="0.1" wire:model.defer="macrosData.carbs" class="w-full border rounded p-2 mt-1" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Grasas</label>
+                <label class="block text-sm font-medium text-gray-700">{{ __('messages.fats') }}</label>
                 <input type="number" step="0.1" wire:model.defer="macrosData.fat" class="w-full border rounded p-2 mt-1" required>
             </div>
         </div>
 
         {{-- Imágenes --}}
         <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Imágenes del post</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('messages.post_images') }}</label>
             <input type="file" multiple wire:model="images" class="w-full border border-dashed border-gray-300 rounded p-4 cursor-pointer transition hover:border-green-500 hover:bg-green-50" />
             <div wire:loading wire:target="images" class="text-sm text-gray-500 mt-2">
-                📤 Subiendo imágenes...
+                📤 {{ __('messages.uploading_images') }}
             </div>
             @error('imagesTemp.*') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
 
             @if ($imagesTemp)
-                <p class="text-sm text-gray-600 mt-2">Imágenes añadidas: {{ count($imagesTemp) }}</p>
+                <p class="text-sm text-gray-600 mt-2">{{ __('messages.images_added', ['count' => count($imagesTemp)]) }}</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                     @foreach ($imagesTemp as $img)
                         <img src="{{ $img->temporaryUrl() }}" class="w-full h-40 object-cover rounded shadow">
@@ -89,7 +93,7 @@
         {{-- Botón guardar --}}
         <div class="text-center pt-4">
             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">
-                💾 Guardar receta
+                💾 {{ __('messages.save_recipe') }}
             </button>
         </div>
     </form>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Calorix</title>
+    <title>{{ __('messages.login') }} - Calorix</title>
     @vite('resources/css/app.css')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -23,60 +23,39 @@
     <!-- Logo y título -->
     <div class="text-center">
         <img src="{{ asset('images/logo.png') }}" alt="Calorix Logo" class="w-16 h-16 mx-auto">
-        <h2 class="text-3xl font-bold text-gray-900 mt-4">Iniciar Sesión</h2>
-        <p class="text-gray-600 mt-2">Accede a tu cuenta para continuar</p>
+        <h2 class="text-3xl font-bold text-gray-900 mt-4">{{ __('messages.login') }}</h2>
+        <p class="text-gray-600 mt-2">{{ __('messages.login_subtitle') }}</p>
     </div>
 
+    <div class="flex justify-end mb-2">
+        @include('components.language-switcher')
+    </div>
     <!-- Formulario de inicio de sesión -->
     <form action="/login" method="POST">
-
-    @csrf
-
+        @csrf
 
         <!-- Campo Email -->
         <div>
-            <label for="email" class="block text-gray-700 font-medium">Correo Electrónico</label>
-            <input type="email" id="email" name="email" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="correo@ejemplo.com" required>
+            <label for="email" class="block text-gray-700 font-medium">{{ __('messages.email') }}</label>
+            <input type="email" id="email" name="email" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="{{ __('messages.email_placeholder') }}" required>
         </div>
 
         <!-- Campo Contraseña -->
         <div class="mt-4">
-            <label for="password" class="block text-gray-700 font-medium">Contraseña</label>
+            <label for="password" class="block text-gray-700 font-medium">{{ __('messages.password') }}</label>
             <input type="password" id="password" name="password" class="mt-2 w-full px-4 py-3 border rounded-lg focus:ring focus:ring-[#a7d675] focus:outline-none" placeholder="••••••••" required>
-        </div>
-
-        <!-- Recordar sesión y contraseña olvidada -->
-        <div class="flex items-center justify-between mt-4">
-            <label class="flex items-center text-gray-600">
-                <input type="checkbox" name="remember" class="mr-2">
-                Recordarme
-            </label>
-            <a href="#" class="text-[#a7d675] hover:underline">¿Olvidaste tu contraseña?</a>
         </div>
 
         <!-- Botón de inicio de sesión -->
         <button type="submit" class="mt-6 w-full bg-[#a7d675] hover:bg-[#96c464] text-white py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105">
-            Iniciar Sesión
+            {{ __('messages.login') }}
         </button>
     </form>
 
-    <!-- Separador -->
-    <div class="flex items-center justify-center my-6">
-        <span class="w-1/3 border-b border-gray-300"></span>
-        <span class="mx-4 text-gray-500">o</span>
-        <span class="w-1/3 border-b border-gray-300"></span>
-    </div>
-
-    <!-- Botón de inicio con Google -->
-    <button class="w-full flex items-center justify-center border border-gray-300 rounded-lg py-3 text-gray-700 font-medium transition-all duration-300 hover:bg-gray-100">
-        <img src="{{ asset('images/logo google.png') }}" alt="Google Logo" class="w-5 h-5 mr-2">
-        Iniciar sesión con Google
-    </button>
-
     <!-- Registro -->
     <p class="text-center text-gray-600 mt-6">
-        ¿No tienes una cuenta?
-        <a href="{{ route('register') }}" class="text-[#a7d675] hover:underline">Regístrate aquí</a>
+        {{ __('messages.no_account') }}
+        <a href="{{ route('register') }}" class="text-[#a7d675] hover:underline">{{ __('messages.register_here') }}</a>
     </p>
 </div>
 
@@ -92,4 +71,3 @@
 
 </body>
 </html>
-

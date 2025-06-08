@@ -37,7 +37,7 @@
         </div>
     @else
         <div class="bg-gray-200 h-72 flex items-center justify-center">
-            <span class="text-gray-600">Sin imagen</span>
+            <span class="text-gray-600">{{ __('messages.no_image') }}</span>
         </div>
         <div class="p-4">
             <h3 class="text-xl font-bold text-gray-900 text-center">{{ $title }}</h3>
@@ -48,19 +48,19 @@
         <div class="grid grid-cols-2 gap-y-4 gap-x-4 text-gray-700 text-sm font-semibold text-center">
             <div class="flex flex-col items-center">
                 <div class="text-xl">🔥</div>
-                <span>{{ $macroData['calories'] ?? '—' }} kcal</span>
+                <span>{{ $macroData['calories'] ?? '—' }} {{ __('messages.kcal') }}</span>
             </div>
             <div class="flex flex-col items-center">
                 <div class="text-xl">💪</div>
-                <span>{{ $macroData['protein'] ?? '—' }} g proteína</span>
+                <span>{{ $macroData['protein'] ?? '—' }} {{ __('messages.protein') }}</span>
             </div>
             <div class="flex flex-col items-center">
                 <div class="text-xl">🍞</div>
-                <span>{{ $macroData['carbs'] ?? '—' }} g carbohidratos</span>
+                <span>{{ $macroData['carbs'] ?? '—' }} {{ __('messages.carbs') }}</span>
             </div>
             <div class="flex flex-col items-center">
                 <div class="text-xl">🥑</div>
-                <span>{{ $macroData['fat'] ?? '—' }} g grasa</span>
+                <span>{{ $macroData['fat'] ?? '—' }} {{ __('messages.fat') }}</span>
             </div>
         </div>
 
@@ -73,10 +73,10 @@
                 </button>
 
                 <span class="text-sm text-gray-600">
-                    {{ $likes }} me gusta
+                    {{ $likes }} {{ __('messages.likes') }}
                 </span>
             @else
-                <span class="text-sm text-gray-400 italic">Inicia sesión para dar like</span>
+                <span class="text-sm text-gray-400 italic">{{ __('messages.login_to_like') }}</span>
             @endauth
         </div>
 
@@ -88,12 +88,10 @@
 
             @if($nota)
                 <div class="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded-lg text-sm text-gray-800">
-                    <strong>📝 Tu nota:</strong> {{ $nota }}
+                    <strong>📝 {{ __('messages.your_note') }}:</strong> {{ $nota }}
                 </div>
             @endif
         @endif
-
-
     </div>
 
     @auth
@@ -101,15 +99,14 @@
             <div class="pb-4 px-6">
                 <div class="flex justify-center gap-3">
                     <a href="{{ route('posts.edit', $postId) }}" onclick="event.stopPropagation()">
-                        <x-button size="sm">Editar</x-button>
+                        <x-button size="sm">{{ __('messages.edit') }}</x-button>
                     </a>
                     <x-button size="sm"
                               wire:click="eliminarPost"
                               onclick="event.stopPropagation()"
                               class="bg-red-600 hover:bg-red-700">
-                        Eliminar
+                        {{ __('messages.delete') }}
                     </x-button>
-
                 </div>
             </div>
         @endif

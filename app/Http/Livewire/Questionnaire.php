@@ -124,7 +124,7 @@ class Questionnaire extends Component
 
     public function render()
     {
-        return view('livewire.questionnaire')->layout('layouts.livewireLayout');
+        return view('livewire.questionnaire')->layout('layouts.QuestionnaireLayout');
     }
 
 

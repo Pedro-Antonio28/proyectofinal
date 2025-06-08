@@ -2,78 +2,77 @@
 
 @section('content')
     <div class="container mx-auto mt-12">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">➕ Agregar Alimento a la Dieta</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">{{ __('messages.add_food') }}</h1>
 
         <div class="bg-white shadow-xl rounded-2xl p-6 border border-gray-300 max-w-lg mx-auto">
             <form action="{{ route('nutricionista.dieta.add', $cliente->id) }}" method="POST">
                 @csrf
 
-
-
-                <!-- Nombre del alimento -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Nombre del Alimento:</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.food_name') }}:</label>
                     <input type="text" name="nombre" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
-                <!-- Calorías por cada 100g -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Calorías (por 100g):</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.calories_label') }} ({{ __('messages.calories_placeholder') }}):</label>
                     <input type="number" step="0.1" name="calorias" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
-                <!-- Macronutrientes -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Proteínas (g por 100g):</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.proteins_label') }}:</label>
                     <input type="number" step="0.1" name="proteinas" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Carbohidratos (g por 100g):</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.carbs_label') }}:</label>
                     <input type="number" step="0.1" name="carbohidratos" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Grasas (g por 100g):</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.fats_label') }}:</label>
                     <input type="number" step="0.1" name="grasas" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
-                <!-- Cantidad en gramos -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Cantidad (g):</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.amount_g') }}:</label>
                     <input type="number" step="1" name="cantidad" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
                 </div>
 
-                <!-- Día de la semana -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Día de la Semana:</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.day_of_week') }}:</label>
                     <select name="dia" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                        <option value="Lunes">Lunes</option>
-                        <option value="Martes">Martes</option>
-                        <option value="Miércoles">Miércoles</option>
-                        <option value="Jueves">Jueves</option>
-                        <option value="Viernes">Viernes</option>
-                        <option value="Sábado">Sábado</option>
-                        <option value="Domingo">Domingo</option>
+                        <option value="Lunes">{{ __('messages.monday') }}</option>
+                        <option value="Martes">{{ __('messages.tuesday') }}</option>
+                        <option value="Miércoles">{{ __('messages.wednesday') }}</option>
+                        <option value="Jueves">{{ __('messages.thursday') }}</option>
+                        <option value="Viernes">{{ __('messages.friday') }}</option>
+                        <option value="Sábado">{{ __('messages.saturday') }}</option>
+                        <option value="Domingo">{{ __('messages.sunday') }}</option>
                     </select>
                 </div>
 
-                <!-- Tipo de comida -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold">Tipo de Comida:</label>
+                    <label class="block text-gray-700 font-semibold">{{ __('messages.meal_type') }}:</label>
                     <select name="tipo_comida" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                        <option value="Desayuno">Desayuno</option>
-                        <option value="Almuerzo">Almuerzo</option>
-                        <option value="Comida">Comida</option>
-                        <option value="Merienda">Merienda</option>
-                        <option value="Cena">Cena</option>
+                        <option value="Desayuno">{{ __('messages.breakfast') }}</option>
+                        <option value="Almuerzo">{{ __('messages.morning_snack') }}</option>
+                        <option value="Comida">{{ __('messages.lunch') }}</option>
+                        <option value="Merienda">{{ __('messages.afternoon_snack') }}</option>
+                        <option value="Cena">{{ __('messages.dinner') }}</option>
                     </select>
                 </div>
 
                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">
-                    ✅ Guardar Alimento
+                    ✅ {{ __('messages.save') }}
                 </button>
             </form>
+
+            <div class="mt-4 text-center">
+                <a href="{{ route('nutricionista.cliente.dieta', $cliente->id) }}"
+                   class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    🔙 {{ __('messages.back') }}
+                </a>
+            </div>
         </div>
     </div>
 @endsection

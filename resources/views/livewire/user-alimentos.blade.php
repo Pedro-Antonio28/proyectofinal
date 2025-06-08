@@ -1,19 +1,19 @@
-
-
-
 <div>
-    <h1 class="text-4xl font-bold text-gray-900 text-center mb-8">Selecciona tus alimentos favoritos</h1>
+    <h1 class="text-4xl font-bold text-gray-900 text-center mb-8">{{ __('messages.select_favorite_foods') }}</h1>
+    <div class="flex justify-end mb-2">
+        @include('components.language-switcher')
+    </div>
 
     <form wire:submit.prevent="guardarSeleccion" class="space-y-8">
         @csrf
 
         @php
             $categorias = [
-                'proteinas' => 'Proteínas',
-                'carbohidratos' => 'Carbohidratos',
-                'frutas' => 'Frutas',
-                'verduras' => 'Verduras',
-                'grasas' => 'Grasas'
+                'proteinas' => __('messages.proteins'),
+                'carbohidratos' => __('messages.carbohydrates'),
+                'frutas' => __('messages.fruits'),
+                'verduras' => __('messages.vegetables'),
+                'grasas' => __('messages.fats')
             ];
         @endphp
 
@@ -40,7 +40,7 @@
                                      class="img-fluid mb-2"
                                      style="max-height: 150px; object-fit: cover;">
                             @else
-                                <img src="{{ asset('images/default-food.png') }}" alt="Imagen no disponible"
+                                <img src="{{ asset('images/default-food.png') }}" alt="{{ __('messages.image_not_available') }}"
                                      class="img-fluid mb-2"
                                      style="max-height: 150px; object-fit: cover;">
                             @endif
@@ -56,7 +56,7 @@
 
         <div class="flex justify-center mt-6">
             <button type="submit" class="bg-[#a7d675] hover:bg-[#96c464] text-gray-900 font-semibold py-3 px-8 rounded-full shadow-md transition-all transform hover:scale-105">
-                Guardar selección
+                {{ __('messages.save_selection') }}
             </button>
         </div>
 

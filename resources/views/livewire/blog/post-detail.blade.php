@@ -1,7 +1,6 @@
 <div class="max-w-4xl mx-auto px-4 py-12">
 
-
-{{-- Botón de volver estilizado --}}
+    {{-- Botón de volver estilizado --}}
     <div class="mb-8">
         <a href="{{ route('posts.index') }}"
            class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 bg-[#a7d675] px-4 py-2 rounded-full shadow hover:bg-gray-100 transition hover:-translate-x-1">
@@ -9,7 +8,7 @@
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
             </svg>
-            Volver al listado de dietas
+            {{ __('messages.back_to_recipes') }}
         </a>
     </div>
 
@@ -21,17 +20,17 @@
     {{-- Imagen destacada --}}
     @if ($post->images && $post->images->count())
         <div x-data="{
-    current: 0,
-    fullscreen: false,
-    fullscreenImg: '',
-    images: @js($post->images->map(fn($img) => asset('storage/' . $img->path)))
-}" class="relative w-full max-w-3xl mx-auto mb-10">
+            current: 0,
+            fullscreen: false,
+            fullscreenImg: '',
+            images: @js($post->images->map(fn($img) => asset('storage/' . $img->path)))
+        }" class="relative w-full max-w-3xl mx-auto mb-10">
 
-        <div class="overflow-hidden rounded-xl shadow-md">
+            <div class="overflow-hidden rounded-xl shadow-md">
                 <template x-for="(img, index) in images" :key="index">
                     <div x-show="current === index" class="transition duration-500 ease-in-out">
-                        <img :src="img" class="w-full max-h-96 object-contain rounded-xl cursor-zoom-in" @click="fullscreen = true; fullscreenImg = img">
-
+                        <img :src="img" class="w-full max-h-96 object-contain rounded-xl cursor-zoom-in"
+                             @click="fullscreen = true; fullscreenImg = img">
                     </div>
                 </template>
             </div>
@@ -50,7 +49,6 @@
                 </button>
             </div>
 
-
             {{-- Flechas --}}
             <button @click="current = (current - 1 + images.length) % images.length"
                     class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-75 p-2 rounded-full shadow hover:bg-opacity-100">
@@ -63,13 +61,10 @@
         </div>
     @endif
 
-
-
-
-    {{-- Ingredientes primero --}}
+    {{-- Ingredientes --}}
     @if (!empty($post->ingredients))
         <div class="bg-white rounded-2xl p-6 shadow-md mb-10" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 Ingredientes</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">📝 {{ __('messages.ingredients') }}</h2>
             <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
                 @foreach ($post->ingredients as $ingredient)
                     <li>
@@ -89,14 +84,14 @@
 
     {{-- Macros por 100g --}}
     <div class="bg-white rounded-2xl p-6 shadow-md mb-10" data-aos="fade-up">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">⚖️ Valores nutricionales por cada 100g</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">⚖️ {{ __('messages.nutrition_per_100g') }}</h2>
 
         @php
             $macros = [
-                ['icon' => '🔥', 'label' => 'Calorías', 'value' => $post->macros['calories'] ?? '—', 'unit' => 'kcal'],
-                ['icon' => '💪', 'label' => 'Proteínas', 'value' => $post->macros['protein'] ?? '—', 'unit' => 'g'],
-                ['icon' => '🍞', 'label' => 'Carbohidratos', 'value' => $post->macros['carbs'] ?? '—', 'unit' => 'g'],
-                ['icon' => '🥑', 'label' => 'Grasas', 'value' => $post->macros['fat'] ?? '—', 'unit' => 'g'],
+                ['icon' => '🔥', 'label' => __('messages.calories'), 'value' => $post->macros['calories'] ?? '—', 'unit' => 'kcal'],
+                ['icon' => '💪', 'label' => __('messages.proteins'), 'value' => $post->macros['protein'] ?? '—', 'unit' => 'g'],
+                ['icon' => '🍞', 'label' => __('messages.carbohydrates'), 'value' => $post->macros['carbs'] ?? '—', 'unit' => 'g'],
+                ['icon' => '🥑', 'label' => __('messages.fats'), 'value' => $post->macros['fat'] ?? '—', 'unit' => 'g'],
             ];
         @endphp
 
@@ -115,25 +110,25 @@
     <div class="text-center" data-aos="fade-up" data-aos-delay="300">
         @if(auth()->user()?->is_premium)
             <x-button wire:click="lanzarModalAñadir({{ $post->id }})">
-                ➕ Añadir a mi dieta
+                ➕ {{ __('messages.add_to_my_diet') }}
             </x-button>
         @else
             <button type="button"
                     onclick="abrirModalPremium()"
                     class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition">
-                ➕ Añadir a mi dieta
+                ➕ {{ __('messages.add_to_my_diet') }}
             </button>
         @endif
     </div>
 
-    {{-- Modal de añadir dieta (Livewire) --}}
+    {{-- Modal de añadir dieta --}}
     @if(auth()->user()?->is_premium && $mostrarModal)
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50" wire:ignore.self>
             <div class="bg-white rounded-xl p-6 w-full max-w-md space-y-4 shadow-xl">
-                <h2 class="text-xl font-bold text-center">¿Dónde quieres añadir esta receta?</h2>
+                <h2 class="text-xl font-bold text-center">{{ __('messages.where_to_add') }}</h2>
 
                 <div>
-                    <label class="block text-sm font-semibold">Día:</label>
+                    <label class="block text-sm font-semibold">{{ __('messages.day') }}:</label>
                     <select wire:model="diaSeleccionado" class="w-full mt-1 border rounded p-2">
                         @foreach(['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'] as $dia)
                             <option value="{{ $dia }}">{{ $dia }}</option>
@@ -142,7 +137,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold">Tipo de comida:</label>
+                    <label class="block text-sm font-semibold">{{ __('messages.meal_type') }}:</label>
                     <select wire:model="tipoComidaSeleccionado" class="w-full mt-1 border rounded p-2">
                         @foreach(['Desayuno','Comida','Merienda','Cena'] as $tipo)
                             <option value="{{ $tipo }}">{{ $tipo }}</option>
@@ -151,29 +146,34 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold">Cantidad (en gramos):</label>
+                    <label class="block text-sm font-semibold">{{ __('messages.amount_g') }}:</label>
                     <input type="number" min="1" wire:model="cantidadSeleccionada" placeholder="Ej: 150"
                            class="w-full mt-1 border rounded p-2" />
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold">¿Añadir a favoritos?</label>
+                    <label class="block text-sm font-semibold">{{ __('messages.add_to_favorites') }}</label>
                     <input type="checkbox" wire:model="esFavorito" class="mt-1">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold">Nota personal (opcional):</label>
-                    <textarea wire:model="notaPersonal" rows="3" class="w-full mt-1 border rounded p-2" placeholder="Puedes escribir algo como: 'Muy buena después del entreno'..."></textarea>
+                    <label class="block text-sm font-semibold">{{ __('messages.personal_note') }}</label>
+                    <textarea wire:model="notaPersonal" rows="3" class="w-full mt-1 border rounded p-2"
+                              placeholder="{{ __('messages.note_placeholder') }}"></textarea>
                 </div>
 
-
                 <div class="flex justify-end gap-2 pt-4">
-                    <x-button wire:click="$set('mostrarModal', false)" class="bg-gray-500 hover:bg-gray-600">Cancelar</x-button>
-                    <x-button wire:click="guardarPostEnDieta" class="bg-green-600 hover:bg-green-700">Añadir</x-button>
+                    <x-button wire:click="$set('mostrarModal', false)" class="bg-gray-500 hover:bg-gray-600">
+                        {{ __('messages.cancel') }}
+                    </x-button>
+                    <x-button wire:click="guardarPostEnDieta" class="bg-green-600 hover:bg-green-700">
+                        {{ __('messages.add') }}
+                    </x-button>
                 </div>
             </div>
         </div>
     @endif
+
     @include('components.modal-premium')
 
 </div>
