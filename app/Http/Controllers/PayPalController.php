@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Mockery;
+
 
 class PayPalController extends Controller
 {
@@ -67,4 +71,5 @@ class PayPalController extends Controller
     {
         return redirect()->route('dashboard')->with('error', 'El pago fue cancelado.');
     }
+
 }

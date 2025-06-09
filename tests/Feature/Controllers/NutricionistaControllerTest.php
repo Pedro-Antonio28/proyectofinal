@@ -1,106 +1,166 @@
 <?php
 
 use App\Models\User;
-use App\Models\Dieta;
-use App\Models\Alimento;
 use App\Models\Role;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Dieta;
+use Illuminate\Support\Str;
+use function Pest\Laravel\{get, post, put, delete, actingAs};
+use App\Http\Requests\StoreAlimentoRequestNutricionista;
+use Illuminate\Support\Facades\Validator;
 
-uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    // Crear el rol `nutricionista` si no existe
-    Role::factory()->create(['name' => 'nutricionista']);
+    $this->nutricionista = User::factory()->create();
+    $nutriRole = Role::firstOrCreate(['name' => 'nutricionista']);
+    $this->nutricionista->roles()->attach($nutriRole);
+    actingAs($this->nutricionista);
+
+    $this->cliente = User::factory()->create();
+    $this->nutricionista->clientes()->attach($this->cliente);
 });
 
-it('allows a nutritionist to access the panel', function () {
-    $nutricionista = User::factory()->create();
+function makeValidator(array $data)
+{
+    $request = new StoreAlimentoRequestNutricionista();
+    return Validator::make($data, $request->rules());
+}
 
-    // Obtener el rol nutricionista y asignarlo
-    $role = Role::where('name', 'nutricionista')->first();
-    $nutricionista->roles()->attach($role->id);
+test('nutricionista can access panel', function () {
+    $response = get(route('nutricionista.panel'));
 
-    $this->actingAs($nutricionista)
-        ->get(route('nutricionista.panel'))
-        ->assertStatus(200);
+    $response->assertOk();
+    $response->assertSeeText('👥');
 });
 
-it('allows a nutritionist to view a client’s diet', function () {
-    $nutricionista = User::factory()->create();
-    $cliente = User::factory()->create();
+test('nutricionista can view client diet', function () {
+    Dieta::factory()->create([
+        'user_id' => $this->cliente->id,
+        'dieta' => json_encode(['Lunes' => []]),
+    ]);
 
-    $role = Role::where('name', 'nutricionista')->first();
-    $nutricionista->roles()->attach($role->id);
-    $nutricionista->clientes()->attach($cliente);
+    $response = get(route('nutricionista.cliente.dieta', $this->cliente->id));
 
-    $dieta = Dieta::factory()->create(['user_id' => $cliente->id]);
-
-    $this->actingAs($nutricionista)
-        ->get(route('nutricionista.cliente.dieta', $cliente->id))
-        ->assertStatus(200)
-        ->assertViewHas('cliente')
-        ->assertViewHas('dieta');
+    $response->assertOk();
+    $response->assertSee($this->cliente->name);
 });
 
-it('allows a nutritionist to add food to a client’s diet', function () {
-    $nutricionista = User::factory()->create();
-    $cliente = User::factory()->create();
-
-    $role = Role::where('name', 'nutricionista')->first();
-    $nutricionista->roles()->attach($role->id);
-    $nutricionista->clientes()->attach($cliente);
-
-    $dieta = Dieta::factory()->create(['user_id' => $cliente->id]);
+test('nutricionista can add food to client diet', function () {
+    $dieta = Dieta::factory()->create([
+        'user_id' => $this->cliente->id,
+        'dieta' => json_encode([]),
+    ]);
 
     $data = [
-        'nombre' => 'Pollo',
-        'calorias' => 200,
-        'proteinas' => 30,
-        'carbohidratos' => 0,
-        'grasas' => 5,
-        'cantidad' => 100,
+        'nombre' => 'Manzana',
+        'calorias' => 52,
+        'proteinas' => 2,
+        'carbohidratos' => 14,
+        'grasas' => 1,
+        'cantidad' => 150,
         'dia' => 'Lunes',
-        'tipo_comida' => 'Almuerzo'
+        'tipo_comida' => 'Desayuno',
     ];
 
-    $this->actingAs($nutricionista)
-        ->post(route('nutricionista.dieta.add', $cliente->id), $data)
-        ->assertRedirect(route('nutricionista.cliente.dieta', $cliente->id));
+    $response = post(route('nutricionista.dieta.add', $this->cliente->id), $data);
 
-    $this->assertDatabaseHas('dietas', ['user_id' => $cliente->id]);
+    $response->assertRedirect(route('nutricionista.cliente.dieta', $this->cliente->id));
+    $response->assertSessionHas('success');
+
+    $this->assertDatabaseHas('dietas', [
+        'id' => $dieta->id,
+    ]);
 });
 
-
-
-it('allows a nutritionist to delete a food item from a diet', function () {
-    $nutricionista = User::factory()->create();
-    $cliente = User::factory()->create();
-
-    $role = Role::where('name', 'nutricionista')->first();
-    $nutricionista->roles()->attach($role->id);
-    $nutricionista->clientes()->attach($cliente);
-
-    $dieta = Dieta::factory()->create(['user_id' => $cliente->id]);
-    $alimento = Alimento::factory()->create();
-    $dietaData = [
-        'Lunes' => [
-            'Almuerzo' => [
-                [
-                    'alimento_id' => $alimento->id,
-                    'nombre' => 'Pollo',
-                    'cantidad' => 100
+test('nutricionista can delete food from client diet', function () {
+    $dieta = Dieta::factory()->create([
+        'user_id' => $this->cliente->id,
+        'dieta' => json_encode([
+            'Lunes' => [
+                'Comida' => [
+                    [
+                        'alimento_id' => 1,
+                        'nombre' => 'Arroz',
+                        'cantidad' => 100,
+                        'calorias' => 130,
+                        'proteinas' => 2,
+                        'carbohidratos' => 28,
+                        'grasas' => 1,
+                    ]
                 ]
             ]
-        ]
-    ];
-    $dieta->update(['dieta' => json_encode($dietaData)]);
+        ]),
+    ]);
 
-    $this->actingAs($nutricionista)
-        ->delete(route('nutricionista.dieta.delete', [
-            'clienteId' => $cliente->id,
-            'dia' => 'Lunes',
-            'tipoComida' => 'Almuerzo',
-            'alimentoId' => $alimento->id
-        ]))
-        ->assertRedirect(route('nutricionista.cliente.dieta', $cliente->id));
+    $response = delete(route('nutricionista.dieta.delete', [
+        'clienteId' => $this->cliente->id,
+        'dia' => 'Lunes',
+        'tipoComida' => 'Comida',
+        'alimentoId' => 1,
+    ]));
+
+    $response->assertRedirect(route('nutricionista.cliente.dieta', $this->cliente->id));
+    $response->assertSessionHas('success');
+});
+
+test('validates with correct data', function () {
+    $data = [
+        'nombre' => 'Manzana',
+        'calorias' => 52,
+        'proteinas' => 1,
+        'carbohidratos' => 14,
+        'grasas' => 0,
+        'cantidad' => 150,
+        'dia' => 'Lunes',
+        'tipo_comida' => 'Desayuno',
+    ];
+
+    $validator = makeValidator($data);
+    expect($validator->passes())->toBeTrue();
+});
+
+test('fails when required fields are missing', function () {
+    $validator = makeValidator([]);
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->keys())->toContain('nombre', 'calorias', 'proteinas', 'carbohidratos', 'grasas', 'cantidad', 'dia', 'tipo_comida');
+});
+
+test('fails when numeric fields are below minimum', function () {
+    $data = [
+        'nombre' => 'Test',
+        'calorias' => -1,
+        'proteinas' => -1,
+        'carbohidratos' => -1,
+        'grasas' => -1,
+        'cantidad' => 0,
+        'dia' => 'Lunes',
+        'tipo_comida' => 'Comida',
+    ];
+
+    $validator = makeValidator($data);
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->has('calorias'))->toBeTrue();
+    expect($validator->errors()->has('cantidad'))->toBeTrue();
+});
+
+test('fails when dia or tipo_comida are invalid', function () {
+    $data = [
+        'nombre' => 'Test',
+        'calorias' => 100,
+        'proteinas' => 10,
+        'carbohidratos' => 10,
+        'grasas' => 5,
+        'cantidad' => 100,
+        'dia' => 'NotADay',
+        'tipo_comida' => 'Brunch',
+    ];
+
+    $validator = makeValidator($data);
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->has('dia'))->toBeTrue();
+    expect($validator->errors()->has('tipo_comida'))->toBeTrue();
+});
+
+test('authorize method returns true', function () {
+    $request = new StoreAlimentoRequestNutricionista();
+    expect($request->authorize())->toBeTrue();
 });

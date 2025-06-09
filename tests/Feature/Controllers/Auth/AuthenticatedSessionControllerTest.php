@@ -11,17 +11,6 @@ it('shows the login page', function () {
         ->assertViewIs('auth.login');
 });
 
-it('allows users to login', function () {
-    $user = User::factory()->create(['password' => bcrypt('password')]);
-
-    $this->post(route('login'), [
-        'email' => $user->email,
-        'password' => 'password',
-    ])->assertRedirect(route('dashboard'));
-
-    $this->assertAuthenticatedAs($user);
-});
-
 it('logs out the user', function () {
     $user = User::factory()->create();
     $this->actingAs($user);

@@ -8,6 +8,7 @@ use App\Models\DietaAlimento;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\StoreAlimentoRequest;
+use App\Http\Requests\StoreAlimentoRequestNutricionista;
 
 class NutricionistaController extends Controller
 {
@@ -33,18 +34,8 @@ class NutricionistaController extends Controller
     }
 
 
-    public function agregarAlimento(StoreAlimentoRequest $request, $id)
+    public function agregarAlimento(StoreAlimentoRequestNutricionista $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'calorias' => 'required|numeric|min:0',
-            'proteinas' => 'required|numeric|min:0',
-            'carbohidratos' => 'required|numeric|min:0',
-            'grasas' => 'required|numeric|min:0',
-            'cantidad' => 'required|numeric|min:1',
-            'dia' => 'required|string',
-            'tipo_comida' => 'required|string',
-        ]);
 
         // Buscar si el alimento ya existe en la base de datos
         $alimento = \App\Models\Alimento::firstOrCreate([

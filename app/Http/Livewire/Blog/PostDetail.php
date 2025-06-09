@@ -9,7 +9,7 @@ use App\Models\DietaAlimento;
 use App\Models\Alimento;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use App\Events\PostAddedToDiet;
 
 class PostDetail extends Component
 {
@@ -81,6 +81,13 @@ class PostDetail extends Component
 
     public function guardarPostEnDieta()
     {
+
+        $this->validate([
+            'diaSeleccionado' => 'required',
+            'tipoComidaSeleccionado' => 'required',
+            'cantidadSeleccionada' => 'required|numeric|min:1',
+        ]);
+
         $user = auth()->user();
         $post = \App\Models\Post::findOrFail($this->postIdParaAñadir);
         $cantidad = $this->cantidadSeleccionada;
@@ -146,6 +153,8 @@ class PostDetail extends Component
                 'custom_notes' => $this->notaPersonal
             ]
         ]);
+
+        event(new \App\Events\PostAddedToDiet($user, $post));
 
 
         $this->mostrarModal = false;

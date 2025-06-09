@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Jobs\SendVerificationEmail;
+use App\Http\Requests\Auth\LoginRequest;
+
+
 class AuthController extends Controller
 {
     // Mostrar la vista de inicio de sesión
@@ -21,18 +24,14 @@ class AuthController extends Controller
 
 
     // Procesar el inicio de sesión
-    public function login(Request $request)
+
+
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        // Este método ya valida email y password y aplica el rate limiting
+        $request->authenticate();
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Auth::attempt($credentials)) {
-            return back()->withErrors(['email' => 'Credenciales incorrectas.']);
-        }
+        $user = Auth::user();
 
         // 🔒 Verificar si ha completado el cuestionario
         if (
@@ -54,7 +53,6 @@ class AuthController extends Controller
         // ✅ Todo correcto, puede entrar
         return redirect()->route('dashboard');
     }
-
 
 
 

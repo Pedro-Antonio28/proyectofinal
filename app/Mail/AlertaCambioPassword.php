@@ -20,6 +20,6 @@ class AlertaCambioPassword extends Mailable
     public function build()
     {
         return $this->subject('Tu contraseña ha sido modificada')
-                    ->view('emails.alerta-cambio-password');
+            ->view('emails.alerta-cambio-password');
     }
 }

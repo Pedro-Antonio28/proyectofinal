@@ -12,42 +12,46 @@ class DietaPolicy
      */
     public function view(User $user, Dieta $dieta)
     {
-        // Un admin puede ver cualquier dieta
+        // Admin puede ver cualquier dieta
         if ($user->hasRole('admin')) {
             return true;
         }
 
-        // Un nutricionista solo puede ver la dieta de sus clientes
-        return $user->clientes->contains($dieta->user_id);
+        // Nutricionista puede ver la dieta de sus clientes
+        if ($user->hasRole('nutricionista') && $user->clientes->contains($dieta->user_id)) {
+            return true;
+        }
+
+        // El propio usuario puede ver su dieta
+        return $user->id === $dieta->user_id;
     }
 
-    /**
-     * Determina si el usuario puede editar la dieta.
-     */
     public function update(User $user, Dieta $dieta)
     {
-        // Un admin puede editar cualquier dieta
         if ($user->hasRole('admin')) {
             return true;
         }
 
-        // Un nutricionista solo puede editar la dieta de sus clientes
-        return $user->clientes->contains($dieta->user_id);
+        if ($user->hasRole('nutricionista') && $user->clientes->contains($dieta->user_id)) {
+            return true;
+        }
+
+        return $user->id === $dieta->user_id;
     }
 
-    /**
-     * Determina si el usuario puede eliminar un alimento de la dieta.
-     */
     public function delete(User $user, Dieta $dieta)
     {
         if ($user->hasRole('admin')) {
             return true;
         }
 
-        // Verificar si el usuario es un nutricionista y la dieta pertenece a uno de sus clientes
-        return $user->clientes()->where('users.id', $dieta->user_id)->exists();
+        if ($user->hasRole('nutricionista') && $user->clientes->contains($dieta->user_id)) {
+            return true;
+        }
 
+        return $user->id === $dieta->user_id;
     }
+
 
 
 

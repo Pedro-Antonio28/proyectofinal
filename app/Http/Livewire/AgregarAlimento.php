@@ -55,7 +55,6 @@ class AgregarAlimento extends Component
                 'nombre' => $validatedData['nombre']
             ], [
                 'categoria' => $categoria,
-                'imagen' => $imagen,
                 'calorias' => $validatedData['calorias'],
                 'proteinas' => $validatedData['proteinas'],
                 'carbohidratos' => $validatedData['carbohidratos'],

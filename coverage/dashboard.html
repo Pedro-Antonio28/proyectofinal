@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\Users\pedro\OneDrive\Escritorio\ProyectosPHP\proyectofinal\app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=11.0.8" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=11.0.8" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=11.0.8" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">C:\Users\pedro\OneDrive\Escritorio\ProyectosPHP\proyectofinal\app</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Events/PostAddedToDiet.php.html#9">App\Events\PostAddedToDiet</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/DietaDiariaExport.php.html#8">App\Exports\DietaDiariaExport</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/PostsExport.php.html#9">App\Exports\PostsExport</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#10">App\Http\Controllers\AlimentoController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#9">App\Http\Controllers\Api\V1\ApiDietaController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#12">App\Http\Controllers\Api\V1\ApiPostController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExportController.php.html#8">App\Http\Controllers\ExportController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#8">App\Http\Controllers\PayPalController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#9">App\Http\Controllers\PublicBlogController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UserAlimentoController.php.html#9">App\Http\Controllers\UserAlimentoController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UserController.php.html#8">App\Http\Controllers\UserController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#8">App\Http\Livewire\Blog\PostCard</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#14">App\Http\Livewire\Blog\PostDetail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#10">App\Http\Livewire\Blog\PostForm</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#11">App\Http\Livewire\Blog\PostList</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#12">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StoreAlimentoRequestNutricionista.php.html#7">App\Http\Requests\StoreAlimentoRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StorePostRequest.php.html#7">App\Http\Requests\StorePostRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateDietaAlimentoRequest.php.html#7">App\Http\Requests\UpdateDietaAlimentoRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdatePostRequest.php.html#7">App\Http\Requests\UpdatePostRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateUserRequest.php.html#7">App\Http\Requests\UpdateUserRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PostResource.php.html#8">App\Http\Resources\PostResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarAlertaCambioPassword.php.html#11">App\Jobs\EnviarAlertaCambioPassword</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarDietaPdfJob.php.html#14">App\Jobs\EnviarDietaPdfJob</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Listeners/EnviarDietaPorTelegram.php.html#10">App\Listeners\EnviarDietaPorTelegram</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Listeners/SendDietAddedEmail.php.html#9">App\Listeners\SendDietAddedEmail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/AlertaCambioPassword.php.html#9">App\Mail\AlertaCambioPassword</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietAddedMail.php.html#10">App\Mail\DietAddedMail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietaPDFMail.php.html#11">App\Mail\DietaPDFMail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Alimento.php.html#8">App\Models\Alimento</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Like.php.html#7">App\Models\Like</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Permission.php.html#8">App\Models\Permission</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#11">App\Models\Post</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/PostImage.php.html#8">App\Models\PostImage</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Role.php.html#10">App\Models\Role</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/TelegramUser.php.html#7">App\Models\TelegramUser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#9">App\Policies\PostPolicy</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Scopes/OrderByLikesScope.php.html#9">App\Scopes\OrderByLikesScope</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="View/Components/Button.php.html#9">App\View\Components\Button</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/AgregarAlimento.php.html#14">App\Http\Livewire\AgregarAlimento</a></td><td class="text-right">4%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#15">App\Http\Controllers\AdminController</a></td><td class="text-right">10%</td></tr>
+       <tr><td><a href="Models/User.php.html#17">App\Models\User</a></td><td class="text-right">16%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#11">App\Services\DietaService</a></td><td class="text-right">51%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#21">App\Http\Livewire\Dashboard</a></td><td class="text-right">54%</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#14">App\Http\Livewire\EditarAlimento</a></td><td class="text-right">56%</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#12">App\Http\Controllers\NutricionistaController</a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#8">App\Http\Livewire\Questionnaire</a></td><td class="text-right">67%</td></tr>
+       <tr><td><a href="Http/Controllers/ProfileController.php.html#14">App\Http\Controllers\ProfileController</a></td><td class="text-right">68%</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#11">App\Http\Controllers\AuthController</a></td><td class="text-right">74%</td></tr>
+       <tr><td><a href="Http/Livewire/UserAlimentos.php.html#9">App\Http\Livewire\UserAlimentos</a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateAlimentoRequest.php.html#7">App\Http\Requests\UpdateAlimentoRequest</a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#11">App\Providers\AppServiceProvider</a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Services/DietaService.php.html#11">App\Services\DietaService</a></td><td class="text-right">949</td></tr>
+       <tr><td><a href="Models/User.php.html#17">App\Models\User</a></td><td class="text-right">391</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#14">App\Http\Livewire\Blog\PostDetail</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#15">App\Http\Controllers\AdminController</a></td><td class="text-right">152</td></tr>
+       <tr><td><a href="Http/Controllers/UserAlimentoController.php.html#9">App\Http\Controllers\UserAlimentoController</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#10">App\Http\Livewire\Blog\PostForm</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#11">App\Http\Livewire\Blog\PostList</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#9">App\Policies\PostPolicy</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#21">App\Http\Livewire\Dashboard</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#10">App\Http\Controllers\AlimentoController</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#8">App\Http\Controllers\PayPalController</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#12">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Listeners/EnviarDietaPorTelegram.php.html#10">App\Listeners\EnviarDietaPorTelegram</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Livewire/AgregarAlimento.php.html#14">App\Http\Livewire\AgregarAlimento</a></td><td class="text-right">49</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#8">App\Http\Livewire\Blog\PostCard</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#14">App\Http\Livewire\EditarAlimento</a></td><td class="text-right">27</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#12">App\Http\Controllers\NutricionistaController</a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#9">App\Http\Controllers\PublicBlogController</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#11">App\Http\Controllers\AuthController</a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#8">App\Http\Livewire\Questionnaire</a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="Http/Livewire/UserAlimentos.php.html#9">App\Http\Livewire\UserAlimentos</a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="Http/Requests/UpdateUserRequest.php.html#7">App\Http\Requests\UpdateUserRequest</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/ProfileController.php.html#14">App\Http\Controllers\ProfileController</a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#11">App\Providers\AppServiceProvider</a></td><td class="text-right">3</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Events/PostAddedToDiet.php.html#13"><abbr title="App\Events\PostAddedToDiet::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/DietaDiariaExport.php.html#10"><abbr title="App\Exports\DietaDiariaExport::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/DietaDiariaExport.php.html#12"><abbr title="App\Exports\DietaDiariaExport::view">view</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/PostsExport.php.html#11"><abbr title="App\Exports\PostsExport::collection">collection</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exports/PostsExport.php.html#23"><abbr title="App\Exports\PostsExport::headings">headings</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#28"><abbr title="App\Http\Controllers\AdminController::edit">edit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#37"><abbr title="App\Http\Controllers\AdminController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#50"><abbr title="App\Http\Controllers\AdminController::updateEmail">updateEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#63"><abbr title="App\Http\Controllers\AdminController::updatePassword">updatePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#92"><abbr title="App\Http\Controllers\AdminController::verDieta">verDieta</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#103"><abbr title="App\Http\Controllers\AdminController::eliminarDieta">eliminarDieta</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#113"><abbr title="App\Http\Controllers\AdminController::editarAlimento">editarAlimento</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#123"><abbr title="App\Http\Controllers\AdminController::actualizarAlimento">actualizarAlimento</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#142"><abbr title="App\Http\Controllers\AdminController::actualizarDietaJSON">actualizarDietaJSON</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#12"><abbr title="App\Http\Controllers\AlimentoController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#18"><abbr title="App\Http\Controllers\AlimentoController::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#23"><abbr title="App\Http\Controllers\AlimentoController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#44"><abbr title="App\Http\Controllers\AlimentoController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#57"><abbr title="App\Http\Controllers\AlimentoController::edit">edit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#63"><abbr title="App\Http\Controllers\AlimentoController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#11"><abbr title="App\Http\Controllers\Api\V1\ApiDietaController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#20"><abbr title="App\Http\Controllers\Api\V1\ApiDietaController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#39"><abbr title="App\Http\Controllers\Api\V1\ApiDietaController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#46"><abbr title="App\Http\Controllers\Api\V1\ApiDietaController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiDietaController.php.html#66"><abbr title="App\Http\Controllers\Api\V1\ApiDietaController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#14"><abbr title="App\Http\Controllers\Api\V1\ApiPostController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#19"><abbr title="App\Http\Controllers\Api\V1\ApiPostController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#24"><abbr title="App\Http\Controllers\Api\V1\ApiPostController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#34"><abbr title="App\Http\Controllers\Api\V1\ApiPostController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Api/V1/ApiPostController.php.html#43"><abbr title="App\Http\Controllers\Api\V1\ApiPostController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExportController.php.html#10"><abbr title="App\Http\Controllers\ExportController::exportExcel">exportExcel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#86"><abbr title="App\Http\Controllers\NutricionistaController::editarAlimento">editarAlimento</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#160"><abbr title="App\Http\Controllers\NutricionistaController::mostrarFormularioEdicion">mostrarFormularioEdicion</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#184"><abbr title="App\Http\Controllers\NutricionistaController::mostrarFormularioAgregar">mostrarFormularioAgregar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#10"><abbr title="App\Http\Controllers\PayPalController::createTransaction">createTransaction</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#43"><abbr title="App\Http\Controllers\PayPalController::successTransaction">successTransaction</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#66"><abbr title="App\Http\Controllers\PayPalController::cancelTransaction">cancelTransaction</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ProfileController.php.html#63"><abbr title="App\Http\Controllers\ProfileController::updatePassword">updatePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#11"><abbr title="App\Http\Controllers\PublicBlogController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#17"><abbr title="App\Http\Controllers\PublicBlogController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#23"><abbr title="App\Http\Controllers\PublicBlogController::addToDiet">addToDiet</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UserAlimentoController.php.html#11"><abbr title="App\Http\Controllers\UserAlimentoController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UserAlimentoController.php.html#19"><abbr title="App\Http\Controllers\UserAlimentoController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UserController.php.html#10"><abbr title="App\Http\Controllers\UserController::saveQuestionnaire">saveQuestionnaire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/AgregarAlimento.php.html#32"><abbr title="App\Http\Livewire\AgregarAlimento::guardar">guardar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#22"><abbr title="App\Http\Livewire\Blog\PostCard::mount">mount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#37"><abbr title="App\Http\Livewire\Blog\PostCard::like">like</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#55"><abbr title="App\Http\Livewire\Blog\PostCard::eliminarPost">eliminarPost</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#63"><abbr title="App\Http\Livewire\Blog\PostCard::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#29"><abbr title="App\Http\Livewire\Blog\PostDetail::mount">mount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#34"><abbr title="App\Http\Livewire\Blog\PostDetail::lanzarModalAñadir">lanzarModalAñadir</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#41"><abbr title="App\Http\Livewire\Blog\PostDetail::añadirPostADieta">añadirPostADieta</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#82"><abbr title="App\Http\Livewire\Blog\PostDetail::guardarPostEnDieta">guardarPostEnDieta</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#156"><abbr title="App\Http\Livewire\Blog\PostDetail::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#170"><abbr title="App\Http\Livewire\Blog\PostDetail::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#32"><abbr title="App\Http\Livewire\Blog\PostForm::mount">mount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#47"><abbr title="App\Http\Livewire\Blog\PostForm::addIngredient">addIngredient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#52"><abbr title="App\Http\Livewire\Blog\PostForm::removeIngredient">removeIngredient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#58"><abbr title="App\Http\Livewire\Blog\PostForm::updatedImages">updatedImages</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#67"><abbr title="App\Http\Livewire\Blog\PostForm::guardarPost">guardarPost</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#101"><abbr title="App\Http\Livewire\Blog\PostForm::eliminarPost">eliminarPost</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#106"><abbr title="App\Http\Livewire\Blog\PostForm::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#35"><abbr title="App\Http\Livewire\Blog\PostList::updatingSearch">updatingSearch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#41"><abbr title="App\Http\Livewire\Blog\PostList::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#51"><abbr title="App\Http\Livewire\Blog\PostList::buscarPorIngrediente">buscarPorIngrediente</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#58"><abbr title="App\Http\Livewire\Blog\PostList::restore">restore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#66"><abbr title="App\Http\Livewire\Blog\PostList::toggleLike">toggleLike</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#84"><abbr title="App\Http\Livewire\Blog\PostList::updatedMostrarFavoritos">updatedMostrarFavoritos</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#89"><abbr title="App\Http\Livewire\Blog\PostList::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#119"><abbr title="App\Http\Livewire\Dashboard::updatedDiaActual">updatedDiaActual</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#155"><abbr title="App\Http\Livewire\Dashboard::refreshDieta">refreshDieta</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#178"><abbr title="App\Http\Livewire\Dashboard::exportarExcel">exportarExcel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#187"><abbr title="App\Http\Livewire\Dashboard::guardarTelegramId">guardarTelegramId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#205"><abbr title="App\Http\Livewire\Dashboard::enviarDietaPorTelegram">enviarDietaPorTelegram</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#220"><abbr title="App\Http\Livewire\Dashboard::abrirModalTelegram">abrirModalTelegram</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#228"><abbr title="App\Http\Livewire\Dashboard::enviarDietaSemanalPorCorreo">enviarDietaSemanalPorCorreo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#107"><abbr title="App\Http\Livewire\EditarAlimento::eliminar">eliminar</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#26"><abbr title="App\Http\Livewire\Questionnaire::nextStep">nextStep</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#34"><abbr title="App\Http\Livewire\Questionnaire::prevStep">prevStep</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#41"><abbr title="App\Http\Livewire\Questionnaire::validateCurrentStep">validateCurrentStep</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#17"><abbr title="App\Http\Requests\Auth\LoginRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#27"><abbr title="App\Http\Requests\Auth\LoginRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#40"><abbr title="App\Http\Requests\Auth\LoginRequest::authenticate">authenticate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#60"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#81"><abbr title="App\Http\Requests\Auth\LoginRequest::throttleKey">throttleKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StoreAlimentoRequestNutricionista.php.html#9"><abbr title="App\Http\Requests\StoreAlimentoRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StoreAlimentoRequestNutricionista.php.html#14"><abbr title="App\Http\Requests\StoreAlimentoRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StorePostRequest.php.html#9"><abbr title="App\Http\Requests\StorePostRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/StorePostRequest.php.html#14"><abbr title="App\Http\Requests\StorePostRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateAlimentoRequest.php.html#9"><abbr title="App\Http\Requests\UpdateAlimentoRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateDietaAlimentoRequest.php.html#9"><abbr title="App\Http\Requests\UpdateDietaAlimentoRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateDietaAlimentoRequest.php.html#14"><abbr title="App\Http\Requests\UpdateDietaAlimentoRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdatePostRequest.php.html#9"><abbr title="App\Http\Requests\UpdatePostRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdatePostRequest.php.html#14"><abbr title="App\Http\Requests\UpdatePostRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateUserRequest.php.html#9"><abbr title="App\Http\Requests\UpdateUserRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/UpdateUserRequest.php.html#14"><abbr title="App\Http\Requests\UpdateUserRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PostResource.php.html#10"><abbr title="App\Http\Resources\PostResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarAlertaCambioPassword.php.html#17"><abbr title="App\Jobs\EnviarAlertaCambioPassword::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarAlertaCambioPassword.php.html#22"><abbr title="App\Jobs\EnviarAlertaCambioPassword::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarDietaPdfJob.php.html#21"><abbr title="App\Jobs\EnviarDietaPdfJob::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Jobs/EnviarDietaPdfJob.php.html#27"><abbr title="App\Jobs\EnviarDietaPdfJob::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Listeners/EnviarDietaPorTelegram.php.html#12"><abbr title="App\Listeners\EnviarDietaPorTelegram::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Listeners/SendDietAddedEmail.php.html#11"><abbr title="App\Listeners\SendDietAddedEmail::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/AlertaCambioPassword.php.html#15"><abbr title="App\Mail\AlertaCambioPassword::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/AlertaCambioPassword.php.html#20"><abbr title="App\Mail\AlertaCambioPassword::build">build</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietAddedMail.php.html#14"><abbr title="App\Mail\DietAddedMail::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietAddedMail.php.html#16"><abbr title="App\Mail\DietAddedMail::build">build</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietaPDFMail.php.html#21"><abbr title="App\Mail\DietaPDFMail::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Mail/DietaPDFMail.php.html#33"><abbr title="App\Mail\DietaPDFMail::build">build</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Alimento.php.html#23"><abbr title="App\Models\Alimento::usuarios">usuarios</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Like.php.html#11"><abbr title="App\Models\Like::post">post</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Like.php.html#16"><abbr title="App\Models\Like::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Permission.php.html#14"><abbr title="App\Models\Permission::users">users</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Permission.php.html#19"><abbr title="App\Models\Permission::roles">roles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#24"><abbr title="App\Models\Post::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#29"><abbr title="App\Models\Post::usersWhoSavedIt">usersWhoSavedIt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#36"><abbr title="App\Models\Post::likes">likes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#41"><abbr title="App\Models\Post::isLikedBy">isLikedBy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#46"><abbr title="App\Models\Post::images">images</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#53"><abbr title="App\Models\Post::booted">booted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Post.php.html#62"><abbr title="App\Models\Post::scopeConIngredientesSimilares">scopeConIngredientesSimilares</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/PostImage.php.html#12"><abbr title="App\Models\PostImage::post">post</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Role.php.html#16"><abbr title="App\Models\Role::users">users</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/TelegramUser.php.html#11"><abbr title="App\Models\TelegramUser::user">user</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#41"><abbr title="App\Models\User::calcularCalorias">calcularCalorias</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#82"><abbr title="App\Models\User::actualizarCalorias">actualizarCalorias</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#98"><abbr title="App\Models\User::actualizarCaloriasYMacros">actualizarCaloriasYMacros</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#121"><abbr title="App\Models\User::dietas">dietas</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#151"><abbr title="App\Models\User::nutricionista">nutricionista</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#162"><abbr title="App\Models\User::likedPosts">likedPosts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#167"><abbr title="App\Models\User::telegram">telegram</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/User.php.html#172"><abbr title="App\Models\User::postsWhoSavedIt">postsWhoSavedIt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#14"><abbr title="App\Policies\PostPolicy::viewAny">viewAny</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#22"><abbr title="App\Policies\PostPolicy::view">view</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#30"><abbr title="App\Policies\PostPolicy::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#40"><abbr title="App\Policies\PostPolicy::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#45"><abbr title="App\Policies\PostPolicy::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#54"><abbr title="App\Policies\PostPolicy::restore">restore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#62"><abbr title="App\Policies\PostPolicy::forceDelete">forceDelete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Scopes/OrderByLikesScope.php.html#11"><abbr title="App\Scopes\OrderByLikesScope::apply">apply</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#400"><abbr title="App\Services\DietaService::calcularCantidadExtra">calcularCantidadExtra</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#438"><abbr title="App\Services\DietaService::determinarCantidad">determinarCantidad</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="View/Components/Button.php.html#14"><abbr title="App\View\Components\Button::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="View/Components/Button.php.html#22"><abbr title="App\View\Components\Button::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#365"><abbr title="App\Services\DietaService::seleccionarAlimentoPorMacro">seleccionarAlimentoPorMacro</abbr></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#220"><abbr title="App\Services\DietaService::ajustarMacrosDia">ajustarMacrosDia</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#59"><abbr title="App\Http\Livewire\EditarAlimento::actualizar">actualizar</abbr></a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#46"><abbr title="App\Services\DietaService::generarDietaBase">generarDietaBase</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#24"><abbr title="App\Http\Controllers\AuthController::login">login</abbr></a></td><td class="text-right">58%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#90"><abbr title="App\Http\Livewire\Dashboard::actualizarMacrosConsumidos">actualizarMacrosConsumidos</abbr></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#14"><abbr title="App\Http\Controllers\AuthController::showLogin">showLogin</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#21"><abbr title="App\Http\Livewire\EditarAlimento::mount">mount</abbr></a></td><td class="text-right">68%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#134"><abbr title="App\Http\Livewire\Dashboard::toggleAlimento">toggleAlimento</abbr></a></td><td class="text-right">70%</td></tr>
+       <tr><td><a href="Http/Livewire/UserAlimentos.php.html#25"><abbr title="App\Http\Livewire\UserAlimentos::guardarSeleccion">guardarSeleccion</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#72"><abbr title="App\Http\Livewire\Dashboard::cargarDietaDelDia">cargarDietaDelDia</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#28"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#59"><abbr title="App\Http\Livewire\Questionnaire::save">save</abbr></a></td><td class="text-right">89%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Services/DietaService.php.html#220"><abbr title="App\Services\DietaService::ajustarMacrosDia">ajustarMacrosDia</abbr></a></td><td class="text-right">147</td></tr>
+       <tr><td><a href="Http/Controllers/UserAlimentoController.php.html#19"><abbr title="App\Http\Controllers\UserAlimentoController::store">store</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Models/User.php.html#41"><abbr title="App\Models\User::calcularCalorias">calcularCalorias</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#400"><abbr title="App\Services\DietaService::calcularCantidadExtra">calcularCantidadExtra</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#46"><abbr title="App\Services\DietaService::generarDietaBase">generarDietaBase</abbr></a></td><td class="text-right">78</td></tr>
+       <tr><td><a href="Listeners/EnviarDietaPorTelegram.php.html#12"><abbr title="App\Listeners\EnviarDietaPorTelegram::handle">handle</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#438"><abbr title="App\Services\DietaService::determinarCantidad">determinarCantidad</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Livewire/AgregarAlimento.php.html#32"><abbr title="App\Http\Livewire\AgregarAlimento::guardar">guardar</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Services/DietaService.php.html#365"><abbr title="App\Services\DietaService::seleccionarAlimentoPorMacro">seleccionarAlimentoPorMacro</abbr></a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#160"><abbr title="App\Http\Controllers\NutricionistaController::mostrarFormularioEdicion">mostrarFormularioEdicion</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#43"><abbr title="App\Http\Controllers\PayPalController::successTransaction">successTransaction</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#41"><abbr title="App\Http\Livewire\Blog\PostDetail::añadirPostADieta">añadirPostADieta</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostDetail.php.html#82"><abbr title="App\Http\Livewire\Blog\PostDetail::guardarPostEnDieta">guardarPostEnDieta</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#89"><abbr title="App\Http\Livewire\Blog\PostList::render">render</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#24"><abbr title="App\Http\Controllers\AuthController::login">login</abbr></a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="Http/Livewire/UserAlimentos.php.html#25"><abbr title="App\Http\Livewire\UserAlimentos::guardarSeleccion">guardarSeleccion</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#59"><abbr title="App\Http\Livewire\EditarAlimento::actualizar">actualizar</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/NutricionistaController.php.html#86"><abbr title="App\Http\Controllers\NutricionistaController::editarAlimento">editarAlimento</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/PayPalController.php.html#10"><abbr title="App\Http\Controllers\PayPalController::createTransaction">createTransaction</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#67"><abbr title="App\Http\Livewire\Blog\PostForm::guardarPost">guardarPost</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#37"><abbr title="App\Http\Controllers\AdminController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#92"><abbr title="App\Http\Controllers\AdminController::verDieta">verDieta</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AdminController.php.html#142"><abbr title="App\Http\Controllers\AdminController::actualizarDietaJSON">actualizarDietaJSON</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#23"><abbr title="App\Http\Controllers\AlimentoController::store">store</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AlimentoController.php.html#44"><abbr title="App\Http\Controllers\AlimentoController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/PublicBlogController.php.html#23"><abbr title="App\Http\Controllers\PublicBlogController::addToDiet">addToDiet</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostCard.php.html#37"><abbr title="App\Http\Livewire\Blog\PostCard::like">like</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#32"><abbr title="App\Http\Livewire\Blog\PostForm::mount">mount</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostForm.php.html#58"><abbr title="App\Http\Livewire\Blog\PostForm::updatedImages">updatedImages</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Blog/PostList.php.html#66"><abbr title="App\Http\Livewire\Blog\PostList::toggleLike">toggleLike</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#205"><abbr title="App\Http\Livewire\Dashboard::enviarDietaPorTelegram">enviarDietaPorTelegram</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#26"><abbr title="App\Http\Livewire\Questionnaire::nextStep">nextStep</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#34"><abbr title="App\Http\Livewire\Questionnaire::prevStep">prevStep</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#41"><abbr title="App\Http\Livewire\Questionnaire::validateCurrentStep">validateCurrentStep</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#40"><abbr title="App\Http\Requests\Auth\LoginRequest::authenticate">authenticate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#60"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/UpdateUserRequest.php.html#9"><abbr title="App\Http\Requests\UpdateUserRequest::authorize">authorize</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/User.php.html#82"><abbr title="App\Models\User::actualizarCalorias">actualizarCalorias</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#40"><abbr title="App\Policies\PostPolicy::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Policies/PostPolicy.php.html#45"><abbr title="App\Policies\PostPolicy::delete">delete</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Livewire/Questionnaire.php.html#59"><abbr title="App\Http\Livewire\Questionnaire::save">save</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#90"><abbr title="App\Http\Livewire\Dashboard::actualizarMacrosConsumidos">actualizarMacrosConsumidos</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Livewire/EditarAlimento.php.html#21"><abbr title="App\Http\Livewire\EditarAlimento::mount">mount</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#134"><abbr title="App\Http\Livewire\Dashboard::toggleAlimento">toggleAlimento</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Livewire/Dashboard.php.html#72"><abbr title="App\Http\Livewire\Dashboard::cargarDietaDelDia">cargarDietaDelDia</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Http/Controllers/AuthController.php.html#14"><abbr title="App\Http\Controllers\AuthController::showLogin">showLogin</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#28"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.8</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.11</a> and <a href="https://phpunit.de/">PHPUnit 11.5.3</a> at Sun Jun 8 11:25:45 CEST 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=11.0.8" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=11.0.8" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=11.0.8" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([39,1,2,0,0,0,3,3,1,3,0,20], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([144,0,0,0,1,0,4,3,1,4,0,64], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Events\/DietaSolicitada.php.html#9\">App\\Events\\DietaSolicitada<\/a>"],[0,1,"<a href=\"Events\/PostAddedToDiet.php.html#9\">App\\Events\\PostAddedToDiet<\/a>"],[100,1,"<a href=\"Events\/UserDeleted.php.html#9\">App\\Events\\UserDeleted<\/a>"],[0,2,"<a href=\"Exports\/DietaDiariaExport.php.html#8\">App\\Exports\\DietaDiariaExport<\/a>"],[0,2,"<a href=\"Exports\/PostsExport.php.html#9\">App\\Exports\\PostsExport<\/a>"],[10.9375,14,"<a href=\"Http\/Controllers\/AdminController.php.html#15\">App\\Http\\Controllers\\AdminController<\/a>"],[0,8,"<a href=\"Http\/Controllers\/AlimentoController.php.html#10\">App\\Http\\Controllers\\AlimentoController<\/a>"],[100,8,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#9\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController<\/a>"],[0,5,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#9\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController<\/a>"],[0,5,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#12\">App\\Http\\Controllers\\Api\\V1\\ApiPostController<\/a>"],[74.19354838709677,15,"<a href=\"Http\/Controllers\/AuthController.php.html#11\">App\\Http\\Controllers\\AuthController<\/a>"],[100,0,"<a href=\"Http\/Controllers\/Controller.php.html#10\">App\\Http\\Controllers\\Controller<\/a>"],[100,2,"<a href=\"Http\/Controllers\/DietaController.php.html#11\">App\\Http\\Controllers\\DietaController<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExportController.php.html#8\">App\\Http\\Controllers\\ExportController<\/a>"],[63.095238095238095,14,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#12\">App\\Http\\Controllers\\NutricionistaController<\/a>"],[0,8,"<a href=\"Http\/Controllers\/PayPalController.php.html#8\">App\\Http\\Controllers\\PayPalController<\/a>"],[68,5,"<a href=\"Http\/Controllers\/ProfileController.php.html#14\">App\\Http\\Controllers\\ProfileController<\/a>"],[0,4,"<a href=\"Http\/Controllers\/PublicBlogController.php.html#9\">App\\Http\\Controllers\\PublicBlogController<\/a>"],[0,11,"<a href=\"Http\/Controllers\/UserAlimentoController.php.html#9\">App\\Http\\Controllers\\UserAlimentoController<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UserController.php.html#8\">App\\Http\\Controllers\\UserController<\/a>"],[4.918032786885246,7,"<a href=\"Http\/Livewire\/AgregarAlimento.php.html#14\">App\\Http\\Livewire\\AgregarAlimento<\/a>"],[0,5,"<a href=\"Http\/Livewire\/Blog\/PostCard.php.html#8\">App\\Http\\Livewire\\Blog\\PostCard<\/a>"],[0,12,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#14\">App\\Http\\Livewire\\Blog\\PostDetail<\/a>"],[0,11,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#10\">App\\Http\\Livewire\\Blog\\PostForm<\/a>"],[0,11,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#11\">App\\Http\\Livewire\\Blog\\PostList<\/a>"],[54.54545454545454,23,"<a href=\"Http\/Livewire\/Dashboard.php.html#21\">App\\Http\\Livewire\\Dashboard<\/a>"],[56.25,13,"<a href=\"Http\/Livewire\/EditarAlimento.php.html#14\">App\\Http\\Livewire\\EditarAlimento<\/a>"],[67.79661016949152,13,"<a href=\"Http\/Livewire\/Questionnaire.php.html#8\">App\\Http\\Livewire\\Questionnaire<\/a>"],[85.71428571428571,14,"<a href=\"Http\/Livewire\/UserAlimentos.php.html#9\">App\\Http\\Livewire\\UserAlimentos<\/a>"],[100,1,"<a href=\"Http\/Livewire\/WelcomePage.php.html#7\">App\\Http\\Livewire\\WelcomePage<\/a>"],[0,7,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#12\">App\\Http\\Requests\\Auth\\LoginRequest<\/a>"],[100,1,"<a href=\"Http\/Requests\/ProfileUpdateRequest.php.html#9\">App\\Http\\Requests\\ProfileUpdateRequest<\/a>"],[100,3,"<a href=\"Http\/Requests\/RegisterRequest.php.html#7\">App\\Http\\Requests\\RegisterRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/StoreAlimentoRequestNutricionista.php.html#7\">App\\Http\\Requests\\StoreAlimentoRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/StorePostRequest.php.html#7\">App\\Http\\Requests\\StorePostRequest<\/a>"],[87.5,2,"<a href=\"Http\/Requests\/UpdateAlimentoRequest.php.html#7\">App\\Http\\Requests\\UpdateAlimentoRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/UpdateDietaAlimentoRequest.php.html#7\">App\\Http\\Requests\\UpdateDietaAlimentoRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/UpdatePostRequest.php.html#7\">App\\Http\\Requests\\UpdatePostRequest<\/a>"],[0,3,"<a href=\"Http\/Requests\/UpdateUserRequest.php.html#7\">App\\Http\\Requests\\UpdateUserRequest<\/a>"],[0,1,"<a href=\"Http\/Resources\/PostResource.php.html#8\">App\\Http\\Resources\\PostResource<\/a>"],[0,2,"<a href=\"Jobs\/EnviarAlertaCambioPassword.php.html#11\">App\\Jobs\\EnviarAlertaCambioPassword<\/a>"],[0,2,"<a href=\"Jobs\/EnviarDietaPdfJob.php.html#14\">App\\Jobs\\EnviarDietaPdfJob<\/a>"],[0,7,"<a href=\"Listeners\/EnviarDietaPorTelegram.php.html#10\">App\\Listeners\\EnviarDietaPorTelegram<\/a>"],[100,1,"<a href=\"Listeners\/LogUserDeleted.php.html#8\">App\\Listeners\\LogUserDeleted<\/a>"],[0,1,"<a href=\"Listeners\/SendDietAddedEmail.php.html#9\">App\\Listeners\\SendDietAddedEmail<\/a>"],[0,2,"<a href=\"Mail\/AlertaCambioPassword.php.html#9\">App\\Mail\\AlertaCambioPassword<\/a>"],[0,2,"<a href=\"Mail\/DietAddedMail.php.html#10\">App\\Mail\\DietAddedMail<\/a>"],[0,2,"<a href=\"Mail\/DietaPDFMail.php.html#11\">App\\Mail\\DietaPDFMail<\/a>"],[100,3,"<a href=\"Middleware\/RoleMiddleware.php.html#11\">App\\Middleware\\RoleMiddleware<\/a>"],[100,2,"<a href=\"Middleware\/SetLocale.php.html#9\">App\\Middleware\\SetLocale<\/a>"],[0,1,"<a href=\"Models\/Alimento.php.html#8\">App\\Models\\Alimento<\/a>"],[100,2,"<a href=\"Models\/Dieta.php.html#9\">App\\Models\\Dieta<\/a>"],[100,4,"<a href=\"Models\/DietaAlimento.php.html#8\">App\\Models\\DietaAlimento<\/a>"],[0,2,"<a href=\"Models\/Like.php.html#7\">App\\Models\\Like<\/a>"],[0,2,"<a href=\"Models\/Permission.php.html#8\">App\\Models\\Permission<\/a>"],[0,7,"<a href=\"Models\/Post.php.html#11\">App\\Models\\Post<\/a>"],[0,1,"<a href=\"Models\/PostImage.php.html#8\">App\\Models\\PostImage<\/a>"],[0,1,"<a href=\"Models\/Role.php.html#10\">App\\Models\\Role<\/a>"],[0,1,"<a href=\"Models\/TelegramUser.php.html#7\">App\\Models\\TelegramUser<\/a>"],[16.27906976744186,25,"<a href=\"Models\/User.php.html#17\">App\\Models\\User<\/a>"],[100,6,"<a href=\"Policies\/DietaPolicy.php.html#8\">App\\Policies\\DietaPolicy<\/a>"],[0,9,"<a href=\"Policies\/PostPolicy.php.html#9\">App\\Policies\\PostPolicy<\/a>"],[100,3,"<a href=\"Policies\/UserPolicy.php.html#7\">App\\Policies\\UserPolicy<\/a>"],[87.5,3,"<a href=\"Providers\/AppServiceProvider.php.html#11\">App\\Providers\\AppServiceProvider<\/a>"],[100,1,"<a href=\"Providers\/AuthServiceProvider.php.html#14\">App\\Providers\\AuthServiceProvider<\/a>"],[100,1,"<a href=\"Providers\/EventServiceProvider.php.html#14\">App\\Providers\\EventServiceProvider<\/a>"],[100,1,"<a href=\"Providers\/RouteServiceProvider.php.html#8\">App\\Providers\\RouteServiceProvider<\/a>"],[0,1,"<a href=\"Scopes\/OrderByLikesScope.php.html#9\">App\\Scopes\\OrderByLikesScope<\/a>"],[100,1,"<a href=\"Scopes\/OrderByNameScope.php.html#9\">App\\Scopes\\OrderByNameScope<\/a>"],[51.515151515151516,87,"<a href=\"Services\/DietaService.php.html#11\">App\\Services\\DietaService<\/a>"],[100,1,"<a href=\"View\/Components\/AppLayout.php.html#8\">App\\View\\Components\\AppLayout<\/a>"],[0,2,"<a href=\"View\/Components\/Button.php.html#9\">App\\View\\Components\\Button<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Events\/DietaSolicitada.php.html#15\">App\\Events\\DietaSolicitada::__construct<\/a>"],[0,1,"<a href=\"Events\/PostAddedToDiet.php.html#13\">App\\Events\\PostAddedToDiet::__construct<\/a>"],[100,1,"<a href=\"Events\/UserDeleted.php.html#18\">App\\Events\\UserDeleted::__construct<\/a>"],[0,1,"<a href=\"Exports\/DietaDiariaExport.php.html#10\">App\\Exports\\DietaDiariaExport::__construct<\/a>"],[0,1,"<a href=\"Exports\/DietaDiariaExport.php.html#12\">App\\Exports\\DietaDiariaExport::view<\/a>"],[0,1,"<a href=\"Exports\/PostsExport.php.html#11\">App\\Exports\\PostsExport::collection<\/a>"],[0,1,"<a href=\"Exports\/PostsExport.php.html#23\">App\\Exports\\PostsExport::headings<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AdminController.php.html#19\">App\\Http\\Controllers\\AdminController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#28\">App\\Http\\Controllers\\AdminController::edit<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AdminController.php.html#37\">App\\Http\\Controllers\\AdminController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#50\">App\\Http\\Controllers\\AdminController::updateEmail<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#63\">App\\Http\\Controllers\\AdminController::updatePassword<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AdminController.php.html#76\">App\\Http\\Controllers\\AdminController::destroy<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AdminController.php.html#92\">App\\Http\\Controllers\\AdminController::verDieta<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#103\">App\\Http\\Controllers\\AdminController::eliminarDieta<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#113\">App\\Http\\Controllers\\AdminController::editarAlimento<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AdminController.php.html#123\">App\\Http\\Controllers\\AdminController::actualizarAlimento<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AdminController.php.html#142\">App\\Http\\Controllers\\AdminController::actualizarDietaJSON<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AlimentoController.php.html#12\">App\\Http\\Controllers\\AlimentoController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AlimentoController.php.html#18\">App\\Http\\Controllers\\AlimentoController::create<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AlimentoController.php.html#23\">App\\Http\\Controllers\\AlimentoController::store<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AlimentoController.php.html#44\">App\\Http\\Controllers\\AlimentoController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AlimentoController.php.html#57\">App\\Http\\Controllers\\AlimentoController::edit<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AlimentoController.php.html#63\">App\\Http\\Controllers\\AlimentoController::destroy<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#11\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController::index<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#16\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController::store<\/a>"],[100,2,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#34\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController::show<\/a>"],[100,2,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#45\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController::update<\/a>"],[100,2,"<a href=\"Http\/Controllers\/Api\/V1\/ApiAlimentoController.php.html#69\">App\\Http\\Controllers\\Api\\V1\\ApiAlimentoController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#11\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#20\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#39\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController::show<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#46\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiDietaController.php.html#66\">App\\Http\\Controllers\\Api\\V1\\ApiDietaController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#14\">App\\Http\\Controllers\\Api\\V1\\ApiPostController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#19\">App\\Http\\Controllers\\Api\\V1\\ApiPostController::show<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#24\">App\\Http\\Controllers\\Api\\V1\\ApiPostController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#34\">App\\Http\\Controllers\\Api\\V1\\ApiPostController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Api\/V1\/ApiPostController.php.html#43\">App\\Http\\Controllers\\Api\\V1\\ApiPostController::destroy<\/a>"],[66.66666666666666,2,"<a href=\"Http\/Controllers\/AuthController.php.html#14\">App\\Http\\Controllers\\AuthController::showLogin<\/a>"],[58.82352941176471,10,"<a href=\"Http\/Controllers\/AuthController.php.html#24\">App\\Http\\Controllers\\AuthController::login<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AuthController.php.html#62\">App\\Http\\Controllers\\AuthController::logout<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AuthController.php.html#69\">App\\Http\\Controllers\\AuthController::showRegister<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AuthController.php.html#77\">App\\Http\\Controllers\\AuthController::register<\/a>"],[100,2,"<a href=\"Http\/Controllers\/DietaController.php.html#13\">App\\Http\\Controllers\\DietaController::pdf<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExportController.php.html#10\">App\\Http\\Controllers\\ExportController::exportExcel<\/a>"],[100,1,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#16\">App\\Http\\Controllers\\NutricionistaController::index<\/a>"],[100,1,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#24\">App\\Http\\Controllers\\NutricionistaController::verDieta<\/a>"],[100,1,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#36\">App\\Http\\Controllers\\NutricionistaController::agregarAlimento<\/a>"],[0,3,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#86\">App\\Http\\Controllers\\NutricionistaController::editarAlimento<\/a>"],[100,3,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#122\">App\\Http\\Controllers\\NutricionistaController::eliminarAlimento<\/a>"],[0,4,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#160\">App\\Http\\Controllers\\NutricionistaController::mostrarFormularioEdicion<\/a>"],[0,1,"<a href=\"Http\/Controllers\/NutricionistaController.php.html#184\">App\\Http\\Controllers\\NutricionistaController::mostrarFormularioAgregar<\/a>"],[0,3,"<a href=\"Http\/Controllers\/PayPalController.php.html#10\">App\\Http\\Controllers\\PayPalController::createTransaction<\/a>"],[0,4,"<a href=\"Http\/Controllers\/PayPalController.php.html#43\">App\\Http\\Controllers\\PayPalController::successTransaction<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PayPalController.php.html#66\">App\\Http\\Controllers\\PayPalController::cancelTransaction<\/a>"],[100,1,"<a href=\"Http\/Controllers\/ProfileController.php.html#19\">App\\Http\\Controllers\\ProfileController::edit<\/a>"],[100,2,"<a href=\"Http\/Controllers\/ProfileController.php.html#29\">App\\Http\\Controllers\\ProfileController::update<\/a>"],[100,1,"<a href=\"Http\/Controllers\/ProfileController.php.html#45\">App\\Http\\Controllers\\ProfileController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ProfileController.php.html#63\">App\\Http\\Controllers\\ProfileController::updatePassword<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PublicBlogController.php.html#11\">App\\Http\\Controllers\\PublicBlogController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PublicBlogController.php.html#17\">App\\Http\\Controllers\\PublicBlogController::show<\/a>"],[0,2,"<a href=\"Http\/Controllers\/PublicBlogController.php.html#23\">App\\Http\\Controllers\\PublicBlogController::addToDiet<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UserAlimentoController.php.html#11\">App\\Http\\Controllers\\UserAlimentoController::index<\/a>"],[0,10,"<a href=\"Http\/Controllers\/UserAlimentoController.php.html#19\">App\\Http\\Controllers\\UserAlimentoController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UserController.php.html#10\">App\\Http\\Controllers\\UserController::saveQuestionnaire<\/a>"],[100,1,"<a href=\"Http\/Livewire\/AgregarAlimento.php.html#24\">App\\Http\\Livewire\\AgregarAlimento::mount<\/a>"],[0,5,"<a href=\"Http\/Livewire\/AgregarAlimento.php.html#32\">App\\Http\\Livewire\\AgregarAlimento::guardar<\/a>"],[100,1,"<a href=\"Http\/Livewire\/AgregarAlimento.php.html#125\">App\\Http\\Livewire\\AgregarAlimento::render<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostCard.php.html#22\">App\\Http\\Livewire\\Blog\\PostCard::mount<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Blog\/PostCard.php.html#37\">App\\Http\\Livewire\\Blog\\PostCard::like<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostCard.php.html#55\">App\\Http\\Livewire\\Blog\\PostCard::eliminarPost<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostCard.php.html#63\">App\\Http\\Livewire\\Blog\\PostCard::render<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#29\">App\\Http\\Livewire\\Blog\\PostDetail::mount<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#34\">App\\Http\\Livewire\\Blog\\PostDetail::lanzarModalA\u00f1adir<\/a>"],[0,4,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#41\">App\\Http\\Livewire\\Blog\\PostDetail::a\u00f1adirPostADieta<\/a>"],[0,4,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#82\">App\\Http\\Livewire\\Blog\\PostDetail::guardarPostEnDieta<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#156\">App\\Http\\Livewire\\Blog\\PostDetail::rules<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostDetail.php.html#170\">App\\Http\\Livewire\\Blog\\PostDetail::render<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#32\">App\\Http\\Livewire\\Blog\\PostForm::mount<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#47\">App\\Http\\Livewire\\Blog\\PostForm::addIngredient<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#52\">App\\Http\\Livewire\\Blog\\PostForm::removeIngredient<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#58\">App\\Http\\Livewire\\Blog\\PostForm::updatedImages<\/a>"],[0,3,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#67\">App\\Http\\Livewire\\Blog\\PostForm::guardarPost<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#101\">App\\Http\\Livewire\\Blog\\PostForm::eliminarPost<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostForm.php.html#106\">App\\Http\\Livewire\\Blog\\PostForm::render<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#35\">App\\Http\\Livewire\\Blog\\PostList::updatingSearch<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#41\">App\\Http\\Livewire\\Blog\\PostList::delete<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#51\">App\\Http\\Livewire\\Blog\\PostList::buscarPorIngrediente<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#58\">App\\Http\\Livewire\\Blog\\PostList::restore<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#66\">App\\Http\\Livewire\\Blog\\PostList::toggleLike<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#84\">App\\Http\\Livewire\\Blog\\PostList::updatedMostrarFavoritos<\/a>"],[0,4,"<a href=\"Http\/Livewire\/Blog\/PostList.php.html#89\">App\\Http\\Livewire\\Blog\\PostList::render<\/a>"],[100,2,"<a href=\"Http\/Livewire\/Dashboard.php.html#38\">App\\Http\\Livewire\\Dashboard::mount<\/a>"],[100,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#55\">App\\Http\\Livewire\\Dashboard::determinarDiaActual<\/a>"],[85.71428571428571,3,"<a href=\"Http\/Livewire\/Dashboard.php.html#72\">App\\Http\\Livewire\\Dashboard::cargarDietaDelDia<\/a>"],[62.5,4,"<a href=\"Http\/Livewire\/Dashboard.php.html#90\">App\\Http\\Livewire\\Dashboard::actualizarMacrosConsumidos<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#119\">App\\Http\\Livewire\\Dashboard::updatedDiaActual<\/a>"],[70,4,"<a href=\"Http\/Livewire\/Dashboard.php.html#134\">App\\Http\\Livewire\\Dashboard::toggleAlimento<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#155\">App\\Http\\Livewire\\Dashboard::refreshDieta<\/a>"],[100,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#162\">App\\Http\\Livewire\\Dashboard::render<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#178\">App\\Http\\Livewire\\Dashboard::exportarExcel<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#187\">App\\Http\\Livewire\\Dashboard::guardarTelegramId<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Dashboard.php.html#205\">App\\Http\\Livewire\\Dashboard::enviarDietaPorTelegram<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#220\">App\\Http\\Livewire\\Dashboard::abrirModalTelegram<\/a>"],[0,1,"<a href=\"Http\/Livewire\/Dashboard.php.html#228\">App\\Http\\Livewire\\Dashboard::enviarDietaSemanalPorCorreo<\/a>"],[68.42105263157895,4,"<a href=\"Http\/Livewire\/EditarAlimento.php.html#21\">App\\Http\\Livewire\\EditarAlimento::mount<\/a>"],[52,7,"<a href=\"Http\/Livewire\/EditarAlimento.php.html#59\">App\\Http\\Livewire\\EditarAlimento::actualizar<\/a>"],[0,1,"<a href=\"Http\/Livewire\/EditarAlimento.php.html#107\">App\\Http\\Livewire\\EditarAlimento::eliminar<\/a>"],[100,1,"<a href=\"Http\/Livewire\/EditarAlimento.php.html#114\">App\\Http\\Livewire\\EditarAlimento::render<\/a>"],[100,1,"<a href=\"Http\/Livewire\/Questionnaire.php.html#13\">App\\Http\\Livewire\\Questionnaire::mount<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Questionnaire.php.html#26\">App\\Http\\Livewire\\Questionnaire::nextStep<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Questionnaire.php.html#34\">App\\Http\\Livewire\\Questionnaire::prevStep<\/a>"],[0,2,"<a href=\"Http\/Livewire\/Questionnaire.php.html#41\">App\\Http\\Livewire\\Questionnaire::validateCurrentStep<\/a>"],[89.1891891891892,5,"<a href=\"Http\/Livewire\/Questionnaire.php.html#59\">App\\Http\\Livewire\\Questionnaire::save<\/a>"],[100,1,"<a href=\"Http\/Livewire\/Questionnaire.php.html#125\">App\\Http\\Livewire\\Questionnaire::render<\/a>"],[100,1,"<a href=\"Http\/Livewire\/UserAlimentos.php.html#14\">App\\Http\\Livewire\\UserAlimentos::mount<\/a>"],[100,1,"<a href=\"Http\/Livewire\/UserAlimentos.php.html#20\">App\\Http\\Livewire\\UserAlimentos::render<\/a>"],[84.61538461538461,12,"<a href=\"Http\/Livewire\/UserAlimentos.php.html#25\">App\\Http\\Livewire\\UserAlimentos::guardarSeleccion<\/a>"],[100,1,"<a href=\"Http\/Livewire\/WelcomePage.php.html#9\">App\\Http\\Livewire\\WelcomePage::render<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#17\">App\\Http\\Requests\\Auth\\LoginRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#27\">App\\Http\\Requests\\Auth\\LoginRequest::rules<\/a>"],[0,2,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#40\">App\\Http\\Requests\\Auth\\LoginRequest::authenticate<\/a>"],[0,2,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#60\">App\\Http\\Requests\\Auth\\LoginRequest::ensureIsNotRateLimited<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#81\">App\\Http\\Requests\\Auth\\LoginRequest::throttleKey<\/a>"],[100,1,"<a href=\"Http\/Requests\/ProfileUpdateRequest.php.html#16\">App\\Http\\Requests\\ProfileUpdateRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/RegisterRequest.php.html#12\">App\\Http\\Requests\\RegisterRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/RegisterRequest.php.html#20\">App\\Http\\Requests\\RegisterRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/RegisterRequest.php.html#32\">App\\Http\\Requests\\RegisterRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Requests\/StoreAlimentoRequestNutricionista.php.html#9\">App\\Http\\Requests\\StoreAlimentoRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/StoreAlimentoRequestNutricionista.php.html#14\">App\\Http\\Requests\\StoreAlimentoRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/StorePostRequest.php.html#9\">App\\Http\\Requests\\StorePostRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/StorePostRequest.php.html#14\">App\\Http\\Requests\\StorePostRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdateAlimentoRequest.php.html#9\">App\\Http\\Requests\\UpdateAlimentoRequest::authorize<\/a>"],[100,1,"<a href=\"Http\/Requests\/UpdateAlimentoRequest.php.html#14\">App\\Http\\Requests\\UpdateAlimentoRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdateDietaAlimentoRequest.php.html#9\">App\\Http\\Requests\\UpdateDietaAlimentoRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdateDietaAlimentoRequest.php.html#14\">App\\Http\\Requests\\UpdateDietaAlimentoRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdatePostRequest.php.html#9\">App\\Http\\Requests\\UpdatePostRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdatePostRequest.php.html#14\">App\\Http\\Requests\\UpdatePostRequest::rules<\/a>"],[0,2,"<a href=\"Http\/Requests\/UpdateUserRequest.php.html#9\">App\\Http\\Requests\\UpdateUserRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/UpdateUserRequest.php.html#14\">App\\Http\\Requests\\UpdateUserRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Resources\/PostResource.php.html#10\">App\\Http\\Resources\\PostResource::toArray<\/a>"],[0,1,"<a href=\"Jobs\/EnviarAlertaCambioPassword.php.html#17\">App\\Jobs\\EnviarAlertaCambioPassword::__construct<\/a>"],[0,1,"<a href=\"Jobs\/EnviarAlertaCambioPassword.php.html#22\">App\\Jobs\\EnviarAlertaCambioPassword::handle<\/a>"],[0,1,"<a href=\"Jobs\/EnviarDietaPdfJob.php.html#21\">App\\Jobs\\EnviarDietaPdfJob::__construct<\/a>"],[0,1,"<a href=\"Jobs\/EnviarDietaPdfJob.php.html#27\">App\\Jobs\\EnviarDietaPdfJob::handle<\/a>"],[0,7,"<a href=\"Listeners\/EnviarDietaPorTelegram.php.html#12\">App\\Listeners\\EnviarDietaPorTelegram::handle<\/a>"],[100,1,"<a href=\"Listeners\/LogUserDeleted.php.html#13\">App\\Listeners\\LogUserDeleted::handle<\/a>"],[0,1,"<a href=\"Listeners\/SendDietAddedEmail.php.html#11\">App\\Listeners\\SendDietAddedEmail::handle<\/a>"],[0,1,"<a href=\"Mail\/AlertaCambioPassword.php.html#15\">App\\Mail\\AlertaCambioPassword::__construct<\/a>"],[0,1,"<a href=\"Mail\/AlertaCambioPassword.php.html#20\">App\\Mail\\AlertaCambioPassword::build<\/a>"],[0,1,"<a href=\"Mail\/DietAddedMail.php.html#14\">App\\Mail\\DietAddedMail::__construct<\/a>"],[0,1,"<a href=\"Mail\/DietAddedMail.php.html#16\">App\\Mail\\DietAddedMail::build<\/a>"],[0,1,"<a href=\"Mail\/DietaPDFMail.php.html#21\">App\\Mail\\DietaPDFMail::__construct<\/a>"],[0,1,"<a href=\"Mail\/DietaPDFMail.php.html#33\">App\\Mail\\DietaPDFMail::build<\/a>"],[100,3,"<a href=\"Middleware\/RoleMiddleware.php.html#13\">App\\Middleware\\RoleMiddleware::handle<\/a>"],[100,2,"<a href=\"Middleware\/SetLocale.php.html#11\">App\\Middleware\\SetLocale::handle<\/a>"],[0,1,"<a href=\"Models\/Alimento.php.html#23\">App\\Models\\Alimento::usuarios<\/a>"],[100,1,"<a href=\"Models\/Dieta.php.html#16\">App\\Models\\Dieta::alimentos<\/a>"],[100,1,"<a href=\"Models\/Dieta.php.html#22\">App\\Models\\Dieta::scopeDeSemanaActual<\/a>"],[100,1,"<a href=\"Models\/DietaAlimento.php.html#15\">App\\Models\\DietaAlimento::alimento<\/a>"],[100,1,"<a href=\"Models\/DietaAlimento.php.html#20\">App\\Models\\DietaAlimento::dieta<\/a>"],[100,1,"<a href=\"Models\/DietaAlimento.php.html#25\">App\\Models\\DietaAlimento::scopeConsumidos<\/a>"],[100,1,"<a href=\"Models\/DietaAlimento.php.html#32\">App\\Models\\DietaAlimento::scopeDelDia<\/a>"],[0,1,"<a href=\"Models\/Like.php.html#11\">App\\Models\\Like::post<\/a>"],[0,1,"<a href=\"Models\/Like.php.html#16\">App\\Models\\Like::user<\/a>"],[0,1,"<a href=\"Models\/Permission.php.html#14\">App\\Models\\Permission::users<\/a>"],[0,1,"<a href=\"Models\/Permission.php.html#19\">App\\Models\\Permission::roles<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#24\">App\\Models\\Post::user<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#29\">App\\Models\\Post::usersWhoSavedIt<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#36\">App\\Models\\Post::likes<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#41\">App\\Models\\Post::isLikedBy<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#46\">App\\Models\\Post::images<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#53\">App\\Models\\Post::booted<\/a>"],[0,1,"<a href=\"Models\/Post.php.html#62\">App\\Models\\Post::scopeConIngredientesSimilares<\/a>"],[0,1,"<a href=\"Models\/PostImage.php.html#12\">App\\Models\\PostImage::post<\/a>"],[0,1,"<a href=\"Models\/Role.php.html#16\">App\\Models\\Role::users<\/a>"],[0,1,"<a href=\"Models\/TelegramUser.php.html#11\">App\\Models\\TelegramUser::user<\/a>"],[0,10,"<a href=\"Models\/User.php.html#41\">App\\Models\\User::calcularCalorias<\/a>"],[0,2,"<a href=\"Models\/User.php.html#82\">App\\Models\\User::actualizarCalorias<\/a>"],[0,1,"<a href=\"Models\/User.php.html#98\">App\\Models\\User::actualizarCaloriasYMacros<\/a>"],[100,1,"<a href=\"Models\/User.php.html#111\">App\\Models\\User::alimentosFavoritos<\/a>"],[100,1,"<a href=\"Models\/User.php.html#116\">App\\Models\\User::alimentos<\/a>"],[0,1,"<a href=\"Models\/User.php.html#121\">App\\Models\\User::dietas<\/a>"],[100,1,"<a href=\"Models\/User.php.html#126\">App\\Models\\User::roles<\/a>"],[100,1,"<a href=\"Models\/User.php.html#131\">App\\Models\\User::hasRole<\/a>"],[100,1,"<a href=\"Models\/User.php.html#138\">App\\Models\\User::dieta<\/a>"],[100,1,"<a href=\"Models\/User.php.html#144\">App\\Models\\User::clientes<\/a>"],[0,1,"<a href=\"Models\/User.php.html#151\">App\\Models\\User::nutricionista<\/a>"],[100,1,"<a href=\"Models\/User.php.html#157\">App\\Models\\User::booted<\/a>"],[0,1,"<a href=\"Models\/User.php.html#162\">App\\Models\\User::likedPosts<\/a>"],[0,1,"<a href=\"Models\/User.php.html#167\">App\\Models\\User::telegram<\/a>"],[0,1,"<a href=\"Models\/User.php.html#172\">App\\Models\\User::postsWhoSavedIt<\/a>"],[100,2,"<a href=\"Policies\/DietaPolicy.php.html#13\">App\\Policies\\DietaPolicy::view<\/a>"],[100,2,"<a href=\"Policies\/DietaPolicy.php.html#27\">App\\Policies\\DietaPolicy::update<\/a>"],[100,2,"<a href=\"Policies\/DietaPolicy.php.html#41\">App\\Policies\\DietaPolicy::delete<\/a>"],[0,1,"<a href=\"Policies\/PostPolicy.php.html#14\">App\\Policies\\PostPolicy::viewAny<\/a>"],[0,1,"<a href=\"Policies\/PostPolicy.php.html#22\">App\\Policies\\PostPolicy::view<\/a>"],[0,1,"<a href=\"Policies\/PostPolicy.php.html#30\">App\\Policies\\PostPolicy::create<\/a>"],[0,2,"<a href=\"Policies\/PostPolicy.php.html#40\">App\\Policies\\PostPolicy::update<\/a>"],[0,2,"<a href=\"Policies\/PostPolicy.php.html#45\">App\\Policies\\PostPolicy::delete<\/a>"],[0,1,"<a href=\"Policies\/PostPolicy.php.html#54\">App\\Policies\\PostPolicy::restore<\/a>"],[0,1,"<a href=\"Policies\/PostPolicy.php.html#62\">App\\Policies\\PostPolicy::forceDelete<\/a>"],[100,3,"<a href=\"Policies\/UserPolicy.php.html#12\">App\\Policies\\UserPolicy::deleteUser<\/a>"],[100,1,"<a href=\"Providers\/AppServiceProvider.php.html#18\">App\\Providers\\AppServiceProvider::register<\/a>"],[85.71428571428571,2,"<a href=\"Providers\/AppServiceProvider.php.html#28\">App\\Providers\\AppServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/AuthServiceProvider.php.html#22\">App\\Providers\\AuthServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/EventServiceProvider.php.html#34\">App\\Providers\\EventServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/RouteServiceProvider.php.html#19\">App\\Providers\\RouteServiceProvider::boot<\/a>"],[0,1,"<a href=\"Scopes\/OrderByLikesScope.php.html#11\">App\\Scopes\\OrderByLikesScope::apply<\/a>"],[100,1,"<a href=\"Scopes\/OrderByNameScope.php.html#11\">App\\Scopes\\OrderByNameScope::apply<\/a>"],[100,1,"<a href=\"Services\/DietaService.php.html#13\">App\\Services\\DietaService::generarDietaSemanal<\/a>"],[55.932203389830505,25,"<a href=\"Services\/DietaService.php.html#46\">App\\Services\\DietaService::generarDietaBase<\/a>"],[50.51546391752577,31,"<a href=\"Services\/DietaService.php.html#220\">App\\Services\\DietaService::ajustarMacrosDia<\/a>"],[30.76923076923077,7,"<a href=\"Services\/DietaService.php.html#365\">App\\Services\\DietaService::seleccionarAlimentoPorMacro<\/a>"],[0,9,"<a href=\"Services\/DietaService.php.html#400\">App\\Services\\DietaService::calcularCantidadExtra<\/a>"],[100,7,"<a href=\"Services\/DietaService.php.html#425\">App\\Services\\DietaService::categoriasParaComida<\/a>"],[0,7,"<a href=\"Services\/DietaService.php.html#438\">App\\Services\\DietaService::determinarCantidad<\/a>"],[100,1,"<a href=\"View\/Components\/AppLayout.php.html#13\">App\\View\\Components\\AppLayout::render<\/a>"],[0,1,"<a href=\"View\/Components\/Button.php.html#14\">App\\View\\Components\\Button::__construct<\/a>"],[0,1,"<a href=\"View\/Components\/Button.php.html#22\">App\\View\\Components\\Button::render<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

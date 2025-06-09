@@ -1,58 +1,96 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use function Pest\Laravel\{actingAs, post, get};
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\{get, post, actingAs};
 
-it('allows a user to view login page', function () {
-    get(route('login'))
-        ->assertStatus(200)
-        ->assertSee('Iniciar sesión'); // Ajusta según el contenido de la vista
+test('guest can see login page', function () {
+    $response = get(route('login'));
+    $response->assertStatus(200);
+    $response->assertViewIs('auth.login');
 });
 
-it('allows a user to login with correct credentials', function () {
-    $user = User::factory()->create([
-        'password' => Hash::make('password123')
-    ]);
-
-    post(route('login.post'), [
-        'email' => $user->email,
-        'password' => 'password123'
-    ])->assertRedirect(route('dashboard'));
-
-    actingAs($user);
-    expect(auth()->check())->toBeTrue();
-});
-
-it('prevents login with incorrect credentials', function () {
-    post(route('login.post'), [
-        'email' => 'wrong@example.com',
-        'password' => 'wrongpassword'
-    ])->assertSessionHasErrors('email');
-});
-
-it('logs out a user', function () {
+test('authenticated user is redirected from login to dashboard', function () {
     $user = User::factory()->create();
     actingAs($user);
 
-    post(route('logout'))->assertRedirect(route('login'));
-
-    expect(auth()->check())->toBeFalse();
+    $response = get(route('login'));
+    $response->assertRedirect(route('dashboard'));
 });
 
-it('allows a user to view register page', function () {
-    get(route('register'))
-        ->assertStatus(200)
-        ->assertSee('Registro');
+test('user can login with correct credentials and is redirected accordingly', function () {
+    $user = User::factory()->create([
+        'password' => bcrypt('12345678'),
+        'peso' => 70,
+        'altura' => 170,
+        'age' => 25,
+        'gender' => 'male',
+        'objetivo' => 'bajar',
+        'actividad' => 'media'
+    ]);
+    $user->alimentos()->attach([]); // ← o usa attach alimentos de ejemplo si necesitas
+
+    $response = post(route('login'), [
+        'email' => $user->email,
+        'password' => '12345678',
+    ]);
+
+    $response->assertRedirect(route('user.alimentos')); // porque no tiene alimentos asociados
 });
 
-it('allows a user to register', function () {
-    post(route('register.post'), [
+test('login redirects to questionnaire if user missing profile info', function () {
+    $user = User::factory()->create([
+        'password' => bcrypt('12345678'),
+        'peso' => null, // falta info
+    ]);
+
+    $response = post(route('login'), [
+        'email' => $user->email,
+        'password' => '12345678',
+    ]);
+
+    $response->assertRedirect(route('questionnaire.show'));
+});
+
+test('login fails with incorrect credentials', function () {
+    $user = User::factory()->create(['password' => bcrypt('secret123')]);
+
+    $response = post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrongpass',
+    ]);
+
+    $response->assertSessionHasErrors('email');
+});
+
+test('user can logout and be redirected to login', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $response = post(route('logout'));
+    $response->assertRedirect(route('login'));
+    expect(Auth::check())->toBeFalse();
+});
+
+test('guest can see register page', function () {
+    $response = get(route('register'));
+    $response->assertStatus(200);
+    $response->assertViewIs('auth.register');
+});
+
+test('user can register and is redirected to questionnaire', function () {
+    $response = post(route('register'), [
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
-    ])->assertRedirect(route('login'));
+    ]);
 
-    expect(User::where('email', 'test@example.com')->exists())->toBeTrue();
+    $response->assertRedirect(route('questionnaire.show'));
+    $this->assertAuthenticated();
+    $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
 });

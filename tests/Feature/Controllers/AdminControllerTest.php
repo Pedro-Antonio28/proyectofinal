@@ -1,47 +1,106 @@
 <?php
 
 use App\Models\User;
+use App\Models\Dieta;
+use App\Models\DietaAlimento;
 use App\Models\Role;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Pest\Laravel\{get, actingAs};
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use function Pest\Laravel\{post, delete};
 
-uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->adminRole = Role::factory()->create(['name' => 'admin']);
+    // Crear usuario y asignar el rol "admin"
+    $this->admin = User::factory()->create();
+    $adminRole = Role::firstOrCreate(['name' => 'admin']);
+    $this->admin->roles()->attach($adminRole);
+
+    actingAs($this->admin);
 });
 
-it('allows admin to view the user list', function () {
-    $admin = User::factory()->create();
-    $admin->roles()->attach($this->adminRole->id);
-
-    $this->actingAs($admin)
-        ->get(route('admin.users'))
-        ->assertStatus(200)
-        ->assertViewHas('usuarios');
+test('admin can view user list', function () {
+    $response = get(route('admin.users'));
+    $response->assertOk();
 });
 
-it('allows admin to update a user', function () {
-    $admin = User::factory()->create();
-    $admin->roles()->attach($this->adminRole->id);
+test('admin can view edit user page', function () {
     $user = User::factory()->create();
-
-    $this->actingAs($admin)
-        ->post(route('admin.users.update', $user->id), ['email' => 'newemail@example.com'])
-        ->assertRedirect(route('admin.users'));
-
-
-    $this->assertDatabaseHas('users', ['id' => $user->id, 'email' => 'newemail@example.com']);
+    $response = get(route('admin.users.edit', $user->id));
+    $response->assertOk();
 });
 
-it('allows admin to delete a user', function () {
-    $admin = User::factory()->create();
-    $admin->roles()->attach($this->adminRole->id);
+test('admin can view user diet page', function () {
     $user = User::factory()->create();
+    $dieta = Dieta::factory()->create(['user_id' => $user->id]);
+    $response = get(route('admin.users.dieta', $user->id));
+    $response->assertOk();
+});
 
-    $this->actingAs($admin)
-        ->delete(route('admin.users.delete', $user->id))
-        ->assertRedirect(route('admin.users'));
+test('admin can view edit food page', function () {
+    $user = User::factory()->create();
+    $dieta = Dieta::factory()->create(['user_id' => $user->id]);
+    $alimento = DietaAlimento::factory()->create(['dieta_id' => $dieta->id]);
+    $response = get(route('admin.dieta.editar-alimento', $alimento->id));
+    $response->assertOk();
+});
 
+test('admin can delete a user', function () {
+    $user = User::factory()->create();
+    $user->roles()->attach(Role::firstOrCreate(['name' => 'usuario']));
 
+    $response = delete(route('admin.users.delete', $user->id));
+
+    $response->assertRedirect(route('admin.users'));
     $this->assertDatabaseMissing('users', ['id' => $user->id]);
+});
+
+test('admin can update user email', function () {
+    $user = User::factory()->create(['email' => 'old@example.com']);
+
+    $response = post(route('admin.users.update.email', $user->id), [
+        'email' => 'new@example.com',
+    ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('users', ['id' => $user->id, 'email' => 'new@example.com']);
+});
+
+test('admin can update user password', function () {
+    $user = User::factory()->create(['password' => bcrypt('oldpass')]);
+
+    $response = post(route('admin.users.update.password', $user->id), [
+        'password' => 'newpassword123',
+    ]);
+
+    $response->assertRedirect();
+    $user->refresh();
+    expect(Hash::check('newpassword123', $user->password))->toBeTrue();
+});
+
+test('admin can delete a diet', function () {
+    $dieta = \App\Models\Dieta::factory()->create();
+
+    $response = delete(route('admin.dieta.delete', $dieta->id));
+
+    $response->assertRedirect(route('admin.users'));
+    $this->assertDatabaseMissing('dietas', ['id' => $dieta->id]);
+});
+
+test('admin can update food quantity in diet', function () {
+    $dieta = \App\Models\Dieta::factory()->create();
+    $alimento = \App\Models\DietaAlimento::factory()->create([
+        'dieta_id' => $dieta->id,
+        'cantidad' => 100,
+    ]);
+
+    $response = post(route('admin.dieta.update-alimento', $alimento->id), [
+        'cantidad' => 250,
+    ]);
+
+    $response->assertRedirect(route('admin.users.dieta', $dieta->user_id));
+    $this->assertDatabaseHas('dieta_alimentos', [
+        'id' => $alimento->id,
+        'cantidad' => 250,
+    ]);
 });

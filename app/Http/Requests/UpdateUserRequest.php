@@ -8,7 +8,7 @@ class UpdateUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->isAdmin(); // ajusta si usas otro sistema de roles
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     public function rules(): array

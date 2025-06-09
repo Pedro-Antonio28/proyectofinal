@@ -2,11 +2,11 @@
 
 use App\Http\Livewire\WelcomePage;
 use Livewire\Livewire;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
-
-it('can render the WelcomePage component', function () {
+test('welcome page renders correctly', function () {
     Livewire::test(WelcomePage::class)
-        ->assertStatus(200);
+        ->assertStatus(200)
+        ->assertSee('Calorix')
+        ->assertSee('Bienvenido')
+        ->assertSee('Plan Premium');
 });

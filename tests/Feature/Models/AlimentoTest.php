@@ -6,26 +6,47 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('can_create_a_food', function () {
-    $food = Alimento::create([
-        'nombre' => 'Apple',
-        'categoria' => 'Fruits',
-        'imagen' => 'apple.jpg',
-        'calorias' => 52,
-        'proteinas' => 0.3,
-        'carbohidratos' => 14,
-        'grasas' => 0.2,
+test('puede crear un alimento con campos válidos', function () {
+    $alimento = Alimento::factory()->create([
+        'nombre' => 'Avena',
+        'categoria' => 'Cereal',
+        'imagen' => 'avena.jpg',
+        'calorias' => 350,
+        'proteinas' => 12,
+        'carbohidratos' => 60,
+        'grasas' => 5,
     ]);
 
-    expect($food)->toBeInstanceOf(Alimento::class);
-    expect($food->nombre)->toBe('Apple');
+    expect($alimento->nombre)->toBe('Avena')
+        ->and($alimento->categoria)->toBe('Cereal')
+        ->and($alimento->imagen)->toBe('avena.jpg')
+        ->and($alimento->calorias)->toBe(350)
+        ->and($alimento->proteinas)->toBe(12)
+        ->and($alimento->carbohidratos)->toBe(60)
+        ->and($alimento->grasas)->toBe(5);
 });
 
-it('can_associate_food_with_users', function () {
-    $user = User::factory()->create();
-    $food = Alimento::factory()->create();
+test('puede asociarse a múltiples usuarios', function () {
+    $alimento = Alimento::factory()->create();
+    $users = User::factory()->count(2)->create();
 
-    $user->alimentos()->attach($food);
+    $alimento->usuarios()->attach($users->pluck('id'));
 
-    expect($user->alimentos()->count())->toBe(1);
+    expect($alimento->usuarios)->toHaveCount(2)
+        ->and($alimento->usuarios->first())->toBeInstanceOf(User::class);
+});
+
+test('fillable contiene solo los campos permitidos', function () {
+    $alimento = new Alimento();
+    $fillable = $alimento->getFillable();
+
+    expect($fillable)->toBe([
+        'nombre',
+        'categoria',
+        'imagen',
+        'calorias',
+        'proteinas',
+        'carbohidratos',
+        'grasas',
+    ]);
 });

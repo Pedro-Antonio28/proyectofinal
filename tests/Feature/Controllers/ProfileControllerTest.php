@@ -1,42 +1,74 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 
-uses(RefreshDatabase::class);
-
-it('shows the user profile edit page', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $this->get(route('profile.edit'))
-        ->assertStatus(200)
-        ->assertViewHas('user', $user);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
 });
 
-it('updates the user profile', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+test('user can see the profile edit form', function () {
+    $response = $this->get(route('profile.edit'));
 
-    $data = ['name' => 'New Name', 'email' => 'newemail@example.com'];
-
-    $this->patch(route('profile.update'), $data)
-        ->assertRedirect(route('profile.edit'))
-        ->assertSessionHas('status', 'profile-updated');
-
-    $user->refresh();
-
-    expect($user->name)->toBe($data['name'])
-        ->and($user->email)->toBe($data['email']);
+    $response->assertOk();
+    $response->assertSee($this->user->name);
 });
 
-it('deletes the user account', function () {
-    $user = User::factory()->create(['password' => bcrypt('password')]);
-    $this->actingAs($user);
+test('user can update profile information', function () {
+    $response = $this->patch(route('profile.update'), [
+        'name' => 'Nuevo Nombre',
+        'email' => 'nuevo@example.com',
+    ]);
 
-    $this->from(route('profile.edit'))
-        ->delete(route('profile.destroy'), ['password' => 'password'])
-        ->assertRedirect('/');
 
-    $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    $response->assertRedirect(route('profile.edit'));
+    $this->assertEquals('Nuevo Nombre', $this->user->fresh()->name);
 });
+
+test('user can update password', function () {
+    $response = $this->put(route('profile.update-password'), [
+        'password' => 'nuevacontra123',
+        'password_confirmation' => 'nuevacontra123',
+    ]);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('status', 'password-updated');
+
+    $this->assertTrue(Hash::check('nuevacontra123', $this->user->fresh()->password));
+});
+
+test('unauthenticated user cannot access profile edit', function () {
+    auth()->logout(); // Asegura que no haya sesión
+
+    $response = $this->get(route('profile.edit'));
+    $response->assertStatus(302); // cualquier redirección
+
+    // Ya no asumimos login, solo que redirige a algo no accesible sin auth
+    $this->assertTrue(
+        str_contains($response->headers->get('Location'), 'login'),
+        'La redirección no va al login'
+    );
+
+    $response = $this->patch(route('profile.update'), [
+        'name' => 'Test',
+        'email' => 'test@example.com',
+    ]);
+    $response->assertRedirect();
+    $this->assertTrue(
+        str_contains($response->headers->get('Location'), 'login'),
+        'La redirección del patch no va al login'
+    );
+
+    $response = $this->put(route('profile.update-password'), [
+        'current_password' => 'fake',
+        'password' => 'fake2',
+        'password_confirmation' => 'fake2',
+    ]);
+    $response->assertRedirect();
+    $this->assertTrue(
+        str_contains($response->headers->get('Location'), 'login'),
+        'La redirección del password update no va al login'
+    );
+});
+

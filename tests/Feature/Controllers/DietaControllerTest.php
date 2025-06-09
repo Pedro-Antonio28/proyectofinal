@@ -2,39 +2,49 @@
 
 use App\Models\User;
 use App\Models\Dieta;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Carbon\Carbon;
-
-uses(RefreshDatabase::class);
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\View;
+use function Pest\Laravel\{get, actingAs};
 
-beforeEach(function () {
-    Route::middleware(['web'])->group(base_path('routes/web.php'));
-});
-
-it('returns an error if there is no diet for the week', function () {
+test('user can download dieta PDF for current week', function () {
     $user = User::factory()->create();
-    $this->actingAs($user);
+    actingAs($user);
 
-    $this->get(route('pdf.dieta', ['dia' => 'Lunes']))
+    $semanaActual = now()->weekOfYear;
 
-        ->assertRedirect()
-        ->assertSessionHas('error', 'No se encontró dieta para la semana actual.');
-});
-
-it('downloads a PDF if a diet exists', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+    $dietaJson = [
+        'Lunes' => [
+            'Desayuno' => [
+                ['nombre' => 'Avena', 'cantidad' => 100, 'calorias' => 380],
+            ],
+            'Comida' => [
+                ['nombre' => 'Pollo', 'cantidad' => 150, 'calorias' => 250],
+            ],
+        ]
+    ];
 
     Dieta::factory()->create([
         'user_id' => $user->id,
-        'semana' => Carbon::now()->weekOfYear,
-        'dieta' => json_encode(['Lunes' => []]),
+        'semana' => $semanaActual,
+        'dieta' => json_encode($dietaJson),
     ]);
 
-    $this->get(route('pdf.dieta', ['dia' => 'Lunes']))
+    $response = get(route('pdf.dieta', ['dia' => 'Lunes']));
 
-        ->assertStatus(200)
-        ->assertHeader('content-type', 'application/pdf');
+    $response->assertStatus(200);
+    $response->assertHeader('content-disposition', 'attachment; filename=dieta_Lunes.pdf');
+    $response->assertSee('PDF'); // Confirma que se genera algo tipo PDF aunque no validamos el binario
+});
+
+test('user gets redirected if no dieta found', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $response = get(route('pdf.dieta', ['dia' => 'Martes']));
+
+    $response->assertRedirect();
+    $response->assertSessionHas('error', 'No se encontró dieta para la semana actual.');
 });

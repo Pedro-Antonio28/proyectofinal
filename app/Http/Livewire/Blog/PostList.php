@@ -60,7 +60,7 @@ class PostList extends Component
         $post = Post::withTrashed()->findOrFail($id);
         $this->authorize('delete', $post);
         $post->restore();
-        $this->emit('postDeleted');
+        $this->dispatch('postRestaurado');
     }
 
     #[On('likePost')]

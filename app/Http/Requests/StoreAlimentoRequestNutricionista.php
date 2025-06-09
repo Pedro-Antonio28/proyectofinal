@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAlimentoRequest extends FormRequest
+class StoreAlimentoRequestNutricionista extends FormRequest
 {
     public function authorize(): bool
     {
@@ -24,4 +24,16 @@ class StoreAlimentoRequest extends FormRequest
             'tipo_comida' => 'required|in:Desayuno,Almuerzo,Comida,Merienda,Cena',
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'calorias' => (float) $this->calorias,
+            'proteinas' => (float) $this->proteinas,
+            'carbohidratos' => (float) $this->carbohidratos,
+            'grasas' => (float) $this->grasas,
+            'cantidad' => (float) $this->cantidad,
+        ]);
+    }
+
 }

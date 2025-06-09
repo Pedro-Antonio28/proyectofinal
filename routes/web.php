@@ -26,7 +26,7 @@ use App\Http\Controllers\PublicBlogController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ExcelDietaController;
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\TelegramWebhookController;
+
 
 
 Route::get('/change-language/{locale}', function ($locale) {
@@ -70,6 +70,7 @@ Route::middleware(SetLocale::class)->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     });
     Route::middleware(RoleMiddleware::class . ':nutricionista')->group(function () {
         Route::get('/nutricionista', [NutricionistaController::class, 'index'])->name('nutricionista.panel');
@@ -122,9 +123,9 @@ Route::get('/dieta/pdf/{dia}', [DietaController::class, 'pdf'])
 
 Route::get('/blog/export/excel', [ExportController::class, 'exportExcel'])->name('blog.export.excel');
 
-Route::get('/dieta/exportar/excel', [ExcelDietaController::class, 'export'])->name('dieta.exportar.excel');
 
-Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+
+
 
 Route::get('/paypal/pay', [PayPalController::class, 'createTransaction'])->name('paypal.create');
 Route::get('/paypal/success', [PayPalController::class, 'successTransaction'])->name('paypal.success');

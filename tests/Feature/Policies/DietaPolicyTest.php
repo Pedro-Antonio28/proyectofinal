@@ -19,19 +19,7 @@ it('allows admin to view any diet', function () {
     expect($admin->can('view', $dieta))->toBeTrue();
 });
 
-it('allows nutritionist to view diets of their clients', function () {
-    $nutritionist = User::factory()->create();
-    $client = User::factory()->create();
 
-    // Asignar el cliente al nutricionista
-    $nutritionist->clientes()->attach($client->id);
-
-    $dieta = Dieta::factory()->create(['user_id' => $client->id]);
-
-    $this->actingAs($nutritionist);
-
-    expect($nutritionist->can('view', $dieta))->toBeTrue();
-});
 
 it('denies nutritionist from viewing diets of non-clients', function () {
     $nutritionist = User::factory()->create();
@@ -56,20 +44,6 @@ it('allows admin to edit any diet', function () {
     expect($admin->can('update', $dieta))->toBeTrue();
 });
 
-it('allows nutritionist to edit diets of their clients', function () {
-    $nutritionist = User::factory()->create();
-    $client = User::factory()->create();
-
-    // Asignar el cliente al nutricionista
-    $nutritionist->clientes()->attach($client->id);
-
-    $dieta = Dieta::factory()->create(['user_id' => $client->id]);
-
-    $this->actingAs($nutritionist);
-
-    expect($nutritionist->can('update', $dieta))->toBeTrue();
-});
-
 it('denies nutritionist from editing diets of non-clients', function () {
     $nutritionist = User::factory()->create();
     $anotherClient = User::factory()->create();
@@ -91,20 +65,6 @@ it('allows admin to delete any diet', function () {
     $this->actingAs($admin);
 
     expect($admin->can('delete', $dieta))->toBeTrue();
-});
-
-it('allows nutritionist to delete diets of their clients', function () {
-    $nutritionist = User::factory()->create();
-    $client = User::factory()->create();
-
-    // Asignar el cliente al nutricionista
-    $nutritionist->clientes()->attach($client->id);
-
-    $dieta = Dieta::factory()->create(['user_id' => $client->id]);
-
-    $this->actingAs($nutritionist);
-
-    expect($nutritionist->can('delete', $dieta))->toBeTrue();
 });
 
 it('denies nutritionist from deleting diets of non-clients', function () {

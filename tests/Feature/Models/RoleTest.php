@@ -6,20 +6,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('can create a role', function () {
-    $role = Role::factory()->create(['name' => 'admin']);
-
-    expect($role)->toBeInstanceOf(Role::class)
-        ->and($role->name)->toBe('admin');
+test('it has name fillable', function () {
+    $role = new Role(['name' => 'admin']);
+    expect($role->name)->toBe('admin');
 });
 
-it('can associate a role with a user', function () {
-    $user = User::factory()->create();
-    $role = Role::factory()->create(['name' => 'admin']);
+test('it can be created with name', function () {
+    $role = Role::create(['name' => 'moderador']);
+    expect($role)->toBeInstanceOf(Role::class);
+    expect($role->name)->toBe('moderador');
+});
 
-    // Asociar el usuario al rol
-    $user->roles()->attach($role);
+test('it belongs to many users', function () {
+    $role = Role::factory()->create();
+    $users = User::factory()->count(2)->create();
 
-    // Verificar la relación
-    expect($user->roles->contains($role))->toBeTrue();
+    $role->users()->attach($users->pluck('id'));
+
+    expect($role->users)->toHaveCount(2);
 });
